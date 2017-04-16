@@ -5,9 +5,12 @@
   include_vars: "{{ ansible_distribution }}.yml"
   tags:
     - osquery
+- name: Include version-specific variables for RedHat
+  include_vars: "CentOS-{{ ansible_distribution_version.split('.')[0] }}.yml"
+  when: ansible_os_family == "RedHat"
 
 - include: CentOS.yml
-  when: ansible_distribution == "CentOS"
+  when: ansible_os_family == "RedHat"
   tags:
     - osquery
 
@@ -15,3 +18,23 @@
   when: ansible_distribution == "Ubuntu"
   tags:
     - osquery
+
+- block:
+    - include: configure.yml
+      tags:
+        - osquery
+        - config
+
+    - name: Enable service
+      service: name=osqueryd enabled={{ osquery_service_enable }}
+      tags:
+        - osquery
+        - service
+    - name: Start service
+      service: name=osqueryd state=started
+      when: osquery_service_enable
+      tags:
+        - osquery
+        - service
+
+  when: ansible_os_family == "RedHat" or ansible_distribution == "Ubuntu"

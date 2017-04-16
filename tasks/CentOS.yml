@@ -1,2 +1,12 @@
 ---
 # tasks file for osquery (CentOS specific)
+
+- name: Install osquery repository
+  yum:
+    name: "{{ osquery_repository }}"
+    state: present
+
+- name: Install osquery
+  yum:
+    name: osquery
+    state: present

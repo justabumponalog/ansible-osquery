@@ -1,3 +1,5 @@
+[![Build Status - Master](https://travis-ci.org/juju4/ansible-osquery.svg?branch=master)](https://travis-ci.org/juju4/ansible-osquery)
+[![Build Status - Devel](https://travis-ci.org/juju4/ansible-osquery.svg?branch=devel)](https://travis-ci.org/juju4/ansible-osquery/branches)
 osquery
 =======
 
