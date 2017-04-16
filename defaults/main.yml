@@ -41,3 +41,5 @@ osquery_rsyslog: false
 ## https://osquery.readthedocs.io/en/stable/deployment/process-auditing/
 osquery_process_auditing: false
 
+osquery_logrotate_days: 90
+
