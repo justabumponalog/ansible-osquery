@@ -19,6 +19,11 @@
   tags:
     - osquery
 
+- include: Debian.yml
+  when: ansible_distribution == "Debian"
+  tags:
+    - osquery
+
 - block:
     - include: configure.yml
       tags:
@@ -37,4 +42,4 @@
         - osquery
         - service
 
-  when: ansible_os_family == "RedHat" or ansible_distribution == "Ubuntu"
+  when: ansible_os_family == "RedHat" or ansible_distribution == "Ubuntu" or ansible_distribution == "Debian"
