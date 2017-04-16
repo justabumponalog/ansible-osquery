@@ -1,0 +1,4 @@
+---
+# vars file for osquery (Debian specific)
+# https://github.com/facebook/osquery/issues/320
+# https://github.com/facebook/osquery/issues/2321
