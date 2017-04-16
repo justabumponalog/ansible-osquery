@@ -2,7 +2,7 @@
 
 - name: Debian | download official package
   get_url:
-    src: "{{ osquery_deb_url }}"
+    url: "{{ osquery_deb_url }}"
     dest: "/root/{{ osquery_deb_url | basename }}"
     checksum: "{{ osquery_deb_hash }}"
     mode: '0444'
