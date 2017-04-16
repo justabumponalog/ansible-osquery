@@ -1,2 +1,6 @@
 ---
 # handlers file for osquery
+
+- name: restart osquery
+  service: name=osqueryd state=restarted
+
