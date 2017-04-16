@@ -3,10 +3,11 @@
 sudo: required
 
 env:
-  - distribution: centos
-    version: 6
-    init: /sbin/init
-    run_opts: ""
+## centos6,ubuntu1404 travis stalling: https://travis-ci.org/juju4/ansible-osquery/builds/222596440
+#  - distribution: centos
+#    version: 6
+#    init: /sbin/init
+#    run_opts: ""
   - distribution: centos
     version: 7
     init: /usr/lib/systemd/systemd
@@ -16,10 +17,10 @@ env:
     init: /lib/systemd/systemd
     run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
 #    run_opts: "--cap-add SYS_ADMIN"
-  - distribution: ubuntu
-    version: 14.04
-    init: /sbin/init
-    run_opts: ""
+#  - distribution: ubuntu
+#    version: 14.04
+#    init: /sbin/init
+#    run_opts: ""
 #  - distribution: ubuntu
 #    version: 12.04
 #    init: /sbin/init
