@@ -1,0 +1,12 @@
+## {{ ansible_managed }}
+## /etc/logrotate.d/osquery
+/var/log/osquery/osqueryd.results.log {
+    rotate {{ harden_logrotate_days|int }}
+    daily
+    missingok
+    notifempty
+    delaycompress
+    compress
+    create 640 root adm
+    sharedscripts
+}
