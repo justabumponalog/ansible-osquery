@@ -11,8 +11,8 @@ fi
 
 #[ ! -d $rolesdir/juju4.redhat-epel ] && git clone https://github.com/juju4/ansible-redhat-epel $rolesdir/juju4.redhat-epel
 ## galaxy naming: kitchen fails to transfer symlink folder
-#[ ! -e $rolesdir/kbrebabnov.osquery ] && ln -s ansible-osquery $rolesdir/kbrebabnov.osquery
-[ ! -e $rolesdir/kbrebabnov.osquery ] && cp -R $rolesdir/ansible-osquery $rolesdir/kbrebabnov.osquery
+#[ ! -e $rolesdir/kbrebanov.osquery ] && ln -s ansible-osquery $rolesdir/kbrebanov.osquery
+[ ! -e $rolesdir/kbrebanov.osquery ] && cp -R $rolesdir/ansible-osquery $rolesdir/kbrebanov.osquery
 
 ## don't stop build on this script return code
 true

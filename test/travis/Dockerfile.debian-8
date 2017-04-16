@@ -2,7 +2,7 @@ FROM debian:8
 RUN apt-get update
 
 # Install Ansible
-RUN env DEBIAN_FRONTEND=noninteractive apt-get install -y software-properties-common git python sudo python-pip python-dev
+RUN env DEBIAN_FRONTEND=noninteractive apt-get install -y software-properties-common git python sudo python-pip python-dev libffi-dev
 RUN pip install ansible
 
 # Install Ansible inventory file
