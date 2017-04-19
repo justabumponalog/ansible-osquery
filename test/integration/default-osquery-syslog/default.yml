@@ -1,0 +1,11 @@
+---
+
+- hosts: all
+#- hosts: test-kitchen
+  vars:
+    - osquery_flags:
+        - '--logger_plugin=filesystem,syslog'
+    - osquery_syslog_target: '/var/log/osquery_syslog.log'
+  roles:
+    - kbrebanov.osquery
+

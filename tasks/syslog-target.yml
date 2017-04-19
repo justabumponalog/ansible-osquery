@@ -1,0 +1,10 @@
+---
+
+- name: setup rsyslog to send osquery logs to a specific target
+  template:
+    src: rsyslog-osquery-target.conf.j2
+    dest: /etc/rsyslog.d/30-osquery-target.conf
+    mode: '0644'
+    backup: yes
+  notify:
+    - restart rsyslog

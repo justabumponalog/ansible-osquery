@@ -90,3 +90,7 @@
       notify:
         - restart rsyslog
   when: osquery_rsyslog
+
+- include: syslog-target.yml
+  when: osquery_syslog_target != ''
+
