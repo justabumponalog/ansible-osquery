@@ -20,6 +20,11 @@ describe file('/etc/osquery/osquery.conf') do
   it { should contain '"packs": {' }
 end
 
+describe process("osqueryd") do
+  its(:user) { should eq "root" }
+  its(:args) { should match /--config_path=/etc/osquery/osquery.conf --pidfile=/var/run/osqueryd.pid/ }
+end
+
 describe file('/var/log/osquery/osqueryd.INFO') do
   it { should be_symlink }
   its(:content) { should match /Log line format:/ }

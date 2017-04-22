@@ -43,3 +43,7 @@
         - service
 
   when: ansible_os_family == "RedHat" or ansible_distribution == "Ubuntu" or ansible_distribution == "Debian"
+
+- include: testing.yml
+  when: osquery_testing
+

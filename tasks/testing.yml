@@ -1,0 +1,7 @@
+---
+
+- name: leave 5min to have few queries results
+  pause:
+#    minutes: 5
+    seconds: 30
+

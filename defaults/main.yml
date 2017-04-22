@@ -53,3 +53,7 @@ osquery_syslog_target: ''
 #osquery_syslog_target: '/var/log/osquery_syslog.log'
 ## per programname
 osquery_syslog_target2: ''
+
+## making schedule query faster to have logs faster...
+osquery_testing: false
+

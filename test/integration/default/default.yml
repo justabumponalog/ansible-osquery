@@ -2,8 +2,8 @@
 
 - hosts: all
 #- hosts: test-kitchen
-#  vars:
-#    - a:
+  vars:
+    - osquery_testing: true
   roles:
     - kbrebanov.osquery
 
