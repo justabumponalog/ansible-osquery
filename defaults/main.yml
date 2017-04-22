@@ -44,8 +44,12 @@ osquery_process_auditing: false
 osquery_logrotate: true
 osquery_logrotate_days: 90
 
+## https://osquery.readthedocs.io/en/stable/installation/cli-flags/#loggingresults-flags
+## per facility
+osquery_syslog_target_facility: 19
 osquery_syslog_target: ''
 #osquery_syslog_target: '@@10.1.1.100'
 ## mostly for testing purpose
 #osquery_syslog_target: '/var/log/osquery_syslog.log'
-osquery_syslog_target_facility: 19
+## per programname
+osquery_syslog_target2: ''

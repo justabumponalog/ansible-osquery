@@ -20,9 +20,15 @@ describe file('/etc/osquery/osquery.conf') do
   it { should contain '"packs": {' }
 end
 
-describe file('/var/log/osquery/osqueryd.results.log') do
-  it { should be_file }
-end
 describe file('/var/log/osquery/osqueryd.INFO') do
   it { should be_symlink }
+  its(:content) { should match /Log line format:/ }
+end
+describe file('/var/log/osquery/osqueryd.WARNING') do
+  it { should be_symlink }
+  its(:content) { should match /Log line format:/ }
+end
+describe file('/var/log/osquery/osqueryd.results.log') do
+  it { should be_file }
+  its(:content) { should match /hostIdentifier/ }
 end
