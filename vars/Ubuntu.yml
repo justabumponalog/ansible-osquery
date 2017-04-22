@@ -1,2 +1,6 @@
 ---
 # vars file for osquery (Ubuntu specific)
+
+osquery_packages:
+  - osquery
+  - rsyslog

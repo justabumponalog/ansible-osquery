@@ -3,6 +3,10 @@
 # https://github.com/facebook/osquery/issues/320
 # https://github.com/facebook/osquery/issues/2321
 
+osquery_packages:
+#  - osquery
+  - rsyslog
+
 osquery_deb_url: 'https://osquery-packages.s3.amazonaws.com/xenial/osquery_2.4.0_1.linux.amd64.deb'
 osquery_deb_hash: 'sha256:dd1fa9f007d39596fa5b18a22a11534c4cbbb90760164fe7f93bb55bb0440490'
 
