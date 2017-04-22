@@ -12,3 +12,11 @@
     deb: "/root/{{ osquery_deb_url | basename }}"
     state: present
 
+- name: Install osquery packages
+  become: yes
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - "{{ osquery_packages }}"
