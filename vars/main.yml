@@ -3,3 +3,4 @@
 
 osquery_packages:
   - osquery
+  - rsyslog

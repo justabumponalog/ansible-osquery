@@ -80,6 +80,11 @@
       package: name={{ auditd_pkg }} state=absent
   when: osquery_process_auditing
 
+- name: get rsyslog version
+  command: "rsyslogd -v | awk -F'[ ,]' '/rsyslogd/ { print $2 }'"
+  changed_when: false
+  register: rsyslog_v
+
 - block:
     - name: setup rsyslog pipe for osquery communication
       template:

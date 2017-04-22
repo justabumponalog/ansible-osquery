@@ -9,11 +9,6 @@
   include_vars: "CentOS-{{ ansible_distribution_version.split('.')[0] }}.yml"
   when: ansible_os_family == "RedHat"
 
-- name: get rsyslog version
-  command: "rsyslogd -v | awk -F'[ ,]' '/rsyslogd/ { print $2 }'"
-  changed_when: false
-  register: rsyslog_v
-
 - include: CentOS.yml
   when: ansible_os_family == "RedHat"
   tags:
