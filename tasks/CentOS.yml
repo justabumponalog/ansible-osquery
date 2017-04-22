@@ -13,3 +13,4 @@
   with_items:
     - osquery
     - libselinux-python
+    - rsyslog
