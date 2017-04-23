@@ -29,6 +29,9 @@ env:
   - distribution: ubuntu
     version: 16.04
     suite: default-osquery-syslog
+  - distribution: ubuntu
+    version: 14.04
+    suite: default-osquery-syslog
 
 before_install:
   - env
