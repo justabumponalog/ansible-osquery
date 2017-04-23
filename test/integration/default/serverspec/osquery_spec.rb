@@ -3,8 +3,10 @@ require 'serverspec'
 # Required by serverspec
 set :backend, :exec
 
-describe service('osqueryd') do
+describe service('osqueryd'), :if => (os[:family] == 'ubuntu' && os[:release] < '16.04') or (os[:family] == 'redhat' && os[:release] < '7') do
   it { should be_enabled }
+end
+describe service('osqueryd') do
   it { should be_running }
 end
 

@@ -3,8 +3,10 @@ require 'serverspec'
 # Required by serverspec
 set :backend, :exec
 
-describe service('osqueryd') do
+describe service('osqueryd'), :if => (os[:family] == 'ubuntu' && os[:release] < '16.04') or (os[:family] == 'redhat' && os[:release] < '7') do
   it { should be_enabled }
+end
+describe service('osqueryd') do
   it { should be_running }
 end
 
@@ -22,7 +24,7 @@ end
 
 describe process("osqueryd") do
   its(:user) { should eq "root" }
-  its(:args) { should match /--config_path=/etc/osquery/osquery.conf --pidfile=/var/run/osqueryd.pid/ }
+  its(:args) { should match /--config_path=\/etc\/osquery\/osquery.conf --pidfile=\/var\/run\/osqueryd.pid/ }
 end
 
 describe file('/var/log/osquery/osqueryd.INFO') do
