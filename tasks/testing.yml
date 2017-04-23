@@ -1,7 +1,15 @@
 ---
 
-- name: leave 5min to have few queries results
+- name: pause a bit to have few queries results
   pause:
 #    minutes: 5
     seconds: 30
 
+- block:
+    - name: list services
+      command: systemctl status
+      changed_when: false
+      ignore_errors: true
+      register: svc
+    - debug: var=svc
+  when: ansible_service_mgr == 'systemd'
