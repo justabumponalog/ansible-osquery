@@ -3,7 +3,8 @@ require 'serverspec'
 # Required by serverspec
 set :backend, :exec
 
-describe service('osqueryd'), :if => (os[:family] == 'ubuntu' && os[:release] != '16.04') || (os[:family] != 'redhat') do
+describe service('osqueryd'), :if => (os[:family] == 'ubuntu' && os[:release] != '16.04') && (os[:family] != 'redhat') do
+## mostly exclude for docker/systemd distributions
   it { should be_enabled }
 end
 describe service('osqueryd') do

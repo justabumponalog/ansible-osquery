@@ -23,10 +23,14 @@ provisioner:
 
 platforms:
   - name: ubuntu-16.04
+## systemd?
+    driver:
+      config:
+        security.privileged: true
   - name: ubuntu-14.04
   - name: ubuntu-12.04
   - name: centos-7
-## systemd?
+## systemd
     driver:
       config:
         security.privileged: true
