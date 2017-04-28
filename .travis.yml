@@ -1,70 +1,48 @@
 ---
-dist: trusty
 sudo: required
-rvm:
-  - 2.2
+dist: trusty
+
+language: generic
 
 env:
-#  - distribution: centos
-#    version: 6
-  - distribution: centos
-    version: 7
-    suite: default
-  - distribution: ubuntu
-    version: 16.04
-    suite: default
-  - distribution: ubuntu
-    version: 14.04
-    suite: default
-#  - distribution: ubuntu
-#    version: 12.04
-#  - distribution: alpine
-#    version: 3.4
-  - distribution: debian
-    version: 8
-    suite: default
-  - distribution: centos
-    version: 7
-    suite: default-osquery-syslog
-  - distribution: ubuntu
-    version: 16.04
-    suite: default-osquery-syslog
-  - distribution: ubuntu
-    version: 14.04
-    suite: default-osquery-syslog
-  - distribution: centos
-    version: 7
-    suite: default-osquery-syslog-fs
-  - distribution: ubuntu
-    version: 16.04
-    suite: default-osquery-syslog-fs
-  - distribution: ubuntu
-    version: 14.04
-    suite: default-osquery-syslog-fs
+  - suite: default
+  - suite: default-osquery-syslog
+  - suite: default-osquery-syslog-fs
 
 before_install:
-  - env
-  - pwd
-  - find -ls
-## use appropriate role path and not github name
-  - "[ -f get-dependencies.sh ] && sh -x get-dependencies.sh"
-  - sudo pip install ansible
-## need to use chef gem for some reason? BAD PATH https://github.com/chef/chef-dk/issues/15
-#  - chef gem install kitchen
-  - gem install kitchen
-  - gem install kitchen-ansible
-  - gem install kitchen-sync
-  - gem install kitchen-docker
-  - gem list
-  - which kitchen
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen diagnose --all
+  - sudo apt-get -qq update
+  - sudo apt-get install -y python python-pip
+
+install:
+  # Install ansible
+  - pip install ansible
+
+  # Check ansible version
+  - ansible --version
+
+  # Create ansible.cfg with correct roles_path
+  - printf '[defaults]\nroles_path=../' >ansible.cfg
+  - "echo \"[test-kitchen]\nlocalhost\" > inventory"
+
+  # Install role dependencies
+  # ...
 
 script:
-## avoid locale issue under xenial docker, https://github.com/pypa/pip/issues/3575
-  - export LC_ALL=C.UTF-8
-  - export LANG=C.UTF-8
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen verify ${suite}-${distribution}-${version//./}
+  # Basic role syntax check
+  - "ansible-playbook -i inventory --syntax-check test/integration/${suite}/default.yml"
+
+  # Run the role/playbook with ansible-playbook
+  - "ansible-playbook -i inventory --connection=local --sudo -vvvv test/integration/${suite}/default.yml"
+
+  # Run the role/playbook again, checking to make sure it's idempotent
+  - >
+    ansible-playbook -i inventory test/integration/${suite}/default.yml --connection=local --become
+    | grep -q 'changed=0.*failed=0'
+    && (echo 'Idempotence test: pass' && exit 0)
+    || (echo 'Idempotence test: fail' && exit 1)
+
+  # Playbook specific tests
+  - "cd test/integration/default/serverspec/ && bundle exec rake spec"
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
-

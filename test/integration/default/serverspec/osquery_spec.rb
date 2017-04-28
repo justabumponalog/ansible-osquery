@@ -35,6 +35,7 @@ end
 describe file('/var/log/osquery/osqueryd.WARNING') do
   it { should be_symlink }
   its(:content) { should match /Log line format:/ }
+  its(:content) { should_not match /kernel: Cannot access \/dev\/osquery/ }
 end
 describe file('/var/log/osquery/osqueryd.results.log') do
   it { should be_file }

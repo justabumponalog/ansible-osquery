@@ -11,4 +11,5 @@ describe file('/var/log/osquery_syslog-results.log') do
   it { should be_file }
   its(:content) { should match /hostIdentifier/ }
   its(:content) { should match /pack/ }
+  its(:content) { should_not match /kernel: Cannot access \/dev\/osquery/ }
 end
