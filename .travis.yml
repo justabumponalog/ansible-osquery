@@ -48,7 +48,7 @@ script:
     || (echo 'Idempotence test: fail' && exit 1)
 
   # Playbook specific tests
-  - "cd test/integration/default/serverspec/ && bundle exec rake spec"
+  - "cd test/integration/${suite}/serverspec/ && bundle exec rake spec"
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
