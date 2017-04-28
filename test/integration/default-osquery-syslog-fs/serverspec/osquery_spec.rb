@@ -26,7 +26,7 @@ end
 
 describe process("osqueryd") do
   its(:user) { should eq "root" }
-  its(:args) { should match /--config_path=\/etc\/osquery\/osquery.conf --pidfile=\/var\/run\/osqueryd.pid/ }
+  its(:args) { should match /--config_path[= ]\/etc\/osquery\/osquery.conf --pidfile[= ]\/var\/run\/osqueryd.pid/ }
 end
 
 describe file('/var/log/osquery/osqueryd.INFO') do

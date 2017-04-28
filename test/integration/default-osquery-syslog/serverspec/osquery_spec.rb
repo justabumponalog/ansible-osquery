@@ -26,7 +26,7 @@ end
 
 describe process("osqueryd") do
   its(:user) { should eq "root" }
-  its(:args) { should match /--config_path \/etc\/osquery\/osquery.conf/ }
-  its(:args) { should match /--flagfile \/etc\/osquery\/osquery.flags/ }
+  its(:args) { should match /--config_path[= ]\/etc\/osquery\/osquery.conf/ }
+  its(:args) { should match /--flagfile[= ]\/etc\/osquery\/osquery.flags/ }
 end
 
