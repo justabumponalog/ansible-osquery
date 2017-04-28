@@ -14,8 +14,8 @@ before_install:
   - sudo apt-get install -y python python-pip
   - "[ -f get-dependencies.sh ] && sh -x get-dependencies.sh"
 ## serverspec test
- - sudo apt-get install -qq ruby2.0 rake
- - sudo gem2.0 install serverspec
+  - sudo apt-get install -qq ruby2.0 rake
+  - sudo gem2.0 install serverspec
 
 install:
   # Install ansible
