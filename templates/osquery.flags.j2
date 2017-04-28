@@ -12,5 +12,5 @@
 --enable_syslog
 {% endif %}
 {% if osquery_syslog_target != '' and osquery_syslog_target_facility != '' %}
---logger_syslog_facility={{ osquery_syslog_target_facility }}
+--logger_syslog_facility={{ osquery_syslog_target_facility_osqueryconf }}
 {% endif %}

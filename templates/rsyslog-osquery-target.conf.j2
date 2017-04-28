@@ -1,4 +1,4 @@
-{{ osquery_syslog_target_facility }}.*      {{ osquery_syslog_target }}
+{{ osquery_syslog_target_facility_syslogconf }}.*      {{ osquery_syslog_target }}
 {% if rsyslog_v.stdout is defined and rsyslog_v.stdout | version_compare('8.0', '<') %}
 & ~
 {% else %}

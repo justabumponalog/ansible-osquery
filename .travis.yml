@@ -32,6 +32,15 @@ env:
   - distribution: ubuntu
     version: 14.04
     suite: default-osquery-syslog
+  - distribution: centos
+    version: 7
+    suite: default-osquery-syslog-fs
+  - distribution: ubuntu
+    version: 16.04
+    suite: default-osquery-syslog-fs
+  - distribution: ubuntu
+    version: 14.04
+    suite: default-osquery-syslog-fs
 
 before_install:
   - env
