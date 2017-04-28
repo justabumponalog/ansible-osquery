@@ -12,6 +12,11 @@ osquery_packs:
 #    - "osx-attacks"
     - "vuln-management"
     - "hardware-monitoring"
+osquery_config_plugin: 'filesystem'
+osquery_logger_plugin: 'filesystem'
+#osquery_logger_plugin: 'syslog'
+#osquery_logger_plugin: 'filesystem,syslog'
+#osquery_logger_plugin: 'tls'
 osquery_flags: []
 ## if using zentral, kolide or else
 ## https://github.com/zentralopensource/zentral/blob/f460b10a95d4ea1e515aea3363f55733465d1d9c/zentral/contrib/osquery/deb_script/template.sh

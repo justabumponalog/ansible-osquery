@@ -30,3 +30,6 @@ suites:
   - name: default-osquery-syslog
     run_list:
     attributes:
+  - name: default-osquery-syslog-fs
+    run_list:
+    attributes:
