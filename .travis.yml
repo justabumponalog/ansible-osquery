@@ -15,7 +15,7 @@ before_install:
 
 install:
   # Install ansible
-  - pip install ansible
+  - sudo pip install ansible
 
   # Check ansible version
   - ansible --version
