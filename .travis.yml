@@ -53,6 +53,7 @@ script:
 after_failure:
   - "ls -l /var/log/ /var/log/osquery/"
   - "sudo cat /var/log/osquery*.log /var/log/osquery/*.log"
+  - "sudo cat /etc/rsyslog.d/30-osquery-target.conf"
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
