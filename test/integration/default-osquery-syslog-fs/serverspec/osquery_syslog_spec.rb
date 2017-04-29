@@ -14,4 +14,5 @@ describe file('/var/log/osquery_syslog-results.log') do
   its(:content) { should match /pack/ }
   its(:content) { should match /message=Executing scheduled query system_info:/ }
   its(:content) { should_not match /kernel: Cannot access \/dev\/osquery/ }
+  let(:sudo_options) { '-u root -H' }
 end
