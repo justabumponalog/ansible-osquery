@@ -48,7 +48,7 @@ script:
     || (echo 'Idempotence test: fail' && exit 1)
 
   # Playbook specific tests
-  - "cd test/integration/${suite}/serverspec/ && bundle exec rake spec"
+#  - "cd test/integration/${suite}/serverspec/ && bundle exec rake spec"
 
 after_failure:
   - "ls -l /var/log/ /var/log/osquery/"
