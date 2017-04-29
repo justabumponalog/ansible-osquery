@@ -50,8 +50,9 @@ script:
   # Playbook specific tests
   - "cd test/integration/${suite}/serverspec/ && bundle exec rake spec"
 
-  - "ls -l /var/log/"
-  - "cat /var/log/osquery*"
+after_failure:
+  - "ls -l /var/log/ /var/log/osquery/"
+  - "sudo cat /var/log/osquery*.log /var/log/osquery/*.log"
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
