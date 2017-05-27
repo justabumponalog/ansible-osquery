@@ -13,8 +13,8 @@
         - { d: '/var/log/osquery', m: '0755' }
     - name: push extra osquery packs file
       template:
-        src: "{{ item }}"
-        dest: "/usr/share/osquery/packs/{{ item | basename | regex_replace('.j2$', '') }}"
+        src: "{{ item }}.conf.j2"
+        dest: "/usr/share/osquery/packs/{{ item | basename }}.conf"
       with_items: "{{ osquery_upload_packs }}"
       notify:
         - restart osquery
