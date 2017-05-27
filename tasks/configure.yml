@@ -82,6 +82,8 @@
 
 - name: get rsyslog version
   command: "rsyslogd -v | awk -F'[ ,]' '/rsyslogd/ { print $2 }'"
+  environment:
+    PATH: '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
   changed_when: false
   register: rsyslog_v
 

@@ -72,34 +72,25 @@
 //      "query": "select target_path, category, time, action from file_events;", 
       "query": "select * from file_events;",
       "removed": false,
-      "interval": 300
+      "interval": {{ osquery_fim_interval }}
     }
 {% endif %}
   },
 
 {% if osquery_fim %}
   "file_paths": {
-    "homes": [
-      "/root/.ssh/%%",
-      "/home/%/.ssh/%%"
-    ],
-    "etc": [
-      "/etc/%%"
-    ],
-    "tmp": [
-      "/tmp/%%"
-    ],
-    "bin": [
-      "/bin/%%",
-      "/sbin/%%"
-    ],
-    "webroot": [
-      "/var/www/%%"
-    ]
+{% for item in osquery_fim_filepaths %}
+    "{{ item.name }}": [
+{% for entry in item.list %}
+      "{{ entry }}"{% if not loop.last %},{% endif %}
+
+{% endfor %}
+    ]{% if not loop.last %},{% endif %}
+
+{% endfor %}
   },
 
 {% endif %}
-
   // Decorators are normal queries that append data to every query.
   "decorators": {
     "load": [
@@ -121,6 +112,7 @@
   "packs": {
 {% for item in osquery_packs %}
     "{{ item }}": "/usr/share/osquery/packs/{{ item }}.conf"{% if not loop.last %},{% endif %}
+
 {% endfor %}
   }
 }

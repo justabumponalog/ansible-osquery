@@ -4,14 +4,17 @@
 osquery_service_enable: true
 
 osquery_template: 'osquery.conf.j2'
-osquery_upload_packs: []
+#osquery_upload_packs: []
+osquery_upload_packs:
+  - osquery-snapshots-pack
 osquery_packs:
-    - "osquery-monitoring"
-    - "incident-response"
-    - "it-compliance"
-#    - "osx-attacks"
-    - "vuln-management"
-    - "hardware-monitoring"
+  - "osquery-monitoring"
+  - "incident-response"
+  - "it-compliance"
+#  - "osx-attacks"
+  - "vuln-management"
+  - "hardware-monitoring"
+  - "osquery-snapshots-pack"
 osquery_config_plugin: 'filesystem'
 osquery_logger_plugin: 'filesystem'
 #osquery_logger_plugin: 'syslog'
@@ -41,10 +44,42 @@ osquery_flags: []
 #    - { re: '^--logger_tls_period=.*', l: '--logger_tls_period=10' }
 
 osquery_fim: true
+osquery_fim_interval: 900
+osquery_fim_filepaths:
+  - name: homes_sshdir
+    list:
+      - "/root/.ssh/%%"
+      - "/home/%/.ssh/%%"
+  - name: etc
+    list:
+      - "/etc/%%"
+## Take care if using a lot /tmp. can trigger
+## 'Expiring events for subscriber: file_events (overflowed limit 1000)'
+## => losing many queries results (fim or not)
+#  - name: tmp
+#    list:
+#      - "/tmp/%%"
+  - name: bin
+    list:
+      - "/bin/%%"
+      - "/sbin/%%"
+      - "/usr/bin/%%"
+      - "/usr/sbin/%%"
+      - "/usr/local/bin/%%"
+      - "/usr/local/sbin/%%"
+      - "/opt/bin/%%"
+      - "/opt/sbin/%%"
+  - name: webroot
+    list:
+      - "/var/www/%%"
 osquery_rsyslog: false
 ## conflict with auditd. choose one.
 ## https://osquery.readthedocs.io/en/stable/deployment/process-auditing/
 osquery_process_auditing: false
+
+## queries snapshots: 1/week or 1/month
+osquery_snapshot_interval: 604800
+osquery_snapshot_interval2: 2592000
 
 osquery_logrotate: true
 osquery_logrotate_days: 90
