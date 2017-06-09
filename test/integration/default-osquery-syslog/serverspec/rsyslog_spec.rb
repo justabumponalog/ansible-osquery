@@ -14,8 +14,11 @@ describe file('/usr/sbin/rsyslogd') do
   it { should be_executable }
 end
 
-describe process("rsyslogd") do
+describe process("rsyslogd"), :if => os[:family] == 'ubuntu' do
   its(:user) { should eq "syslog" }
+end
+describe process("rsyslogd"), :if => os[:family] == 'redhat' do
+  its(:user) { should eq "root" }
 end
 
 describe file('/var/log/syslog'), :if => os[:family] == 'ubuntu' do
