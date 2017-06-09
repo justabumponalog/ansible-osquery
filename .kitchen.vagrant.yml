@@ -41,3 +41,8 @@ suites:
   - name: default-osquery-syslog-fs
     run_list:
     attributes:
+  - name: default-profiling
+    run_list:
+    attributes:
+    includes:
+      - ubuntu-16.04

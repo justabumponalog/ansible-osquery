@@ -7,18 +7,6 @@
 #    minutes: 5
     seconds: 60
 
-- name: get source repository for profiling tools
-  git:
-    repo: https://github.com/facebook/osquery.git
-    dest: /root/osquery
-- name: profiling
-  command: "./tools/analysis/profile.py --config /etc/osquery/osquery.conf --shell /usr/bin/osqueryi --count 1 --rounds 4"
-  args:
-    chdir: /root/osquery
-  changed_when: false
-  register: perf
-- debug: var=perf.stdout_lines
-
 - block:
     - name: systemd | check service status
       command: "systemctl status osqueryd -l"

@@ -100,4 +100,6 @@ osquery_syslog_target2: ''
 
 ## making schedule query faster to have logs faster...
 osquery_testing: false
+## profiling?
+osquery_profiling: false
 

@@ -47,3 +47,5 @@
 - include: testing.yml
   when: osquery_testing
 
+- include: profiling.yml
+  when: osquery_profiling
