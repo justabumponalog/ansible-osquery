@@ -90,7 +90,7 @@ script:
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/kbrebanov.osquery/test/integration/${suite}/default.yml --syntax-check'
 
   # Test role.
-  - travis_wait 30 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/kbrebanov.osquery/test/integration/${suite}/default.yml -vv'
+  - 'travis_wait 30 sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/kbrebanov.osquery/test/integration/${suite}/default.yml -vv'
 
   # Test role idempotence.
   - >
