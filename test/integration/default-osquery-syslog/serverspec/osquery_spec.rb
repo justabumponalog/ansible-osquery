@@ -30,3 +30,11 @@ describe process("osqueryd") do
   its(:args) { should match /--flagfile[= ]\/etc\/osquery\/osquery.flags/ }
 end
 
+describe command('systemctl status osqueryd'), :if => (os[:family] == 'ubuntu' && os[:release] == '16.04') || (os[:family] == 'redhat') do
+  its(:stdout) { should match /active \(running\)/ }
+  its(:exit_status) { should eq 0 }
+end
+describe command('service osqueryd status'), :if => (os[:family] == 'ubuntu' && os[:release] != '16.04') && (os[:family] != 'redhat') do
+  its(:stdout) { should match /osqueryd is already running/ }
+  its(:exit_status) { should eq 0 }
+end

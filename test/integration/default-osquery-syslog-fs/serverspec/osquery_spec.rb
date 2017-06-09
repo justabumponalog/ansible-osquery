@@ -26,7 +26,8 @@ end
 
 describe process("osqueryd") do
   its(:user) { should eq "root" }
-  its(:args) { should match /--config_path[= ]\/etc\/osquery\/osquery.conf --pidfile[= ]\/var\/run\/osqueryd.pid/ }
+  its(:args) { should match /--config_path[= ]\/etc\/osquery\/osquery.conf/ }
+  its(:args) { should match /--flagfile[= ]\/etc\/osquery\/osquery.flags/ }
 end
 
 describe file('/var/log/osquery/osqueryd.INFO') do
@@ -42,4 +43,13 @@ describe file('/var/log/osquery/osqueryd.results.log') do
   it { should be_file }
   its(:content) { should match /hostIdentifier/ }
   let(:sudo_options) { '-u root -H' }
+end
+
+describe command('systemctl status osqueryd'), :if => (os[:family] == 'ubuntu' && os[:release] == '16.04') || (os[:family] == 'redhat') do
+  its(:stdout) { should match /active \(running\)/ }
+  its(:exit_status) { should eq 0 }
+end
+describe command('service osqueryd status'), :if => (os[:family] == 'ubuntu' && os[:release] != '16.04') && (os[:family] != 'redhat') do
+  its(:stdout) { should match /osqueryd is already running/ }
+  its(:exit_status) { should eq 0 }
 end
