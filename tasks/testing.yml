@@ -7,25 +7,29 @@
 #    minutes: 5
     seconds: 60
 
-- block:
-    - name: list services
-      command: systemctl status
-      changed_when: false
-      ignore_errors: true
-      register: svc
-    - debug: var=svc
-  when: ansible_os_family == "RedHat"
-#  when: ansible_service_mgr == 'systemd'
+- name: get source repository for profiling tools
+  git:
+    repo: https://github.com/facebook/osquery.git
+    dest: /root/osquery
+- name: profiling
+  command: "./tools/analysis/profile.py --config /etc/osquery/osquery.conf --count 1 --rounds 4"
+  args:
+    chdir: /root/osquery
+  changed_when: false
+  register: perf
+- debug: var=perf.stdout_lines
 
 - block:
     - name: systemd | check service status
       command: "systemctl status osqueryd -l"
+      changed_when: false
       register: systemctl
     - debug: var=systemctl.stdout_lines
   when: ansible_service_mgr == "systemd"
 - block:
     - name: service | check service status
       command: "service osqueryd status"
+      changed_when: false
       register: service
     - debug: var=service.stdout_lines
   when: ansible_service_mgr != "systemd"
