@@ -12,7 +12,7 @@
     repo: https://github.com/facebook/osquery.git
     dest: /root/osquery
 - name: profiling
-  command: "./tools/analysis/profile.py --config /etc/osquery/osquery.conf --count 1 --rounds 4"
+  command: "./tools/analysis/profile.py --config /etc/osquery/osquery.conf --shell /usr/bin/osqueryi --count 1 --rounds 4"
   args:
     chdir: /root/osquery
   changed_when: false
