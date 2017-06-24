@@ -2,55 +2,55 @@
   "queries": {
     "authorized_keys": {
       "query" : "select authorized_keys.* from users join authorized_keys using (uid);",
-      "description" : "Info on authorized keys"
+      "description" : "Info on authorized keys",
       "interval" : "{{ osquery_snapshot_interval }}",
       "snapshot": true
     },
     "user_ssh_keys": {
       "query" : "select * from user_ssh_keys;",
-      "description" : "info on user ssh keys"
+      "description" : "info on user ssh keys",
       "interval" : "{{ osquery_snapshot_interval }}",
       "snapshot": true
     },
     "dns_resolvers": {
       "query" : "select * from dns_resolvers;",
-      "description" : "check DNS resolvers"
+      "description" : "check DNS resolvers",
       "interval" : "{{ osquery_snapshot_interval2 }}",
       "snapshot": true
       },
     "known_hosts": {
       "query" : "select known_hosts.* from users join known_hosts using (uid);",
-      "description" : "line-delimited known_hosts table"
+      "description" : "line-delimited known_hosts table",
       "interval" : "{{ osquery_snapshot_interval }}",
       "snapshot": true
     },
     "sudoers": {
       "query" : "select * from sudoers;",
-      "description" : "Retrieves all the information for sudoers."
+      "description" : "Retrieves all the information for sudoers.",
       "interval" : "{{ osquery_snapshot_interval2 }}",
       "snapshot": true
     },
     "groups": {
       "query" : "select * from groups;",
-      "description" : "Retrieves groups info."
+      "description" : "Retrieves groups info.",
       "interval" : "{{ osquery_snapshot_interval }}",
       "snapshot": true
     },
     "interface_details": {
       "query" : "select * from interface_details;",
-      "description" : "Retrieves interface details."
+      "description" : "Retrieves interface details.",
       "interval" : "{{ osquery_snapshot_interval2 }}",
       "snapshot": true
     },
     "fileless_process": {
       "query" : "SELECT name, path, pid FROM processes WHERE on_disk = 0;",
-      "description" : "Retrieves interface details."
+      "description" : "Retrieves interface details.",
       "interval" : "{{ osquery_snapshot_interval }}",
       "snapshot": true
     },
     "process_binding_to_ports": {
       "query" : "select DISTINCT process.name, listening.port, process.pid FROM processes as process JOIN listening_ports AS listening ON process.pid=listening.pid;",
-      "description" : "Retrieves the list of processes bound to listening ports."
+      "description" : "Retrieves the list of processes bound to listening ports.",
       "interval" : "{{ osquery_snapshot_interval }}",
       "snapshot": true
     },
@@ -62,7 +62,7 @@
     },
     "arp_anomalies": {
       "query" : "SELECT address, mac, COUNT(mac) AS mac_count FROM arp_cache GROUP BY mac HAVING count(mac) > 1;",
-      "description" : "Retrieves interface details."
+      "description" : "Retrieves interface details.",
       "interval" : "{{ osquery_snapshot_interval }}",
       "snapshot": true
     },
@@ -70,7 +70,7 @@
       "query" : "select * from crontab;",
       "version" : "1.4.5",
       "description" : "Retrieves all the jobs scheduled in crontab in the target system.",
-      "value" : "Identify malware that uses this persistence mechanism to launch at a given interval"
+      "value" : "Identify malware that uses this persistence mechanism to launch at a given interval",
       "interval" : "{{ osquery_snapshot_interval }}",
       "snapshot": true
     },
@@ -79,7 +79,7 @@
       "platform" : "linux",
       "version" : "1.4.5",
       "description" : "Retrieves all the information for the current kernel modules in the target Linux system.",
-      "value" : "Identify malware that has a kernel module component."
+      "value" : "Identify malware that has a kernel module component.",
       "interval" : "{{ osquery_snapshot_interval }}",
       "snapshot": true
     },
@@ -87,7 +87,7 @@
       "query" : "select * from etc_hosts;",
       "version" : "1.4.5",
       "description" : "Retrieves all the entries in the target system /etc/hosts file.",
-      "value" : "Identify network communications that are being redirected. Example: identify if security logging has been disabled"
+      "value" : "Identify network communications that are being redirected. Example: identify if security logging has been disabled",
       "interval" : "{{ osquery_snapshot_interval2 }}",
       "snapshot": true
     },
@@ -95,7 +95,7 @@
       "query" : "select * from suid_bin;",
       "version" : "1.4.5",
       "description" : "Retrieves all the files in the target system that are setuid enabled.",
-      "value" : "Detect backdoor binaries (attacker may drop a copy of /bin/sh). Find potential elevation points / vulnerabilities in the standard build."
+      "value" : "Detect backdoor binaries (attacker may drop a copy of /bin/sh). Find potential elevation points / vulnerabilities in the standard build.",
       "interval" : "{{ osquery_snapshot_interval2 }}",
       "snapshot": true
     },
@@ -104,10 +104,10 @@
       "platform" : "redhat,centos",
       "version" : "1.4.5",
       "description" : "Retrieves all the installed RPM packages in the target Linux system.",
-      "value" : "General security posture."
+      "value" : "General security posture.",
       "interval" : "{{ osquery_snapshot_interval2 }}",
       "snapshot": true
-    },
+    }
   }
 }
 
