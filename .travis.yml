@@ -80,6 +80,8 @@ before_install:
   - 'sudo docker build --rm=true --file=test/travis/Dockerfile.${distribution}-${version} --tag=${distribution}-${version}:ansible test'
 
 script:
+  - "for f in templates/osquery-*-pack.conf.j2; do echo \"== $f\"; egrep -v '//.*' $f | python -mjson.tool > /dev/null; done"
+
   - container_id=$(mktemp)
     # Run container in detached state
   - 'sudo docker run --detach --volume="${PWD%/*}":/etc/ansible/roles:ro ${run_opts} ${distribution}-${version}:ansible "${init}" > "${container_id}"'
