@@ -102,4 +102,7 @@ osquery_syslog_target2: ''
 osquery_testing: false
 ## profiling?
 osquery_profiling: false
+## full config might be too long for travis (max 50min)
+#osquery_profiling_conf: /etc/osquery/osquery.conf
+osquery_profiling_conf: /usr/share/osquery/packs/osquery-snapshots-pack.conf
 
