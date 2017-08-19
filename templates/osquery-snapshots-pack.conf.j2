@@ -48,17 +48,23 @@
       "interval" : "{{ osquery_snapshot_interval }}",
       "snapshot": true
     },
+    "processes": {
+      "query": "SELECT pid, name, path, cmdline from processes;",
+      "description": "Retrieve list of processes",
+      "interval" : "{{ osquery_snapshot_interval }}",
+      "snapshot": true
+    },
     "process_binding_to_ports": {
       "query" : "select DISTINCT process.name, listening.port, process.pid FROM processes as process JOIN listening_ports AS listening ON process.pid=listening.pid;",
       "description" : "Retrieves the list of processes bound to listening ports.",
       "interval" : "{{ osquery_snapshot_interval }}",
       "snapshot": true
     },
-    "processes": {
-      "query": "SELECT pid, name, path, cmdline from processes;",
-      "description": "Retrieve list of processes",
+    "python_packages": {
+      "query" : "select * FROM python_packages;",
       "interval" : "{{ osquery_snapshot_interval }}",
-      "snapshot": true
+      "snapshot": true,
+      "description" : "Python packages installed in a system"
     },
     "arp_anomalies": {
       "query" : "SELECT address, mac, COUNT(mac) AS mac_count FROM arp_cache GROUP BY mac HAVING count(mac) > 1;",
@@ -98,6 +104,13 @@
       "value" : "Detect backdoor binaries (attacker may drop a copy of /bin/sh). Find potential elevation points / vulnerabilities in the standard build.",
       "interval" : "{{ osquery_snapshot_interval2 }}",
       "snapshot": true
+    },
+    "system_controls": {
+      "query": "select * from system_controls;",
+      "interval" : "{{ osquery_snapshot_interval2 }}",
+      "snapshot": true,
+      "platform": "all",
+      "description": "sysctl names, values, and settings information"
     },
     "rpm_packages": {
       "query" : "select * from rpm_packages;",
