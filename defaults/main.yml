@@ -12,6 +12,7 @@ osquery_packs:
   - "incident-response"
   - "it-compliance"
 #  - "osx-attacks"
+  - "ossec-rootkit"
   - "vuln-management"
   - "hardware-monitoring"
   - "osquery-snapshots-pack"
