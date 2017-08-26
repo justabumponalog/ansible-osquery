@@ -89,6 +89,17 @@
 
 {% endfor %}
   },
+  "exclude_paths": {
+{% for item in osquery_fim_excludepaths %}
+    "{{ item.name }}": [
+{% for entry in item.list %}
+      "{{ entry }}"{% if not loop.last %},{% endif %}
+
+{% endfor %}
+    ]{% if not loop.last %},{% endif %}
+
+{% endfor %}
+  },
 
 {% endif %}
   // Decorators are normal queries that append data to every query.

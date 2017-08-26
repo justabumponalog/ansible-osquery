@@ -73,6 +73,10 @@ osquery_fim_filepaths:
   - name: webroot
     list:
       - "/var/www/%%"
+osquery_fim_excludepaths:
+  - name: tmp
+    list:
+      - /tmp/too_many_events/
 osquery_rsyslog: false
 ## conflict with auditd. choose one.
 ## https://osquery.readthedocs.io/en/stable/deployment/process-auditing/
