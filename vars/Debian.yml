@@ -4,9 +4,11 @@
 # https://github.com/facebook/osquery/issues/2321
 
 osquery_packages:
-#  - osquery
+  - osquery
   - rsyslog
 
-osquery_deb_url: 'https://osquery-packages.s3.amazonaws.com/xenial/osquery_2.4.0_1.linux.amd64.deb'
-osquery_deb_hash: 'sha256:dd1fa9f007d39596fa5b18a22a11534c4cbbb90760164fe7f93bb55bb0440490'
+osquery_debug_packages:
+  - osquery-dbg
 
+_osquery_repository: "{{ osquery_repository | default('deb [arch=amd64] https://pkg.osquery.io/deb deb main') }}"
+_osquery_repositorykey: "{{ osquery_repositorykey | default('1484120AC4E9F8A1A577AEEE97A80C63C9D8B80B') }}"

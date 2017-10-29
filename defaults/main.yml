@@ -2,6 +2,10 @@
 # defaults file for osquery
 
 osquery_service_enable: true
+osquery_debug_packages_install: true
+## define this if don't want to use upstream ones
+#osquery_repository: ''
+#osquery_repositorykey: ''
 
 osquery_template: 'osquery.conf.j2'
 #osquery_upload_packs: []
