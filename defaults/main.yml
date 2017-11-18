@@ -11,6 +11,7 @@ osquery_template: 'osquery.conf.j2'
 #osquery_upload_packs: []
 osquery_upload_packs:
   - osquery-snapshots-pack
+  - osquery-monitoring2-pack
 osquery_packs:
   - "osquery-monitoring"
   - "incident-response"
@@ -20,6 +21,7 @@ osquery_packs:
   - "vuln-management"
   - "hardware-monitoring"
   - "osquery-snapshots-pack"
+  - osquery-monitoring2-pack
 osquery_config_plugin: 'filesystem'
 osquery_logger_plugin: 'filesystem'
 #osquery_logger_plugin: 'syslog'
