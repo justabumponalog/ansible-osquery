@@ -7,7 +7,7 @@
       "snapshot": true
     },
     "user_ssh_keys": {
-      "query" : "select * from user_ssh_keys;",
+      "query" : "select user_ssh_keys.* from users join user_ssh_keys using (uid);",
       "description" : "info on user ssh keys",
       "interval" : "{{ osquery_snapshot_interval }}",
       "snapshot": true
@@ -33,6 +33,12 @@
     "groups": {
       "query" : "select * from groups;",
       "description" : "Retrieves groups info.",
+      "interval" : "{{ osquery_snapshot_interval }}",
+      "snapshot": true
+    },
+    "interface_addresses": {
+      "query" : "select * from interface_addresses;",
+      "description" : "Retrieves interface addresses.",
       "interval" : "{{ osquery_snapshot_interval }}",
       "snapshot": true
     },
