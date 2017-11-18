@@ -87,6 +87,8 @@ osquery_rsyslog: false
 ## conflict with auditd. choose one.
 ## https://osquery.readthedocs.io/en/stable/deployment/process-auditing/
 osquery_process_auditing: false
+osquery_process_interval: 900
+osquery_socket_interval: 900
 
 ## queries snapshots: 1/week (or 1/month? nok)
 ## Max interval 1/w: https://github.com/theopolis/osquery/commit/b76dee8a1fddccb500bc4a058daa1b39083b9dbb
