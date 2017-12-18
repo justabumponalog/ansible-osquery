@@ -34,11 +34,11 @@ env:
 #    run_opts: ""
 #    suite: default
 ## https://travis-ci.org/juju4/ansible-osquery/jobs/246615342, https://github.com/facebook/osquery/issues/2321
-#  - distribution: debian
-#    version: 9
-#    init: /lib/systemd/systemd
-#    run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
-#    suite: default
+  - distribution: debian
+    version: 9
+    init: /lib/systemd/systemd
+    run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
+    suite: default
   - distribution: centos
     version: 7
     init: /usr/lib/systemd/systemd
