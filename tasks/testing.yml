@@ -21,3 +21,13 @@
       register: service
     - debug: var=service.stdout_lines
   when: ansible_service_mgr != "systemd"
+
+- block:
+    - name: fallocate big file
+      command: fallocate -l 100M /etc/testing-big-file
+    - name: creation of many small files (10bytes)
+      command: split -b 1 /etc/testing-big-file
+    - name: clean up
+      shell: rm /etc/testing-big-file*
+# more diverse load? openssl speed, stress...
+  when: osquery_testing_fim_load

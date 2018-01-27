@@ -4,6 +4,7 @@
 #- hosts: test-kitchen
   vars:
     - osquery_testing: true
+    - osquery_testing_fim_load: true
   roles:
     - kbrebanov.osquery
 
