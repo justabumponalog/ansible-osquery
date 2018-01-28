@@ -114,6 +114,8 @@ osquery_syslog_target2: ''
 ## making schedule query faster to have logs faster...
 osquery_testing: false
 osquery_testing_fim_load: false
+osquery_testing_fim_load_bigger: 100M
+osquery_testing_fim_load_smaller: 1000
 ## profiling?
 osquery_profiling: false
 ## full config might be too long for travis (max 50min)

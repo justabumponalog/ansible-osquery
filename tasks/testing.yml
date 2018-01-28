@@ -24,9 +24,9 @@
 
 - block:
     - name: fallocate big file
-      command: fallocate -l 100M /etc/testing-big-file
-    - name: creation of many small files (1bytes)
-      command: split -b 1 /etc/testing-big-file
+      command: "fallocate -l {{ osquery_testing_fim_load_bigger }} /etc/testing-big-file"
+    - name: creation of many small files
+      command: "split -b {{ osquery_testing_fim_load_smaller }} /etc/testing-big-file testing-"
       args:
         chdir: /etc
     - name: clean up
