@@ -72,7 +72,7 @@
 //      "query": "select target_path, category, time, action from file_events;",
       "query": "select * from file_events;",
       "removed": false,
-      "interval": {{ osquery_fim_interval }}
+      "interval": {% if osquery_testing_fim_load %}30{% else %}{{ osquery_fim_interval }}{% endif %}
     }{% if osquery_process_auditing %},{% endif %}
 
 {% endif %}

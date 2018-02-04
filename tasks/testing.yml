@@ -25,11 +25,18 @@
 - block:
     - name: fallocate big file
       command: "fallocate -l {{ osquery_testing_fim_load_bigger }} /etc/testing-big-file"
+      args:
+        creates: /etc/testing-big-file
     - name: creation of many small files
       command: "split -b {{ osquery_testing_fim_load_smaller }} /etc/testing-big-file testing-"
       args:
         chdir: /etc
+        creates: /etc/testing-big-aa
     - name: clean up
-      shell: rm /etc/testing-big-file*
+      shell: rm /etc/testing-*
 # more diverse load? openssl speed, stress...
+    - name: retrieve log results
+      command: cat /var/log/osquery/osqueryd.results.log
+      change_when: false
+      register: log
   when: osquery_testing_fim_load
