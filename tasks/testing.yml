@@ -37,7 +37,10 @@
       ignore_errors: true
 # more diverse load? openssl speed, stress...
     - name: retrieve log results
-      command: cat /var/log/osquery/osqueryd.results.log
+      command: "{{ item }}"
+      with_items:
+        - head -20 /var/log/osquery/osqueryd.results.log
+        - tail -20 /var/log/osquery/osqueryd.results.log
       ignore_errors: true
       change_when: false
       register: log
