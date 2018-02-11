@@ -5,6 +5,7 @@
   vars:
     - osquery_testing: true
     - osquery_profiling: true
+    - osquery_testing_fim_load: true
   roles:
     - kbrebanov.osquery
 
