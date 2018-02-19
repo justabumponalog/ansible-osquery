@@ -13,11 +13,15 @@ env:
     init: /usr/lib/systemd/systemd
     run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
     suite: default
+    ansible_version: 2.4.3.0
+    ansible_extra_vars: ""
   - distribution: ubuntu
     version: 16.04
     init: /lib/systemd/systemd
     run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
     suite: default
+    ansible_version: 2.4.3.0
+    ansible_extra_vars: ""
 #  - distribution: ubuntu
 #    version: 14.04
 #    init: /sbin/init
@@ -39,31 +43,57 @@ env:
     init: /lib/systemd/systemd
     run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
     suite: default
+    ansible_version: 2.4.3.0
+    ansible_extra_vars: ""
   - distribution: centos
     version: 7
     init: /usr/lib/systemd/systemd
     run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
     suite: default-osquery-syslog
+    ansible_version: 2.4.3.0
+    ansible_extra_vars: ""
   - distribution: ubuntu
     version: 16.04
     init: /lib/systemd/systemd
     run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
     suite: default-osquery-syslog
+    ansible_version: 2.4.3.0
+    ansible_extra_vars: ""
   - distribution: centos
     version: 7
     init: /usr/lib/systemd/systemd
     run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
     suite: default-osquery-syslog-fs
+    ansible_version: 2.4.3.0
+    ansible_extra_vars: ""
   - distribution: ubuntu
     version: 16.04
     init: /lib/systemd/systemd
     run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
     suite: default-osquery-syslog-fs
+    ansible_version: 2.4.3.0
+    ansible_extra_vars: ""
   - distribution: ubuntu
     version: 16.04
     init: /lib/systemd/systemd
     run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
     suite: default-profiling
+    ansible_version: 2.4.3.0
+    ansible_extra_vars: ""
+# past ansible version
+  - distribution: ubuntu
+    version: 16.04
+    init: /lib/systemd/systemd
+    run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
+    ansible_version: 2.3.3.0
+    ansible_extra_vars: ""
+# upcoming ansible version
+  - distribution: ubuntu
+    version: 16.04
+    init: /lib/systemd/systemd
+    run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
+    ansible_version: 2.5.0b2
+    ansible_extra_vars: ""
 
 services:
   - docker
@@ -80,24 +110,25 @@ before_install:
   # Customize container
   - 'sudo docker build --rm=true --file=test/travis/Dockerfile.${distribution}-${version} --tag=${distribution}-${version}:ansible test'
 
-script:
-  - "for f in templates/osquery-*-pack.conf.j2; do echo \"== $f\"; egrep -v '//.*' $f | python -mjson.tool > /dev/null; done"
-
+before_script:
   - container_id=$(mktemp)
     # Run container in detached state
   - 'sudo docker run --detach --volume="${PWD%/*}":/etc/ansible/roles:ro ${run_opts} ${distribution}-${version}:ansible "${init}" > "${container_id}"'
 
+  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm pip install --upgrade pip'
+  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm pip install ansible==${ansible_version}'
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible --version'
 
+script:
   # Ansible syntax check.
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/kbrebanov.osquery/test/integration/${suite}/default.yml --syntax-check'
 
   # Test role.
-  - 'travis_wait 30 sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/kbrebanov.osquery/test/integration/${suite}/default.yml -vv'
+  - 'travis_wait 30 sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/kbrebanov.osquery/test/integration/${suite}/default.yml -vv ${ansible_extra_vars}'
 
   # Test role idempotence.
   - >
-    travis_wait 30 sudo docker exec "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/kbrebanov.osquery/test/integration/${suite}/default.yml
+    travis_wait 30 sudo docker exec "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/kbrebanov.osquery/test/integration/${suite}/default.yml ${ansible_extra_vars}
     | tee /tmp/idempotency.log
     | grep -q 'changed=0.*failed=0'
     && (echo 'Idempotence test: pass' && exit 0)
