@@ -79,7 +79,7 @@
 ## https://osquery.readthedocs.io/en/stable/deployment/process-auditing/
 - block:
     - name: ensure auditd is not present
-      package: name={{ auditd_pkg }} state=absent
+      package: name="{{ _osquery_auditd_pkg }}" state=absent
   when: osquery_process_auditing
 
 - name: get rsyslog version
