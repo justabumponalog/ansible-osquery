@@ -10,7 +10,7 @@ Installs osquery
 Requirements
 ------------
 
-This role requires Ansible 1.9 or higher.
+This role requires Ansible 2.0 or higher.
 
 Role Variables
 --------------
