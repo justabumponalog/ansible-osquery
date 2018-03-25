@@ -1,4 +1,4 @@
-## {{ ansible_managed }}
+{{ ansible_managed | comment('plain', decoration='## ') }}
 check process osqueryd
   with pidfile "/var/run/osqueryd.pid"
   group system
