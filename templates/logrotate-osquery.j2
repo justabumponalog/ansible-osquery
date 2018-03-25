@@ -1,4 +1,4 @@
-## {{ ansible_managed }}
+{{ ansible_managed | comment('plain', decoration='## ') }}
 ## /etc/logrotate.d/osquery
 /var/log/osquery/osqueryd.results.log {
     rotate {{ osquery_logrotate_days|int }}
