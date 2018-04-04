@@ -31,8 +31,11 @@ osquery_flags: []
 ## if using zentral, kolide or else
 ## https://github.com/zentralopensource/zentral/blob/f460b10a95d4ea1e515aea3363f55733465d1d9c/zentral/contrib/osquery/deb_script/template.sh
 ## https://docs.kolide.co/kolide/current/infrastructure/adding-hosts-to-kolide.html
+
+#osquery_enroll_secret: ""
+
 #osquery_flags:
-#    - { re: '^--enroll_secret_env=.*', l: '--enroll_secret_env=OSQUERY_ENROLL_SECRET' }
+#    - { re: '^--enroll_secret_path=.*', l: '--enroll_secret_path=/etc/osquery/osquery_enroll_secret' }
 #    - { re: '^--tls_server_certs=.*', l: '--tls_server_certs=/etc/osquery/kolide.crt' }
 #    - { re: '^--tls_hostname=.*', l: '--tls_hostname=acme.kolide.co' }
 #    - { re: '^--host_identifier=.*', l: '--host_identifier=hostname' }
