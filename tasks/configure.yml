@@ -29,6 +29,22 @@
 #        validate: 'egrep -v '^\s*//' %s | tee /tmp/a | python -mjson.tool'
       notify:
         - restart osquery
+    - name: "ensure osquery var dir exists"
+      file:
+        state: "directory"
+        path: "/var/osquery"
+    - name: "express the osquery secret to disk"
+      lineinfile:
+        path: "/etc/osquery/osquery_enroll_secret"
+        regexp: '^'
+        line: ''
+        state: present
+        owner: "root"
+        group: "root"
+        mode: "0600"
+        create: true
+      when:
+        - osquery_enroll_secret is defined
     - name: configure osquery flags
       template:
         src: "osquery.flags.j2"
