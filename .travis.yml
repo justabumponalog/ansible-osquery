@@ -13,21 +13,21 @@ env:
     init: /usr/lib/systemd/systemd
     run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
     suite: default
-    ansible_version: 2.4.3.0
+    ansible_version: 2.5.5
     ansible_extra_vars: ""
 #  - distribution: ubuntu
 #    version: 18.04
 #    init: /lib/systemd/systemd
 #    run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
 #    suite: default
-#    ansible_version: 2.4.3.0
+#    ansible_version: 2.5.5
 #    ansible_extra_vars: ""
   - distribution: ubuntu
     version: 16.04
     init: /lib/systemd/systemd
     run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
     suite: default
-    ansible_version: 2.4.3.0
+    ansible_version: 2.5.5
     ansible_extra_vars: ""
 #  - distribution: ubuntu
 #    version: 14.04
@@ -50,42 +50,42 @@ env:
     init: /lib/systemd/systemd
     run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
     suite: default
-    ansible_version: 2.4.3.0
+    ansible_version: 2.5.5
     ansible_extra_vars: ""
   - distribution: centos
     version: 7
     init: /usr/lib/systemd/systemd
     run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
     suite: default-osquery-syslog
-    ansible_version: 2.4.3.0
+    ansible_version: 2.5.5
     ansible_extra_vars: ""
   - distribution: ubuntu
     version: 16.04
     init: /lib/systemd/systemd
     run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
     suite: default-osquery-syslog
-    ansible_version: 2.4.3.0
+    ansible_version: 2.5.5
     ansible_extra_vars: ""
   - distribution: centos
     version: 7
     init: /usr/lib/systemd/systemd
     run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
     suite: default-osquery-syslog-fs
-    ansible_version: 2.4.3.0
+    ansible_version: 2.5.5
     ansible_extra_vars: ""
   - distribution: ubuntu
     version: 16.04
     init: /lib/systemd/systemd
     run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
     suite: default-osquery-syslog-fs
-    ansible_version: 2.4.3.0
+    ansible_version: 2.5.5
     ansible_extra_vars: ""
   - distribution: ubuntu
     version: 16.04
     init: /lib/systemd/systemd
     run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
     suite: default-profiling
-    ansible_version: 2.4.3.0
+    ansible_version: 2.5.5
     ansible_extra_vars: ""
 # past ansible version
   - distribution: ubuntu
@@ -93,7 +93,7 @@ env:
     init: /lib/systemd/systemd
     run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
     suite: default
-    ansible_version: 2.3.3.0
+    ansible_version: 2.4.5
     ansible_extra_vars: ""
 # upcoming ansible version
   - distribution: ubuntu
@@ -101,7 +101,7 @@ env:
     init: /lib/systemd/systemd
     run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
     suite: default
-    ansible_version: 2.5.0b2
+    ansible_version: 2.6.0rc3
     ansible_extra_vars: ""
 
 services:
