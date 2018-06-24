@@ -5,8 +5,8 @@ set :backend, :exec
 
 describe file('/var/log/osquery_syslog-prog.log') do
   it { should be_file }
-  its(:content) { should match /osqueryd: osqueryd started \[version=/ }
-  its(:content) { should match /scheduler.cpp:74\] Executing scheduled query system_info:/ }
+#  its(:content) { should match /osqueryd: osqueryd started \[version=/ }
+  its(:content) { should match /Executing scheduled query system_info:/ }
   its(:content) { should_not match /Rocksdb open failed \(5:0\) IO error:/ }
   its(:content) { should_not match /osqueryd initialize failed: Could not initialize database/ }
 end
