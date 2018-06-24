@@ -41,7 +41,7 @@ describe file('/var/log/osquery/osqueryd.WARNING') do
 end
 describe file('/var/log/osquery/osqueryd.results.log') do
   it { should be_file }
-  its(:content) { should match /hostIdentifier/ }
+#  its(:content) { should match /hostIdentifier/ }
   let(:sudo_options) { '-u root -H' }
 end
 
