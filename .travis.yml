@@ -25,16 +25,16 @@ env:
 #    version: 3.4
   - distribution: centos
     version: 7
-    suite: default-remote-syslog
+    suite: default-osquery-syslog
   - distribution: ubuntu
     version: 18.04
-    suite: default-remote-syslog
+    suite: default-osquery-syslog
   - distribution: centos
     version: 7
-    suite: default-remote-syslog-fs
+    suite: default-osquery-syslog-fs
   - distribution: ubuntu
     version: 18.04
-    suite: default-remote-syslog-fs
+    suite: default-osquery-syslog-fs
   - distribution: ubuntu
     version: 18.04
     suite: default-profiling
