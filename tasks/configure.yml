@@ -15,6 +15,7 @@
       template:
         src: "{{ item }}.conf.j2"
         dest: "/usr/share/osquery/packs/{{ item | basename }}.conf"
+        backup: yes
       with_items: "{{ osquery_upload_packs }}"
       notify:
         - restart osquery
