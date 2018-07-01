@@ -254,13 +254,13 @@ require {
         type policykit_auth_exec_t;
         type chronyd_unit_file_t;
         type print_spool_t;
-        type osquery_t rpcbind_var_lib_t;
+        type rpcbind_var_lib_t;
         class fifo_file getattr;
         class process setsched;
         class unix_stream_socket connectto;
         class netlink_kobject_uevent_socket { bind create getattr setopt };
         class chr_file { getattr ioctl open read write };
-        class capability { dac_override sys_rawio };
+        class capability { dac_override sys_rawio sys_ptrace };
         class file { append create getattr lock open read relabelto rename setattr unlink write };
         class filesystem getattr;
         class sock_file { create getattr unlink write };
