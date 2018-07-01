@@ -30,20 +30,20 @@ describe process("osqueryd") do
   its(:args) { should match /--flagfile[= ]\/etc\/osquery\/osquery.flags/ }
 end
 
-describe file('/var/log/osquery/osqueryd.INFO') do
-  it { should be_symlink }
-  its(:content) { should match /Log line format:/ }
-end
-describe file('/var/log/osquery/osqueryd.WARNING') do
-  it { should be_symlink }
-  its(:content) { should match /Log line format:/ }
-  its(:content) { should_not match /kernel: Cannot access \/dev\/osquery/ }
-end
-describe file('/var/log/osquery/osqueryd.results.log') do
-  it { should be_file }
-#  its(:content) { should match /hostIdentifier/ }
-  let(:sudo_options) { '-u root -H' }
-end
+#describe file('/var/log/osquery/osqueryd.INFO') do
+#  it { should be_symlink }
+#  its(:content) { should match /Log line format:/ }
+#end
+#describe file('/var/log/osquery/osqueryd.WARNING') do
+#  it { should be_symlink }
+#  its(:content) { should match /Log line format:/ }
+#  its(:content) { should_not match /kernel: Cannot access \/dev\/osquery/ }
+#end
+#describe file('/var/log/osquery/osqueryd.results.log') do
+#  it { should be_file }
+##  its(:content) { should match /hostIdentifier/ }
+#  let(:sudo_options) { '-u root -H' }
+#end
 
 describe command('systemctl status osqueryd'), :if => (os[:family] == 'ubuntu' && os[:release] == '14.04') do
   its(:stdout) { should match /osqueryd is already running/ }
