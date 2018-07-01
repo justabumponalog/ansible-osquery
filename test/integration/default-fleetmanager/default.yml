@@ -3,24 +3,41 @@
 - hosts: all
 #- hosts: test-kitchen
   vars:
+    - mysql_root_password: 'Toor=2017.'
+    - kolide_mysql_root_pass: "{{ mysql_root_password }}"
+    - mysql_databases:
+        - name: "{{ kolide_mysql_db }}"
+    - mysql_users:
+        - name: "{{ kolide_mysql_user }}"
+          host: "localhost"
+          #host: "%"
+          password: "{{ kolide_mysql_pass }}"
+          priv: "{{ kolide_mysql_db }}.*:ALL"
+    - mysql_enablerepo: epel
     - osquery_flags:
-      - { re: '^--enroll_secret_path=.*', l: '--enroll_secret_path=/etc/osquery/osquery_enroll_secret' }
-      - { re: '^--tls_server_certs=.*', l: '--tls_server_certs=/etc/osquery/kolide.crt' }
-      - { re: '^--tls_hostname=.*', l: '--tls_hostname=acme.kolide.co' }
-      - { re: '^--host_identifier=.*', l: '--host_identifier=hostname' }
-      - { re: '^--enroll_tls_endpoint=.*', l: '--enroll_tls_endpoint=/api/v1/osquery/enroll' }
-      - { re: '^--config_plugin=.*', l: '--config_plugin=tls' }
-      - { re: '^--config_tls_endpoint=.*', l: '--config_tls_endpoint=/api/v1/osquery/config' }
-      - { re: '^--config_tls_refresh=.*', l: '--config_tls_refresh=10' }
-      - { re: '^--disable_distributed=.*', l: '--disable_distributed=false' }
-      - { re: '^--distributed_plugin=.*', l: '--distributed_plugin=tls' }
-      - { re: '^--distributed_interval=.*', l: '--distributed_interval=10' }
-      - { re: '^--distributed_tls_max_attempts=.*', l: '--distributed_tls_max_attempts=3' }
-      - { re: '^--distributed_tls_read_endpoint=.*', l: '--distributed_tls_read_endpoint=/api/v1/osquery/distributed/read' }
-      - { re: '^--distributed_tls_write_endpoint=.*', l: '--distributed_tls_write_endpoint=/api/v1/osquery/distributed/write' }
+      - '--enroll_secret_path=/etc/osquery/osquery_enroll_secret'
+      - "--tls_server_certs={{ ssl_dir }}/{{ ansible_fqdn }}.crt"
+      - '--tls_hostname=acme.kolide.co:8080'
+      - '--host_identifier=hostname'
+      - '--enroll_tls_endpoint=/api/v1/osquery/enroll'
+      - '--config_plugin=tls'
+      - '--config_tls_endpoint=/api/v1/osquery/config'
+      - '--config_tls_refresh=10'
+      - '--disable_distributed=false'
+      - '--distributed_plugin=tls'
+      - '--distributed_interval=10'
+      - '--distributed_tls_max_attempts=3'
+      - '--distributed_tls_read_endpoint=/api/v1/osquery/distributed/read'
+      - '--distributed_tls_write_endpoint=/api/v1/osquery/distributed/write'
+      - '--logger_plugin=tls'
+  pre_tasks:
+    - name: map acme.kolide.co to localhost
+      lineinfile:
+        dest: /etc/hosts
+        line: 127.0.0.1 acme.kolide.co
+      ignore_errors: true
   roles:
-# Note: role invalid for Centos7 as mariadb 5.5 too old for kolide
-    - geerlingguy.mysql
+    - { role: geerlingguy.mysql, when: ansible_os_family == 'Debian' }
     - juju4.kolide
     - kbrebanov.osquery
 
