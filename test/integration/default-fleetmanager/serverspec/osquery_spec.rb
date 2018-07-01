@@ -41,15 +41,19 @@ describe file('/var/log/osquery/osqueryd.WARNING') do
 end
 describe file('/var/log/osquery/osqueryd.results.log') do
   it { should be_file }
-  its(:content) { should match /hostIdentifier/ }
+#  its(:content) { should match /hostIdentifier/ }
   let(:sudo_options) { '-u root -H' }
 end
 
-describe command('systemctl status osqueryd'), :if => (os[:family] == 'ubuntu' && os[:release] == '16.04') || (os[:family] == 'redhat') do
+describe command('systemctl status osqueryd'), :if => (os[:family] == 'ubuntu' && os[:release] == '14.04') do
+  its(:stdout) { should match /osqueryd is already running/ }
+  its(:exit_status) { should eq 0 }
+end
+describe command('systemctl status osqueryd'), :if => os[:family] == 'ubuntu' && (os[:release] == '16.04' || os[:release] == '18.04') do
   its(:stdout) { should match /active \(running\)/ }
   its(:exit_status) { should eq 0 }
 end
-describe command('service osqueryd status'), :if => (os[:family] == 'ubuntu' && os[:release] != '16.04') && (os[:family] != 'redhat') do
-  its(:stdout) { should match /osqueryd is already running/ }
+describe command('systemctl status osqueryd'), :if => os[:family] == 'redhat' do
+  its(:stdout) { should match /active \(running\)/ }
   its(:exit_status) { should eq 0 }
 end
