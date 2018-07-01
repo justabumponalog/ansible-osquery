@@ -19,6 +19,8 @@
       - { re: '^--distributed_tls_read_endpoint=.*', l: '--distributed_tls_read_endpoint=/api/v1/osquery/distributed/read' }
       - { re: '^--distributed_tls_write_endpoint=.*', l: '--distributed_tls_write_endpoint=/api/v1/osquery/distributed/write' }
   roles:
+# Note: role invalid for Centos7 as mariadb 5.5 too old for kolide
+    - geerlingguy.mysql
     - juju4.kolide
     - kbrebanov.osquery
 
