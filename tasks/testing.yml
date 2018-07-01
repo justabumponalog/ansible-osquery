@@ -42,6 +42,6 @@
         - head -20 /var/log/osquery/osqueryd.results.log
         - tail -20 /var/log/osquery/osqueryd.results.log
       ignore_errors: true
-      change_when: false
+      changed_when: false
       register: log
   when: osquery_testing_fim_load
