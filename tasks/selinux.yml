@@ -1,0 +1,31 @@
+---
+
+- name: Ensure selinux package are present
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - selinux-policy
+    - selinux-policy-devel
+    - libselinux-python
+    - policycoreutils-python
+
+- name: Ensure osquery selinux policy is set
+  template:
+    src: "{{ item }}.j2"
+    dest: "/etc/osquery/{{ item }}"
+    mode: '0600'
+    owner: root
+  with_items:
+    - osquery.fc
+    - osquery.sh
+    - osquery.te
+  register: te
+
+- name: Generate osquery policy file
+  command: sh -x ./osquery.sh
+  args:
+    chdir: /etc/osquery
+  when: te is changed
+
+# Refine policy with `audit2allow -i /var/log/audit/audit.log`
