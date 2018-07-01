@@ -38,6 +38,9 @@ env:
   - distribution: ubuntu
     version: 18.04
     suite: default-profiling
+  - distribution: ubuntu
+    version: 18.04
+    suite: default-fleetmanager
 
 before_install:
   - env

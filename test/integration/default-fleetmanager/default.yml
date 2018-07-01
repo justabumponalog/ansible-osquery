@@ -1,0 +1,24 @@
+---
+
+- hosts: all
+#- hosts: test-kitchen
+  vars:
+    - osquery_flags:
+      - { re: '^--enroll_secret_path=.*', l: '--enroll_secret_path=/etc/osquery/osquery_enroll_secret' }
+      - { re: '^--tls_server_certs=.*', l: '--tls_server_certs=/etc/osquery/kolide.crt' }
+      - { re: '^--tls_hostname=.*', l: '--tls_hostname=acme.kolide.co' }
+      - { re: '^--host_identifier=.*', l: '--host_identifier=hostname' }
+      - { re: '^--enroll_tls_endpoint=.*', l: '--enroll_tls_endpoint=/api/v1/osquery/enroll' }
+      - { re: '^--config_plugin=.*', l: '--config_plugin=tls' }
+      - { re: '^--config_tls_endpoint=.*', l: '--config_tls_endpoint=/api/v1/osquery/config' }
+      - { re: '^--config_tls_refresh=.*', l: '--config_tls_refresh=10' }
+      - { re: '^--disable_distributed=.*', l: '--disable_distributed=false' }
+      - { re: '^--distributed_plugin=.*', l: '--distributed_plugin=tls' }
+      - { re: '^--distributed_interval=.*', l: '--distributed_interval=10' }
+      - { re: '^--distributed_tls_max_attempts=.*', l: '--distributed_tls_max_attempts=3' }
+      - { re: '^--distributed_tls_read_endpoint=.*', l: '--distributed_tls_read_endpoint=/api/v1/osquery/distributed/read' }
+      - { re: '^--distributed_tls_write_endpoint=.*', l: '--distributed_tls_write_endpoint=/api/v1/osquery/distributed/write' }
+  roles:
+    - juju4.kolide
+    - kbrebanov.osquery
+

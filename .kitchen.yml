@@ -49,3 +49,8 @@ suites:
     attributes:
     includes:
       - ubuntu-18.04
+  - name: default-fleetmanager
+    run_list:
+    attributes:
+    includes:
+      - ubuntu-16.04
