@@ -11,7 +11,7 @@ transport:
 
 provisioner:
   name: ansible_playbook
-  roles_path: ../../roles
+  roles_path: ../
   hosts: test-kitchen
 #  ansible_verbose: true
   ansible_verbose: false
@@ -19,6 +19,7 @@ provisioner:
   ansible_extra_flags: <%= ENV['ANSIBLE_EXTRA_FLAGS'] %>
 
 platforms:
+  - name: ubuntu-18.04
   - name: ubuntu-16.04
   - name: ubuntu-14.04
   - name: centos-7.1
@@ -45,9 +46,12 @@ suites:
     run_list:
     attributes:
     includes:
-      - ubuntu-16.04
+      - ubuntu-18.04
   - name: default-fleetmanager
     run_list:
     attributes:
     includes:
-      - ubuntu-16.04
+      - ubuntu-18.04
+    driver_config:
+      network:
+        - ["forwarded_port", {guest: 8080, host: 9080}]
