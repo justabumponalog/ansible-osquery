@@ -29,10 +29,12 @@
     - osquery.te
   register: te
 
+# FIXME!
 - name: Generate osquery policy file
   command: sh -x ./osquery.sh
   args:
     chdir: /etc/osquery
   when: te is changed
+  ignore_errors: true
 
 # Refine policy with `audit2allow -i /var/log/audit/audit.log`
