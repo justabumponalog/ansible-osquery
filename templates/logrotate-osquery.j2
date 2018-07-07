@@ -21,7 +21,7 @@
     create 640 root adm
     sharedscripts
     # Ubuntu: parent directory has insecure permissions (It's world writable or writable by group which is not "root")
-    su root syslog
+    su root {{ osquery_syslog_dir_group | default(varlog_group) }}
 }
 {% endif %}
 {% if osquery_syslog_target2 is defined and osquery_syslog_target2 != '' and '/var/log/' in osquery_syslog_target2 %}
@@ -34,5 +34,6 @@
     compress
     create 640 root adm
     sharedscripts
+    su root {{ osquery_syslog_dir_group2 | default(varlog_group) }}
 }
 {% endif %}

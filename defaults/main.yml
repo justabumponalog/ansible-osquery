@@ -114,6 +114,8 @@ osquery_syslog_target: ''
 ## per programname: mostly query execution log and daemon state. avoid mixing with default syslog messages
 #osquery_syslog_target2: ''
 osquery_syslog_target2: '/var/log/osquery/osqueryd.log'
+osquery_syslog_dirs:
+    - /var/log/osquery
 
 ## making schedule query faster to have logs faster...
 osquery_testing: false

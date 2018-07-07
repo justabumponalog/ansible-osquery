@@ -9,6 +9,8 @@
     - osquery_syslog_target: '/var/log/osquery_syslog-results.log'
     - osquery_syslog_target2: '/var/log/osquery_syslog-prog.log'
     - osquery_testing: true
+    - osquery_syslog_dirs:
+        - /var/log
   roles:
     - kbrebanov.osquery
 
