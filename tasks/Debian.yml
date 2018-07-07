@@ -2,6 +2,11 @@
 
 # tasks file for osquery (Debian, Ubuntu specific)
 
+- name: Ensure dirmngr is present for apt-key
+  package:
+    name: dirmngr
+    state: present
+
 - name: Download osquery APT key
   become: yes
   apt_key:
