@@ -4,7 +4,7 @@
   file:
     dest: "{{ item }}"
     state: directory
-    mode: '0755'
+    mode: "{{ varlog_mode }}"
     group: "{{ varlog_group }}"
   with_items: "{{ osquery_syslog_dirs }}"
 
@@ -14,5 +14,6 @@
     dest: /etc/rsyslog.d/30-osquery-target.conf
     mode: '0644'
     backup: yes
+    validate: 'rsyslogd -d -N 1 -f %s'
   notify:
     - restart rsyslog

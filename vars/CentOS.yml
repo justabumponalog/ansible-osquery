@@ -15,3 +15,4 @@ _osquery_repositorykey: "{{ osquery_repositorykey | default('https://pkg.osquery
 _osquery_auditd_pkg: "audit"
 
 varlog_group: root
+varlog_mode: '0755'
