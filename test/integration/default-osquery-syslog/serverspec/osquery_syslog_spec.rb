@@ -18,3 +18,10 @@ describe file('/var/log/osquery_syslog-results.log') do
   its(:content) { should_not match /kernel: Cannot access \/dev\/osquery/ }
   let(:sudo_options) { '-u root -H' }
 end
+
+describe command('journalctl -l') do
+  its(:stdout) { should match /osqueryd/ }
+  its(:content) { should match /Executing scheduled query system_info:/ }
+  its(:content) { should match /hostIdentifier/ }
+  its(:exit_status) { should eq 0 }
+end
