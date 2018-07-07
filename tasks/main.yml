@@ -54,6 +54,14 @@
         - osquery
         - service
 
+    - meta: flush_handlers
+
+    - name: pause a bit to have few queries results
+      pause:
+#        minutes: 5
+        seconds: 60
+      when: osquery_testing_pause or osquery_testing
+
     - include: testing.yml
       when: osquery_testing
 

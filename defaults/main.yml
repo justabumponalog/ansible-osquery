@@ -119,6 +119,7 @@ osquery_syslog_dirs:
 
 ## making schedule query faster to have logs faster...
 osquery_testing: false
+osquery_testing_pause: false
 osquery_testing_fim_load: false
 osquery_testing_fim_load_bigger: 100M
 osquery_testing_fim_load_smaller: 1000

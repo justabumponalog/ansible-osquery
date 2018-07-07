@@ -1,12 +1,5 @@
 ---
 
-- meta: flush_handlers
-
-- name: pause a bit to have few queries results
-  pause:
-#    minutes: 5
-    seconds: 60
-
 - block:
     - name: systemd | check service status
       command: "systemctl status osqueryd -l"

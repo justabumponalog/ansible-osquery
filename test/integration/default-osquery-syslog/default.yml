@@ -11,6 +11,7 @@
     - osquery_testing: true
     - osquery_syslog_dirs:
         - /var/log
+    - osquery_testing_pause: true
   roles:
     - kbrebanov.osquery
 
