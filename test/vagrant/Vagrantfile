@@ -18,7 +18,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
        #ansible.host_key_checking = false
        #ansible.limit = 'all'
        ansible.become = true
-       ansible.extra_vars = { ansible_user: 'vagrant' }
+       ansible.extra_vars = { ansible_user: 'vagrant', ansible_python_interpreter: '/usr/bin/python3' }
        ansible.groups = {
           "myrole" => ["osquery" ],
        }
