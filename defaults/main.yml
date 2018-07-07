@@ -86,7 +86,7 @@ osquery_fim_excludepaths:
   - name: tmp
     list:
       - /tmp/too_many_events/
-osquery_rsyslog: false
+osquery_rsyslog: true
 ## conflict with auditd. choose one.
 ## https://osquery.readthedocs.io/en/stable/deployment/process-auditing/
 osquery_process_auditing: false
@@ -110,9 +110,10 @@ osquery_syslog_target_facility_syslogconf: local3
 osquery_syslog_target: ''
 #osquery_syslog_target: '@@10.1.1.100'
 ## mostly for testing purpose
-#osquery_syslog_target: '/var/log/osquery_syslog.log'
-## per programname
-osquery_syslog_target2: ''
+#osquery_syslog_target: '/var/log/osquery/osquery_syslog.log'
+## per programname: mostly query execution log and daemon state. avoid mixing with default syslog messages
+#osquery_syslog_target2: ''
+osquery_syslog_target2: '/var/log/osquery/osqueryd.log'
 
 ## making schedule query faster to have logs faster...
 osquery_testing: false
