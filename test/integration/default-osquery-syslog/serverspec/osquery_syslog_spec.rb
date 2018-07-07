@@ -21,7 +21,7 @@ end
 
 describe command('journalctl -l') do
   its(:stdout) { should match /osqueryd/ }
-  its(:content) { should match /Executing scheduled query system_info:/ }
-  its(:content) { should match /hostIdentifier/ }
+  its(:stdout) { should match /Executing scheduled query system_info:/ }
+  its(:stdout) { should match /hostIdentifier/ }
   its(:exit_status) { should eq 0 }
 end
