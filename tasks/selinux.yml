@@ -27,18 +27,23 @@
     - osquery.fc
     - osquery.sh
     - osquery.te
+    - myosquery.te
   register: te
 
 # FIXME!
 - name: Generate osquery policy file
-  command: sh -x ./osquery.sh
+  command: "{{ item }}"
   args:
     chdir: /etc/osquery
+  with_items:
+    - sh -x ./osquery.sh
+    - make -f /usr/share/selinux/devel/Makefile myosquery.pp
+    - semodule -i myosquery.pp
   when: te is changed
-  ignore_errors: true
 
 # `sepolicy generate -n osquery --init /usr/bin/osqueryd`     = OK/base
 # Refine policy with `audit2allow -i /var/log/audit/audit.log -M osquery`
 # `semodule -i osquery.pp`
 # FIXME! 'Failed to resolve typeattributeset statement at /etc/selinux/targeted/tmp/modules/400/osquery/cil:2'
 # `/usr/libexec/selinux/hll/pp osquery.pp`
+# OK as additional policy file
