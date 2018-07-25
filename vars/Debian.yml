@@ -3,6 +3,8 @@
 # https://github.com/facebook/osquery/issues/320
 # https://github.com/facebook/osquery/issues/2321
 
+_apt_keyserver: "{{ apt_keyserver | default('keyserver.ubuntu.com') }}"
+
 osquery_packages:
   - osquery
   - rsyslog

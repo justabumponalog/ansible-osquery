@@ -10,7 +10,7 @@
 - name: Download osquery APT key
   become: yes
   apt_key:
-    keyserver: keyserver.ubuntu.com
+    keyserver: "{{ _apt_keyserver }}"
     id: "{{ _osquery_repositorykey }}"
     state: present
   tags:
