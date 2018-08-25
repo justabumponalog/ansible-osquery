@@ -56,15 +56,16 @@
 
     - meta: flush_handlers
 
+    - include: testing.yml
+      when: osquery_testing
+
+    - include: profiling.yml
+      when: osquery_profiling
+
     - name: pause a bit to have few queries results
       pause:
 #        minutes: 5
         seconds: 60
       when: osquery_testing_pause or osquery_testing
 
-    - include: testing.yml
-      when: osquery_testing
-
-    - include: profiling.yml
-      when: osquery_profiling
   when: ansible_os_family == "RedHat" or ansible_distribution == "Ubuntu" or ansible_distribution == "Debian"
