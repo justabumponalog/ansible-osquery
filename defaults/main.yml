@@ -79,9 +79,30 @@ osquery_fim_filepaths:
       - "/usr/local/sbin/%%"
       - "/opt/bin/%%"
       - "/opt/sbin/%%"
+  - name: boot
+    list:
+      - "/boot/%%"
+  - name: lib
+    list:
+      - "/lib/%%"
+      - "/lib64/%%"
+      - "/usr/lib/%%"
+      - "/usr/lib64/%%"
+      - "/usr/local/lib/%%"
+      - "/opt/lib/%%"
+  - name: lost+found
+    list:
+      - "/lost+found/%"
+  - name: root
+    list:
+      - "/%"
+  - name: roothome
+    list:
+      - "/root/%%"
   - name: webroot
     list:
       - "/var/www/%%"
+## for excludepaths to apply, you must have a matching list name in filepaths
 osquery_fim_excludepaths:
   - name: tmp
     list:
@@ -123,6 +144,11 @@ osquery_testing_pause: false
 osquery_testing_fim_load: false
 osquery_testing_fim_load_bigger: 100M
 osquery_testing_fim_load_smaller: 1000
+osquery_testing_fim_files:
+  - /fim-testing1
+  - /root/fim-testing2
+  - /lib/fim-testing3
+  - /usr/bin/fim-testing4
 ## profiling?
 osquery_profiling: false
 ## full config might be too long for travis (max 50min)

@@ -5,6 +5,11 @@
 #  service: name=osqueryd state=restarted
 ## for rocksdb backend
   shell: "systemctl stop osqueryd; sleep 5; systemctl start osqueryd"
+  when: not (ansible_virtualization_type is defined and ansible_virtualization_type == "docker")
+
+- name: restart osquery - docker
+  shell: "/etc/init.d/osqueryd stop; sleep 5; /etc/init.d/osqueryd start"
+  when: (ansible_virtualization_type is defined and ansible_virtualization_type == "docker")
 
 - name: restart rsyslog
   service: name=rsyslog state=restarted

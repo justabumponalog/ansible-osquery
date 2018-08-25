@@ -19,6 +19,7 @@
       with_items: "{{ osquery_upload_packs }}"
       notify:
         - restart osquery
+        - restart osquery - docker
     - debug: var=osquery_packs
     - name: configure osquery
       template:
@@ -30,6 +31,7 @@
 #        validate: 'egrep -v '^\s*//' %s | tee /tmp/a | python -mjson.tool'
       notify:
         - restart osquery
+        - restart osquery - docker
     - name: "ensure osquery var dir exists"
       file:
         state: "directory"
@@ -53,6 +55,7 @@
         backup: yes
       notify:
         - restart osquery
+        - restart osquery - docker
     - name: re-validate whole osquery config
       command: 'osqueryi --config_path /etc/osquery/osquery.conf --config_check --verbose'
       changed_when: false

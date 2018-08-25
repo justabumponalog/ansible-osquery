@@ -37,4 +37,9 @@
       ignore_errors: true
       changed_when: false
       register: log
+    - name: test files
+      file:
+        name: "{{ item }}"
+        state: touch
+      with_items: "{{ osquery_testing_fim_files }}"
   when: osquery_testing_fim_load
