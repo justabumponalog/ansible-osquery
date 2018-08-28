@@ -98,6 +98,10 @@ after_failure:
   - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'cat /etc/osquery/osquery.conf'"
   - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'egrep \"fim.*CREATED.*fim-testing\" /var/log/osquery/osqueryd.results.log'"
   - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'journalctl -xe --no-pager'"
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'ulimit -a'"
+  - /sbin/sysctl fs.inotify
+  - ulimit -a
+  - ls -l /var/osquery/osquery.db/ | wc -l
 
 after_script:
   # Clean up
