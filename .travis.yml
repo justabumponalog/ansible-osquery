@@ -88,9 +88,9 @@ before_install:
 #  - sudo -E su $USER -c "kitchen diagnose --all"
 #  - sudo -E -u $USER kitchen diagnose --all
 
-  - sysctl -w fs.inotify.max_user_watches=524288
-  - sysctl -w fs.inotify.max_user_instances=256
-  - sysctl -w fs.inotify.max_queued_events=32768
+  - sudo sysctl -w fs.inotify.max_user_watches=524288
+  - sudo sysctl -w fs.inotify.max_user_instances=256
+  - sudo sysctl -w fs.inotify.max_queued_events=32768
 
 script:
 #  - KITCHEN_LOCAL_YAML=.kitchen.local.yml bundle exec kitchen verify ${INSTANCE}
@@ -102,11 +102,13 @@ after_failure:
   - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'cat /etc/osquery/osquery.conf'"
   - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'apt-get install -qy grep'"
   - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'egrep \"fim.*CREATED.*fim-testing\" /var/log/osquery/osqueryd.results.log'"
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'grep fim-testing /var/log/osquery/osqueryd.results.log'"
   - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'journalctl -xe --no-pager'"
   - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'ulimit -a'"
   - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'ls -l /var/osquery/osquery.db/ | wc -l'"
-  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'lsof | grep \'^osqueryd\''"
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'lsof | grep osqueryd'"
   - /sbin/sysctl fs.inotify
+  - /sbin/sysctl fs.file-max
   - ulimit -a
 
 after_script:
