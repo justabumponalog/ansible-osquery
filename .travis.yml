@@ -110,6 +110,8 @@ after_failure:
   - /sbin/sysctl fs.inotify
   - /sbin/sysctl fs.file-max
   - ulimit -a
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'wc /var/log/osquery/osqueryd.results.log'"
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'tail -100 /var/log/osquery/osqueryd.results.log'"
 
 after_script:
   # Clean up
