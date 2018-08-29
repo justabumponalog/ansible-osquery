@@ -143,7 +143,7 @@ osquery_testing: false
 osquery_testing_pause: false
 osquery_testing_fim_load: false
 osquery_testing_fim_load_bigger: 100M
-osquery_testing_fim_load_smaller: 1000
+osquery_testing_fim_load_smaller: 10
 osquery_testing_fim_files:
   - /fim-testing1
   - /root/fim-testing2
