@@ -8,7 +8,7 @@ describe file('/var/log/osquery/osqueryd.results.log') do
   it { should contain '"physical_memory":' }
   it { should contain '"target_path":"\/etc\/testing-big-file"' }
   it { should contain '"target_path":"\/etc\/testing-aa"' }
-  it { should contain '"target_path":"\/etc\/testing-zz' }
+  it { should contain '"target_path":"\/etc\/testing-hh' }
 # for some reason, this one requires two slashes (root fim rule)
   it { should contain '"target_path":"\/\/fim-testing1' }
   it { should contain '"target_path":"\/root\/fim-testing2' }
