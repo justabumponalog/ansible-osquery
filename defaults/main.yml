@@ -144,7 +144,7 @@ osquery_testing_pause: false
 osquery_testing_fim_load: false
 osquery_testing_fim_load_bigger: 100M
 # per file, bytes size
-osquery_testing_fim_load_smaller: 10000
+osquery_testing_fim_load_smaller: 100000
 osquery_testing_fim_files:
   - /fim-testing1
   - /root/fim-testing2
