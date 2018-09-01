@@ -103,6 +103,8 @@
 
 {% endfor %}
   },
+// very noisy, https://osquery.readthedocs.io/en/stable/deployment/file-integrity-monitoring/#file-accesses
+//  "file_accesses": ["etc", "root"]
   "exclude_paths": {
 {% for item in osquery_fim_excludepaths %}
     "{{ item.name }}": [
