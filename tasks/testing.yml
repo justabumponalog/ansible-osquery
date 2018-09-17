@@ -20,11 +20,24 @@
       command: "fallocate -l {{ osquery_testing_fim_load_bigger }} /etc/testing-big-file"
       args:
         creates: /etc/testing-big-file
+    - name: ensure directory exists
+      file:
+        dest: /tmp/too_many_events
+        state: directory
+        mode: '0755'
+    - name: creation of many small files in excluded directory
+      command: "split -b 1000 /etc/testing-big-file testing-"
+      args:
+        chdir: /tmp/too_many_events
+        creates: /tmp/too_many_events/testing-aa
+    - name: clean up
+      shell: find /tmp/too_many_events/ -name 'testing-*' -exec rm {} \;
+      ignore_errors: true
     - name: creation of many small files
       command: "split -b {{ osquery_testing_fim_load_smaller }} /etc/testing-big-file testing-"
       args:
         chdir: /etc
-        creates: /etc/testing-big-aa
+        creates: /etc/testing-aa
     - name: clean up
       shell: find /etc/ -name 'testing-*' -exec rm {} \;
       ignore_errors: true

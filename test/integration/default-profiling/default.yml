@@ -6,6 +6,54 @@
     - osquery_testing: true
     - osquery_profiling: true
     - osquery_testing_fim_load: true
+    - osquery_fim_filepaths:
+      - name: homes_sshdir
+        list:
+          - "/root/.ssh/%%"
+          - "/home/%/.ssh/%%"
+      - name: etc
+        list:
+          - "/etc/%%"
+      - name: tmp
+        list:
+          - "/tmp/%%"
+      - name: bin
+        list:
+          - "/bin/%%"
+          - "/sbin/%%"
+          - "/usr/bin/%%"
+          - "/usr/sbin/%%"
+          - "/usr/local/bin/%%"
+          - "/usr/local/sbin/%%"
+          - "/opt/bin/%%"
+          - "/opt/sbin/%%"
+      - name: boot
+        list:
+          - "/boot/%%"
+      - name: lib
+        list:
+          - "/lib/%%"
+          - "/lib64/%%"
+          - "/usr/lib/%%"
+          - "/usr/lib64/%%"
+          - "/usr/local/lib/%%"
+          - "/opt/lib/%%"
+      - name: lost+found
+        list:
+          - "/lost+found/%"
+      - name: root
+        list:
+          - "/%"
+      - name: roothome
+        list:
+          - "/root/%%"
+      - name: webroot
+        list:
+          - "/var/www/%%"
+    - osquery_fim_excludepaths:
+      - name: tmp
+        list:
+          - /tmp/too_many_events/
   roles:
     - kbrebanov.osquery
 
