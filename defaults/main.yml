@@ -138,6 +138,11 @@ osquery_syslog_target2: '/var/log/osquery/osqueryd.log'
 osquery_syslog_dirs:
     - /var/log/osquery
 
+osquery_cgroups_restriction_enable: false
+#osquery_cgroups_cpuquota: '10%'
+#osquery_cgroups_memorylimit: '1G'
+#osquery_cgroups_cpushares: '100'
+
 ## making schedule query faster to have logs faster...
 osquery_testing: false
 osquery_testing_pause: false

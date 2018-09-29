@@ -1,0 +1,6 @@
+---
+
+- name: Enforce cgroups limit on osqueryd
+  command: "systemctl set-property osqueryd.service CPUQuota={{ osquery_cgroups_cpuquota | default('10%') }} MemoryLimit={{ osquery_cgroups_memorylimit | default('1G') }} CPUShares={{ osquery_cgroups_cpushares | default('100') }}"
+  args:
+    creates: /etc/systemd/system/osqueryd.slice.d/50-CPUQuota.conf

@@ -54,6 +54,9 @@
         - osquery
         - service
 
+    - include: cgroups.yml
+      when: osquery_cgroups_restriction_enable
+
     - meta: flush_handlers
 
     - include: testing.yml
