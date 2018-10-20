@@ -22,7 +22,7 @@ systemd_unit_file(osquery_unit_file_t)
 # osquery local policy
 #
 allow osquery_t self:capability { chown setgid setuid sys_chroot };
-allow osquery_t self:process { fork ptrace setrlimit signal_perms };
+allow osquery_t self:process { fork ptrace setrlimit signal_perms sys_nice };
 allow osquery_t self:fifo_file rw_fifo_file_perms;
 allow osquery_t self:unix_stream_socket create_stream_socket_perms;
 
@@ -33,11 +33,13 @@ logging_log_filetrans(osquery_t, osquery_log_t, { dir file lnk_file })
 
 domain_use_interactive_fds(osquery_t)
 
-files_read_etc_files(osquery_t)
+files_read_all_files(osquery_t)
 
 auth_use_nsswitch(osquery_t)
 
 logging_send_syslog_msg(osquery_t)
+logging_read_all_logs(osquery_t)
+#logging_read_audit_log(osquery_t)
 
 miscfiles_read_localization(osquery_t)
 
