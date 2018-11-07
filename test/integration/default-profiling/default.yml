@@ -54,6 +54,11 @@
       - name: tmp
         list:
           - /tmp/too_many_events/
+          - /tmp/too_many_events2/%%
+          - /tmp/excluded1-%
+          - /tmp/%-excluded2
+          - /tmp/excluded3-%-testing
+          - /tmp/excluded4-%-testing-%-testing-%
   roles:
     - kbrebanov.osquery
 

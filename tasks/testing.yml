@@ -24,9 +24,12 @@
         creates: /etc/testing-big-file
     - name: ensure directory exists
       file:
-        dest: /tmp/too_many_events
+        dest: "{{ item }}"
         state: directory
         mode: '0755'
+      with_items:
+        - /tmp/too_many_events
+        - /tmp/too_many_events2/test
     - name: creation of many small files in excluded directory
       command: "split -b {{ osquery_testing_fim_load_smaller_ex }} /etc/testing-big-file testing-"
       args:
@@ -43,6 +46,17 @@
     - name: clean up
       shell: find /etc/ -name 'testing-*' -exec rm {} \;
       ignore_errors: true
+    - name: create files normally excluded
+      file:
+        name: "{{ item }}"
+        state: touch
+      with_items:
+        - /tmp/too_many_events2/test/testing-aa
+        - /tmp/excluded1-abcdef
+        - /tmp/abcdef-excluded2
+        - /tmp/excluded3-abcdef-testing
+        - /tmp/excluded4-abcdef-testing-ghijkl-testing-mnopqr
+  roles:
 # more diverse load? openssl speed, stress...
     - name: retrieve log results
       command: "{{ item }}"
