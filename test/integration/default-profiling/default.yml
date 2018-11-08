@@ -55,12 +55,12 @@
         list:
           - /tmp/too_many_events/
           - /tmp/too_many_events2/%%
-          - /tmp/excluded1-%
-          - /tmp/%-excluded2
-          - /tmp/excluded3-%-testing
-          - /tmp/excluded4-%-testing-%-testing-%
+#          - /tmp/excluded1-%
+#          - /tmp/%-excluded2
+#          - /tmp/excluded3-%-testing
+#          - /tmp/excluded4-%-testing-%-testing-%
           - /tmp/excluded5-exact-match
-          - /tmp/excluded6-%%
+#          - /tmp/excluded6-%%
   roles:
     - kbrebanov.osquery
 

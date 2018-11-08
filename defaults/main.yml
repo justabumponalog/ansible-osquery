@@ -103,6 +103,7 @@ osquery_fim_filepaths:
     list:
       - "/var/www/%%"
 ## for excludepaths to apply, you must have a matching list name in filepaths
+## Not supporting partial matches, https://github.com/facebook/osquery/issues/3692#issuecomment-329187203
 osquery_fim_excludepaths:
   - name: tmp
     list:
