@@ -56,7 +56,6 @@
         - /tmp/abcdef-excluded2
         - /tmp/excluded3-abcdef-testing
         - /tmp/excluded4-abcdef-testing-ghijkl-testing-mnopqr
-  roles:
 # more diverse load? openssl speed, stress...
     - name: retrieve log results
       command: "{{ item }}"
