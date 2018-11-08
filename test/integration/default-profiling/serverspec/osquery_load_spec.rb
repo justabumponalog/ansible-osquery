@@ -14,6 +14,7 @@ describe file('/var/log/osquery/osqueryd.results.log') do
   it { should contain '"target_path":"\/root\/fim-testing2' }
   it { should contain '"target_path":"\/lib\/fim-testing3' }
   it { should contain '"target_path":"\/usr\/bin\/fim-testing4' }
+  it { should contain '"target_path":"\/usr\/bin\/.fim-testing5' }
   it { should contain '"action":"CREATED"' }
   it { should contain '"action":"UPDATED"' }
   it { should contain '"action":"DELETED"' }

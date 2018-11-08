@@ -156,6 +156,7 @@ osquery_testing_fim_files:
   - /root/fim-testing2
   - /lib/fim-testing3
   - /usr/bin/fim-testing4
+  - /usr/bin/.fim-testing5
 ## profiling?
 osquery_profiling: false
 ## full config might be too long for travis (max 50min)
