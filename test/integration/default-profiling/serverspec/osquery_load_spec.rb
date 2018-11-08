@@ -26,4 +26,7 @@ describe file('/var/log/osquery/osqueryd.results.log') do
   it { should_not contain '"target_path":"\/tmp\/abcdef-excluded2' }
   it { should_not contain '"target_path":"\/tmp\/excluded3-abcdef-testing' }
   it { should_not contain '"target_path":"\/tmp\/excluded4-abcdef-testing-ghijkl-testing-mnopqr' }
+  it { should_not contain '"target_path":"\/tmp\/excluded5-exact-match' }
+  it { should_not contain '"target_path":"\/tmp\/excluded6-abcdef' }
+  it { should_not contain '"target_path":"\/tmp\/excluded6-testing\/excluded-abcdef' }
 end

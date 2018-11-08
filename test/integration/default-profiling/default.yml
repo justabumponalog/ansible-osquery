@@ -59,6 +59,8 @@
           - /tmp/%-excluded2
           - /tmp/excluded3-%-testing
           - /tmp/excluded4-%-testing-%-testing-%
+          - /tmp/excluded5-exact-match
+          - /tmp/excluded6-%%
   roles:
     - kbrebanov.osquery
 
