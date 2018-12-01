@@ -1,5 +1,10 @@
 {
   "queries": {
+    "osquerydb_size": {
+      "query": "select sum(size) as bytes_disk from file where path like '/var/osquery/osquery.db/%';",
+      "interval": 900,
+      "description": "Size of osquery.db - osquery#5310"
+    },
     "osquery_extensions": {
       "query": "select * from osquery_extensions;",
       "interval": 900,
