@@ -63,4 +63,3 @@
 #          - /tmp/excluded6-%%
   roles:
     - kbrebanov.osquery
-

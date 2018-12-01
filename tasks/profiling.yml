@@ -24,4 +24,3 @@
   changed_when: false
   register: perf
 - debug: var=perf.stdout_lines
-

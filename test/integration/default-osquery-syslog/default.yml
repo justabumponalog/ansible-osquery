@@ -14,4 +14,3 @@
     - osquery_testing_pause: true
   roles:
     - kbrebanov.osquery
-

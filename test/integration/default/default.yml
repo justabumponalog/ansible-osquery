@@ -4,4 +4,3 @@
 #- hosts: test-kitchen
   roles:
     - kbrebanov.osquery
-
