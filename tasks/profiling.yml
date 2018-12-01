@@ -4,6 +4,7 @@
   git:
     repo: https://github.com/facebook/osquery.git
     dest: /root/osquery
+    version: HEAD
 
 - name: ensure profiling dependencies are present - pkg
   package:
