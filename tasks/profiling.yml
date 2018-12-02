@@ -19,7 +19,8 @@
   with_items:
     - psutil
 - name: profiling
-  command: "./tools/analysis/profile.py --config {{ osquery_profiling_conf }} --shell /usr/bin/osqueryi --count 1 --rounds 4"
+  command: >
+    ./tools/analysis/profile.py --config {{ osquery_profiling_conf }} --shell /usr/bin/osqueryi --count 1 --rounds 4
   args:
     chdir: /root/osquery
   changed_when: false
