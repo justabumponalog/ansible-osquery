@@ -102,7 +102,8 @@
   when: osquery_process_auditing
 
 - name: get rsyslog version
-  command: "rsyslogd -v | awk -F'[ ,]' '/rsyslogd/ { print $2 }'"
+  command: >
+    rsyslogd -v | awk -F'[ ,]' '/rsyslogd/ { print $2 }'
   environment:
     PATH: '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
   changed_when: false
@@ -120,7 +121,7 @@
   when: osquery_rsyslog
 
 - include: syslog-target.yml
-  when: osquery_syslog_target
+  when: osquery_syslog_target is defined and osquery_syslog_target
 
 - include: selinux-end.yml
   when: >
