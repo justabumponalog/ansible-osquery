@@ -3,4 +3,4 @@
 - hosts: all
 #- hosts: test-kitchen
   roles:
-    - kbrebanov.osquery
+    - juju4.osquery

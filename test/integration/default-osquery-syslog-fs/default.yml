@@ -13,4 +13,4 @@
         - /var/log
     - osquery_testing_pause: true
   roles:
-    - kbrebanov.osquery
+    - juju4.osquery

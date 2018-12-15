@@ -62,4 +62,4 @@
           - /tmp/excluded5-exact-match
 #          - /tmp/excluded6-%%
   roles:
-    - kbrebanov.osquery
+    - juju4.osquery

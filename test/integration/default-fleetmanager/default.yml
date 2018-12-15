@@ -39,4 +39,4 @@
   roles:
     - { role: geerlingguy.mysql, when: ansible_os_family == 'Debian' }
     - juju4.kolide
-    - kbrebanov.osquery
+    - juju4.osquery
