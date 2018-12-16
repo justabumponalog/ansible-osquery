@@ -10,6 +10,8 @@
     - setools-console
     - libselinux-python
     - policycoreutils-python
+  register: pkg_result
+  until: pkg_result is success
 
 - name: Ensure osquery directory exists
   file:

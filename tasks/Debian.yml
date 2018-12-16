@@ -6,6 +6,8 @@
   package:
     name: dirmngr
     state: present
+  register: pkg_result
+  until: pkg_result is success
 
 - name: Download osquery APT key
   become: yes
@@ -15,6 +17,8 @@
     state: present
   tags:
     - osquery
+  register: pkg_result
+  until: pkg_result is success
 
 - name: Ensure apt-transport-https is installed
   become: yes
@@ -23,6 +27,8 @@
     state: present
   tags:
     - osquery
+  register: pkg_result
+  until: pkg_result is success
 
 - name: Configure osquery APT repository
   become: yes
@@ -31,6 +37,8 @@
     state: present
   tags:
     - osquery
+  register: pkg_result
+  until: pkg_result is success
 
 - include: apparmor.yml
   when: >

@@ -5,6 +5,8 @@
   rpm_key:
     state: present
     key: "{{ _osquery_repositorykey }}"
+  register: pkg_result
+  until: pkg_result is success
 
 - name: Install osquery repository
   get_url:

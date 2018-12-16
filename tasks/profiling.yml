@@ -12,12 +12,16 @@
     state: present
   with_items:
     - python-pip
+  register: pkg_result
+  until: pkg_result is success
 - name: ensure profiling dependencies are present - pip
   pip:
     name: "{{ item }}"
     state: present
   with_items:
     - psutil
+  register: pkg_result
+  until: pkg_result is success
 - name: profiling
   command: >
     ./tools/analysis/profile.py --config {{ osquery_profiling_conf }} --shell /usr/bin/osqueryi --count 1 --rounds 4

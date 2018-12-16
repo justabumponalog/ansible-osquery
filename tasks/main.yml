@@ -27,6 +27,8 @@
       with_items: "{{ osquery_packages }}"
       tags:
         - osquery
+      register: pkg_result
+      until: pkg_result is success
 
     - name: Install osquery debug packages
       package:
@@ -36,6 +38,8 @@
       when: osquery_debug_packages_install
       tags:
         - osquery
+      register: pkg_result
+      until: pkg_result is success
 
     - include: configure.yml
       tags:

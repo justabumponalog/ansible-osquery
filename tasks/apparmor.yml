@@ -9,6 +9,8 @@
     - apparmor
     - apparmor-utils
     - apparmor-profiles
+  register: pkg_result
+  until: pkg_result is success
 
 - name: Ensure apparmor profile is set
   template:
