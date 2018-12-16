@@ -16,3 +16,7 @@
 
 - name: reload osqueryd apparmor profile
   shell: cat /etc/apparmor.d/usr.bin.osqueryd | sudo apparmor_parser -r
+
+- name: reload systemd
+  systemd:
+    daemon_reload: yes

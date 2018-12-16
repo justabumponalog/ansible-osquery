@@ -57,6 +57,9 @@
     - include: cgroups.yml
       when: osquery_cgroups_restriction_enable
 
+    - include: systemd.yml
+      when: osquery_systemd_restriction_enable
+
     - meta: flush_handlers
 
     - include: testing.yml

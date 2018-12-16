@@ -1,0 +1,20 @@
+---
+
+- name: Hardened options for osquery systemd
+  blockinfile:
+    # or /etc/systemd/system/osqueryd.service.d/override.conf
+    path: /usr/lib/systemd/system/osqueryd.service
+    insertafter: ^KillSignal=SIGTERM
+    block: |
+      NoNewPrivileges=yes
+      PrivateTmp=true
+      ProtectHome=read-only
+      ProtectSystem=full
+      ProtectKernelTunables=true
+      RestrictRealtime=true
+      RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+      SystemCallFilter=futex mprotect read write open openat close stat fstat lstat lseek mmap munmap brk rt_sigaction rt_sigprocmask rt_sigreturn access alarm socket connect sendto clone execve unlink chmod getrlimit setpriority arch_prctl set_tid_address ioprio_set set_robust_list getcwd readlink fcntl wait4 getdents tgkill mkdir pread64 uname fdatasync madvise symlink fadvise64 readahead ioctl fallocate rename fsync socketpair sysinfo getsockname ftruncate inotify_init setsockopt flock inotify_add_watch poll bind shutdown statfs newfstatat _sysctl
+    backup: yes
+  notify:
+    - reload systemd
+    - restart osquery
