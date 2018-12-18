@@ -53,6 +53,15 @@
         state: touch
       with_items:
         - /tmp/too_many_events2/test/testing-aa
+        - /tmp/too_many_events/fim-testing1
+        - /tmp/too_many_events/a/fim-testing2
+        - /tmp/too_many_events/a/b/fim-testing3
+        - /tmp/too_many_events2/fim-testing1
+        - /tmp/too_many_events2/a/fim-testing2
+        - /tmp/too_many_events2/a/b/fim-testing3
+        - /tmp/too_many_events3/fim-testing1
+        - /tmp/too_many_events3/a/fim-testing2
+        - /tmp/too_many_events3/a/b/fim-testing3
 #        - /tmp/excluded1-abcdef
 #        - /tmp/abcdef-excluded2
 #        - /tmp/excluded3-abcdef-testing
