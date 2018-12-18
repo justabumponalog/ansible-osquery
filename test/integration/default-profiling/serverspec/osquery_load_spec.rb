@@ -24,14 +24,14 @@ describe file('/var/log/osquery/osqueryd.results.log') do
   it { should_not contain '"target_path":"\/tmp\/too_many_events\/testing-hh' }
   it { should_not contain '"target_path":"\/tmp\/too_many_events2\/test\/testing-aa' }
   it { should_not contain '"target_path":"\/tmp\/too_many_events\/fim-testing1' }
-  it { should_not contain '"target_path":"\/tmp\/too_many_events\/a/fim-testing2' }
-  it { should_not contain '"target_path":"\/tmp\/too_many_events\/a/b/fim-testing3' }
+  it { should_not contain '"target_path":"\/tmp\/too_many_events\/a\/fim-testing2' }
+  it { should_not contain '"target_path":"\/tmp\/too_many_events\/a\/b\/fim-testing3' }
   it { should_not contain '"target_path":"\/tmp\/too_many_events2\/fim-testing1' }
-  it { should_not contain '"target_path":"\/tmp\/too_many_events2\/a/fim-testing2' }
-  it { should_not contain '"target_path":"\/tmp\/too_many_events2\/a/b/fim-testing3' }
+  it { should_not contain '"target_path":"\/tmp\/too_many_events2\/a\/fim-testing2' }
+  it { should_not contain '"target_path":"\/tmp\/too_many_events2\/a\/b\/fim-testing3' }
   it { should_not contain '"target_path":"\/tmp\/too_many_events3\/fim-testing1' }
-  it { should_not contain '"target_path":"\/tmp\/too_many_events3\/a/fim-testing2' }
-  it { should_not contain '"target_path":"\/tmp\/too_many_events3\/a/b/fim-testing3' }
+  it { should_not contain '"target_path":"\/tmp\/too_many_events3\/a\/fim-testing2' }
+  it { should_not contain '"target_path":"\/tmp\/too_many_events3\/a\/b\/fim-testing3' }
   it { should_not contain '"target_path":"\/tmp\/excluded1-abcdef' }
   it { should_not contain '"target_path":"\/tmp\/abcdef-excluded2' }
   it { should_not contain '"target_path":"\/tmp\/excluded3-abcdef-testing' }
