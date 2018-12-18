@@ -29,7 +29,13 @@
         mode: '0755'
       with_items:
         - /tmp/too_many_events
+        - /tmp/too_many_events/a
+        - /tmp/too_many_events/a/b
         - /tmp/too_many_events2/test
+        - /tmp/too_many_events2/a
+        - /tmp/too_many_events2/a/b
+        - /tmp/too_many_events3/a
+        - /tmp/too_many_events3/a/b
         - /tmp/excluded6-testing
     - name: creation of many small files in excluded directory
       command: "split -b {{ osquery_testing_fim_load_smaller_ex }} /etc/testing-big-file testing-"
