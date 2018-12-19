@@ -101,8 +101,6 @@
 - block:
     - name: ensure auditd is present
       package: name="{{ _osquery_auditd_pkg }}" state=present
-      environment:
-        RUNLEVEL: 1
     - name: ensure auditd service is disabled
       service: name=auditd state=stopped enabled=no
   when: osquery_process_auditing
