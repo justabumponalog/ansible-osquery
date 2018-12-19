@@ -14,17 +14,20 @@ describe command('auditctl -s') do
   its(:exit_status) { should eq 0 }
 end
 
-describe command('auditctl -l') do
-  its(:stdout) { should match /-a always,exit -S read/ }
-  its(:stdout) { should match /-a always,exit -S write/ }
-  its(:stdout) { should match /-a always,exit -S clone/ }
-  its(:stdout) { should match /-a always,exit -S bind/ }
-  its(:stderr) { should match /^$/ }
-  its(:exit_status) { should eq 0 }
-end
+# Following tests can't be validated inside a container (docker, lxd), need full VM
+if ENV['SERVERSPEC_OSQUERY_AUDITD']
+  describe command('auditctl -l') do
+    its(:stdout) { should match /-a always,exit -S read/ }
+    its(:stdout) { should match /-a always,exit -S write/ }
+    its(:stdout) { should match /-a always,exit -S clone/ }
+    its(:stdout) { should match /-a always,exit -S bind/ }
+    its(:stderr) { should match /^$/ }
+    its(:exit_status) { should eq 0 }
+  end
 
-describe file('/var/log/osquery/osqueryd.results.log') do
-  its(:content) { should match /{"name":"process_events","hostIdentifier":/ }
-  its(:content) { should match /{"name":"socket_events","hostIdentifier":/ }
-  its(:content) { should match /{"name":"fim","hostIdentifier":/ }
+  describe file('/var/log/osquery/osqueryd.results.log') do
+    its(:content) { should match /{"name":"process_events","hostIdentifier":/ }
+    its(:content) { should match /{"name":"socket_events","hostIdentifier":/ }
+    its(:content) { should match /{"name":"fim","hostIdentifier":/ }
+  end
 end
