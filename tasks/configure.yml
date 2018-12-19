@@ -99,10 +99,10 @@
 ## ensure no auditd at the same time
 ## https://osquery.readthedocs.io/en/stable/deployment/process-auditing/
 - block:
+    - name: ensure auditd service is disabled and masked
+      service: name=auditd masked=yes
     - name: ensure auditd is present
       package: name="{{ _osquery_auditd_pkg }}" state=present
-    - name: ensure auditd service is disabled
-      service: name=auditd state=stopped enabled=no
   when: osquery_process_auditing
 
 - name: get rsyslog version
