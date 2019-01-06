@@ -74,8 +74,7 @@
 
     - name: pause a bit to have few queries results
       pause:
-#        minutes: 5
-        seconds: 60
+        seconds: 80
       when: osquery_testing_pause or osquery_testing
 
   when: ansible_os_family == "RedHat" or ansible_distribution == "Ubuntu" or ansible_distribution == "Debian"
