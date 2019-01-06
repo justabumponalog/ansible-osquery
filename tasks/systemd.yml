@@ -1,5 +1,15 @@
 ---
 
+- name: Stop delay for osquery systemd - rocksdb buffer
+  blockinfile:
+    path: /usr/lib/systemd/system/osqueryd.service
+    insertafter: ^KillSignal=SIGTERM
+    block: |
+      ExecStopPost=/bin/sleep 5
+    backup: yes
+  notify:
+    - reload systemd
+
 - name: Hardened options for osquery systemd
   blockinfile:
     # or /etc/systemd/system/osqueryd.service.d/override.conf
