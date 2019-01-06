@@ -6,7 +6,7 @@
   when: not (ansible_virtualization_type is defined and ansible_virtualization_type == "docker")
 
 - name: restart osquery - docker
-  shell: "/etc/init.d/osqueryd stop; sleep 5; /etc/init.d/osqueryd start"
+  service: name=osqueryd state=restarted sleep=5 use=service
   when: (ansible_virtualization_type is defined and ansible_virtualization_type == "docker")
 
 - name: restart rsyslog
