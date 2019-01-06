@@ -2,9 +2,9 @@
 # handlers file for osquery
 
 - name: restart osquery
-  service: name=osqueryd state=restarted sleep=5
+#  service: name=osqueryd state=restarted sleep=5
 ## for rocksdb backend
-#  shell: "systemctl stop osqueryd; sleep 5; systemctl start osqueryd"
+  shell: "systemctl stop osqueryd; sleep 5; systemctl start osqueryd"
   when: not (ansible_virtualization_type is defined and ansible_virtualization_type == "docker")
 
 - name: restart osquery - docker
