@@ -4,7 +4,7 @@
   git:
     repo: https://github.com/facebook/osquery.git
     dest: /root/osquery
-    version: HEAD
+    version: "{{ osquery_git_version | default('081d5053eef2afd94eac3f4b918e83ca7b5061cd') }}"
 
 - name: ensure profiling dependencies are present - pkg
   package:

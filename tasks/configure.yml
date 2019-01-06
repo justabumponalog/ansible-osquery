@@ -103,6 +103,8 @@
       service: name=auditd masked=yes
     - name: ensure auditd is present
       package: name="{{ _osquery_auditd_pkg }}" state=present
+      register: pkg_result
+      until: pkg_result is success
   when: osquery_process_auditing
 
 - name: get rsyslog version
