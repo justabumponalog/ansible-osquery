@@ -16,10 +16,8 @@
   until: pkg_result is success
 - name: ensure profiling dependencies are present - pip
   pip:
-    name: "{{ item }}"
+    name: psutil
     state: present
-  with_items:
-    - psutil
   register: pkg_result
   until: pkg_result is success
 - name: profiling
