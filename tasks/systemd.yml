@@ -5,7 +5,7 @@
     path: /usr/lib/systemd/system/osqueryd.service
     insertafter: ^KillSignal=SIGTERM
     block: |
-      ExecStopPost=/bin/sleep 5
+      ExecStopPost=/bin/sleep 10
     backup: yes
   notify:
     - reload systemd
