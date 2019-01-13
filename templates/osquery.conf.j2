@@ -11,11 +11,11 @@
     // The log directory stores info, warning, and errors.
     // If the daemon uses the 'filesystem' logging retriever then the log_dir
     // will also contain the query results.
-    //"logger_path": "/var/log/osquery",
+    "logger_path": "{{ osquery_logger_path | default('/var/log/osquery') }}",
 
     // Set 'disable_logging' to true to prevent writing any info, warning, error
     // logs. If a logging plugin is selected it will still write query results.
-    //"disable_logging": "false",
+    "disable_logging": "{{ osquery_disable_logging | default(false) }}",
 
     // Query differential results are logged as change-events to assist log
     // aggregation operations like searching and transactons.
@@ -25,13 +25,13 @@
     // Splay the scheduled interval for queries.
     // This is very helpful to prevent system performance impact when scheduling
     // large numbers of queries that run a smaller or similar intervals.
-    "schedule_splay_percent": "10",
+    "schedule_splay_percent": "{{ osquery_schedule_splay_percent | default(10) }}",
 
     // Write the pid of the osqueryd process to a pidfile/mutex.
     //"pidfile": "/var/osquery/osquery.pidfile",
 
     // Clear events from the osquery backing store after a number of seconds.
-    "events_expiry": "3600",
+    "events_expiry": "{{ osquery_events_expiry | default(3600) }}",
 
     // A filesystem path for disk-based backing storage used for events and
     // query results differentials. See also 'use_in_memory_database'.
@@ -42,17 +42,17 @@
     //"disable_tables": "foo_bar,time",
 
     // Enable debug or verbose debug output when logging.
-    "verbose": "false",
+    "verbose": "{{ osquery_verbose | default(false) }}",
 
     // The number of threads for concurrent query schedule execution.
-    "worker_threads": "2",
+    "worker_threads": "{{ osquery_worker_threads | default(2) }}",
 
     // Enable schedule profiling, this will fill in averages and totals for
     // system/user CPU time and memory for every query in the schedule.
     // Add a query: "select * from osquery_schedule" to record the performances.
-    "enable_monitor": "true",
+    "enable_monitor": "{{ osquery_enable_monitor | default(true) }}",
 
-    "logger_snapshot_event_type": "true"
+    "logger_snapshot_event_type": "{{ osquery_logger_snapshot_event_type | default(true) }}"
   },
 
   // Define a schedule of queries:
