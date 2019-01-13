@@ -24,4 +24,7 @@ galaxy_info:
   galaxy_tags:
     - monitoring
     - system
+    - security
+    - fim
+    - logging
 dependencies: []
