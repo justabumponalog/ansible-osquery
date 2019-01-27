@@ -7,7 +7,7 @@
 
 - name: Run stress-ng load
   shell: >
-    stress-ng {{ osquery_testing_stressng_args }}
-      | tee /tmp/stressng.log
+    stress-ng {{ osquery_testing_stressng_args }} | tee /tmp/stressng.log
   args:
     creates: /tmp/stressng.log
+  ignore_errors: true
