@@ -1,0 +1,13 @@
+---
+
+- name: Ensure stress-ng is present
+  package:
+    name: stress-ng
+    state: present
+
+- name: Run stress-ng load
+  shell: >
+    stress-ng {{ osquery_testing_stressng_args }}
+      | tee /tmp/stressng.log
+  args:
+    creates: /tmp/stressng.log

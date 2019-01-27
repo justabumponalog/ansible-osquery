@@ -168,6 +168,8 @@ osquery_testing_fim_files:
   - /lib/fim-testing3
   - /usr/bin/fim-testing4
   - /usr/bin/.fim-testing5
+osquery_testing_stressng: false
+osquery_testing_stressng_args: '--cpu 4 --cpu-load 10 --timeout 5m'
 ## profiling?
 osquery_profiling: false
 ## full config might be too long for travis (max 50min)

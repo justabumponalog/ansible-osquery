@@ -40,6 +40,9 @@ env:
     suite: default-profiling
   - distribution: ubuntu
     version: 18.04
+    suite: default-stressng
+  - distribution: ubuntu
+    version: 18.04
     suite: default-auditd
   - distribution: ubuntu
     version: 18.04
