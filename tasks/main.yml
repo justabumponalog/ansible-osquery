@@ -3,8 +3,6 @@
 
 - name: Include distribution specific variables
   include_vars: "{{ ansible_distribution }}.yml"
-  when: >
-    not (ansible_os_family == "RedHat" or ansible_os_family == "Debian")
   tags:
     - osquery
 
