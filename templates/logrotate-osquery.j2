@@ -10,6 +10,16 @@
     create 640 root adm
     sharedscripts
 }
+/var/log/osquery/osqueryd.snapshots.log {
+    rotate {{ osquery_logrotate_days|int }}
+    daily
+    missingok
+    notifempty
+    delaycompress
+    compress
+    create 640 root adm
+    sharedscripts
+}
 {% if osquery_syslog_target is defined and osquery_syslog_target != '' and '/var/log/' in osquery_syslog_target %}
 {{ osquery_syslog_target }} {
     rotate {{ osquery_logrotate_days|int }}
