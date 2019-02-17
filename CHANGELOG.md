@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.9.0] - 2019-02-17
+
 ### Added
 - review options based on auditd - testing limited inside containers/travis
 - testing: add multiple patterns for excluded_path
@@ -17,6 +19,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Ubuntu apparmor: initial policy
 - Gitignore
 - include simple travis, kitchen and vagrant tests
+- logrotate for snapshots log file
+- option to remove symlink loop file as can creates many warnings at osquery start
 
 ### Changed
 - Heavy lint following galaxy new rules following adoption of ansible-lint
