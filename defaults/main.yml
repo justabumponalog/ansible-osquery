@@ -133,6 +133,8 @@ osquery_snapshot_interval2: 604800
 osquery_logrotate: true
 osquery_logrotate_days: 90
 
+# osquery_symlink_remove: ['/usr/bin/X11/X11', '/etc/dkms/template-dkms-mkdsc']
+
 ## https://osquery.readthedocs.io/en/stable/installation/cli-flags/#loggingresults-flags
 ## per facility
 ## osquery wants a facility code, while keyword for rsyslog...

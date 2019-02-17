@@ -61,6 +61,8 @@
     - include: systemd.yml
       when: osquery_systemd_restriction_enable
 
+    - include: symlink-loop.yml
+
     - meta: flush_handlers
 
     - include: testing.yml
