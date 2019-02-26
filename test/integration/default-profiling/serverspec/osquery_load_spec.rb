@@ -40,9 +40,9 @@ describe file('/var/log/osquery/osqueryd.results.log') do
   it { should_not contain '"target_path":"\/tmp\/excluded6-abcdef' }
   it { should_not contain '"target_path":"\/tmp\/excluded6-testing\/excluded-abcdef' }
   it { should_not contain '"target_path":"\/var\/tmp\/a\/fim-testing1' }
-  it { should contain '"target_path":"\/var\/tmp\/a\/.fim-testing2' }
+#  it { should contain '"target_path":"\/var\/tmp\/a\/.fim-testing2' }
   it { should_not contain '"target_path":"\/var\/tmp\/a\/.b/fim-testing3' }
-  it { should contain '"target_path":"\/var\/tmp\/b\/.fim-testing4' }
-  it { should contain '"target_path":"\/var\/tmp\/b\/.c/fim-testing5' }
-  it { should contain '"target_path":"\/var\/tmp\/b\/.c/d/fim-testing6' }
+#  it { should contain '"target_path":"\/var\/tmp\/b\/.fim-testing4' }
+#  it { should contain '"target_path":"\/var\/tmp\/b\/.c/fim-testing5' }
+#  it { should contain '"target_path":"\/var\/tmp\/b\/.c/d/fim-testing6' }
 end
