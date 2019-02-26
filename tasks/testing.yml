@@ -37,6 +37,11 @@
         - /tmp/too_many_events3/a
         - /tmp/too_many_events3/a/b
         - /tmp/excluded6-testing
+        - /var/tmp/a
+        - /var/tmp/a/.b
+        - /var/tmp/b
+        - /var/tmp/b/.c
+        - /var/tmp/b/.c/d
     - name: creation of many small files in excluded directory
       command: "split -b {{ osquery_testing_fim_load_smaller_ex }} /etc/testing-big-file testing-"
       args:
@@ -75,6 +80,12 @@
 #        - /tmp/excluded5-exact-match
 #        - /tmp/excluded6-abcdef
 #        - /tmp/excluded6-testing/excluded-abcdef
+        - /var/tmp/a/fim-testing1
+        - /var/tmp/a/.fim-testing2
+        - /var/tmp/a/.b/fim-testing3
+        - /var/tmp/b/.fim-testing4
+        - /var/tmp/b/.c/fim-testing5
+        - /var/tmp/b/.c/d/fim-testing6
 # more diverse load? openssl speed, stress...
     - name: retrieve log results
       command: "{{ item }}"

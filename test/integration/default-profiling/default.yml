@@ -47,6 +47,12 @@
       - name: roothome
         list:
           - "/root/%%"
+      - name: tmpa
+        list:
+          - "/var/tmp/a/.%"
+      - name: tmpb
+        list:
+          - "/var/tmp/b/.%%"
       - name: webroot
         list:
           - "/var/www/%%"
