@@ -18,10 +18,6 @@
   when: ansible_service_mgr != "systemd"
 
 - block:
-    - name: fallocate big file
-      command: "fallocate -l {{ osquery_testing_fim_load_bigger }} /etc/testing-big-file"
-      args:
-        creates: /etc/testing-big-file
     - name: ensure directory exists
       file:
         dest: "{{ item }}"
@@ -42,22 +38,9 @@
         - /var/tmp/b
         - /var/tmp/b/.c
         - /var/tmp/b/.c/d
-    - name: creation of many small files in excluded directory
-      command: "split -b {{ osquery_testing_fim_load_smaller_ex }} /etc/testing-big-file testing-"
-      args:
-        chdir: /tmp/too_many_events
-        creates: /tmp/too_many_events/testing-aa
-    - name: clean up
-      shell: find /tmp/too_many_events/ -name 'testing-*' -exec rm {} \;
-      ignore_errors: true
-    - name: creation of many small files
-      command: "split -b {{ osquery_testing_fim_load_smaller }} /etc/testing-big-file testing-"
-      args:
-        chdir: /etc
-        creates: /etc/testing-aa
-    - name: clean up
-      shell: find /etc/ -name 'testing-*' -exec rm {} \;
-      ignore_errors: true
+  when: osquery_testing_fimfiles or osquery_testing_fim_load
+
+- block:
     - name: create files normally excluded
       file:
         name: "{{ item }}"
@@ -86,6 +69,34 @@
         - /var/tmp/b/.fim-testing4
         - /var/tmp/b/.c/fim-testing5
         - /var/tmp/b/.c/d/fim-testing6
+    - name: test files
+      file:
+        name: "{{ item }}"
+        state: touch
+      with_items: "{{ osquery_testing_fim_files }}"
+  when: osquery_testing_fimfiles
+
+- block:
+    - name: fallocate big file
+      command: "fallocate -l {{ osquery_testing_fim_load_bigger }} /etc/testing-big-file"
+      args:
+        creates: /etc/testing-big-file
+    - name: creation of many small files in excluded directory
+      command: "split -b {{ osquery_testing_fim_load_smaller_ex }} /etc/testing-big-file testing-"
+      args:
+        chdir: /tmp/too_many_events
+        creates: /tmp/too_many_events/testing-aa
+    - name: clean up
+      shell: find /tmp/too_many_events/ -name 'testing-*' -exec rm {} \;
+      ignore_errors: true
+    - name: creation of many small files
+      command: "split -b {{ osquery_testing_fim_load_smaller }} /etc/testing-big-file testing-"
+      args:
+        chdir: /etc
+        creates: /etc/testing-aa
+    - name: clean up
+      shell: find /etc/ -name 'testing-*' -exec rm {} \;
+      ignore_errors: true
 # more diverse load? openssl speed, stress...
     - name: retrieve log results
       command: "{{ item }}"
@@ -95,9 +106,4 @@
       ignore_errors: true
       changed_when: false
       register: log
-    - name: test files
-      file:
-        name: "{{ item }}"
-        state: touch
-      with_items: "{{ osquery_testing_fim_files }}"
   when: osquery_testing_fim_load
