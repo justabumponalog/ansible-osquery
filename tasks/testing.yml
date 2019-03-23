@@ -9,6 +9,9 @@
       with_items:
         - /var/tmp/a
         - /var/tmp/b
+      notify:
+        - restart osquery
+    - meta: flush_handlers
   when: osquery_testing_fimfiles or osquery_testing_fim_load
 
 - block:
