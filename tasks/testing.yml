@@ -1,6 +1,17 @@
 ---
 
 - block:
+    - name: ensure directory exists - before osquery start for inotify
+      file:
+        dest: "{{ item }}"
+        state: directory
+        mode: '0755'
+      with_items:
+        - /var/tmp/a
+        - /var/tmp/b
+  when: osquery_testing_fimfiles or osquery_testing_fim_load
+
+- block:
     - name: systemd | check service status
       command: "systemctl status osqueryd -l"
       changed_when: false
