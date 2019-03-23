@@ -40,6 +40,8 @@ describe file('/var/log/osquery/osqueryd.results.log') do
 #  it { should contain '"target_path":"\/var\/tmp\/b\/.c/fim-testing5' }
 #  it { should contain '"target_path":"\/var\/tmp\/b\/.c/d/fim-testing6' }
   it { should contain '"target_path":"\/a' }
+  it { should contain '"target_path":"\/fim-testing-dir' }
+  it { should contain '"target_path":"\/fim-testing0' }
   it { should_not contain '"target_path":"\/a\/b\/fim-testing10' }
   it { should_not contain '"target_path":"\/a\/b\/c\/fim-testing11' }
 end

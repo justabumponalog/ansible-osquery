@@ -39,6 +39,7 @@
         - /var/tmp/b/.c
         - /var/tmp/b/.c/d
         - /a/b/c
+        - /fim-testing-dir
   when: osquery_testing_fimfiles or osquery_testing_fim_load
 
 - block:
@@ -70,6 +71,7 @@
         - /var/tmp/b/.fim-testing4
         - /var/tmp/b/.c/fim-testing5
         - /var/tmp/b/.c/d/fim-testing6
+        - /fim-testing0
         - /a/b/fim-testing10
         - /a/b/c/fim-testing11
     - name: test files
