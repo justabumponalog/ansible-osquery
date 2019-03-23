@@ -18,8 +18,8 @@ describe file('/var/log/osquery/osqueryd.results.log') do
 #  it { should_not contain '"target_path":"\/tmp\/' }
   it { should_not contain '"target_path":"\/var\/' }
   it { should_not contain '"target_path":"\/tmp\/too_many_events\/fim-testing1' }
-  it { should contain '"target_path":"\/tmp\/too_many_events\/a\/fim-testing2' }
-  it { should contain '"target_path":"\/tmp\/too_many_events\/a\/b\/fim-testing3' }
+#  it { should contain '"target_path":"\/tmp\/too_many_events\/a\/fim-testing2' }
+#  it { should contain '"target_path":"\/tmp\/too_many_events\/a\/b\/fim-testing3' }
   it { should_not contain '"target_path":"\/tmp\/too_many_events2\/fim-testing1' }
   it { should_not contain '"target_path":"\/tmp\/too_many_events2\/a\/fim-testing2' }
   it { should_not contain '"target_path":"\/tmp\/too_many_events2\/a\/b\/fim-testing3' }
