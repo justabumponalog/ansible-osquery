@@ -5,7 +5,7 @@ node {
     try{
         currentBuild.result = "SUCCESS"
         def workspace = pwd()
-        def directory = "kbrebanov.osquery"
+        def directory = "juju4.osquery"
 
         stage 'Clean Workspace'
             deleteDir()
