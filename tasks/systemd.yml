@@ -1,5 +1,14 @@
 ---
 
+- name: Add delay at restart for rocksdb backend
+  lineinfile:
+    dest: /usr/lib/systemd/system/osqueryd.service
+    insertafter: ^/usr/lib/systemd/system/osqueryd.service
+    line: RestartSec=5
+    backup: yes
+  notify:
+    - reload systemd
+
 - name: Hardened options for osquery systemd
   blockinfile:
     # or /etc/systemd/system/osqueryd.service.d/override.conf
