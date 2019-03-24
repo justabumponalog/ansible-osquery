@@ -38,6 +38,12 @@
       register: pkg_result
       until: pkg_result is success
 
+    - include: cgroups.yml
+      when: osquery_cgroups_restriction_enable
+
+    - include: systemd.yml
+      when: osquery_systemd_restriction_enable
+
     - include: configure.yml
       tags:
         - osquery
@@ -54,12 +60,6 @@
       tags:
         - osquery
         - service
-
-    - include: cgroups.yml
-      when: osquery_cgroups_restriction_enable
-
-    - include: systemd.yml
-      when: osquery_systemd_restriction_enable
 
     - include: symlink-loop.yml
 
