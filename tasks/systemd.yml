@@ -3,8 +3,9 @@
 - name: Add delay at restart for rocksdb backend
   lineinfile:
     dest: /usr/lib/systemd/system/osqueryd.service
-    insertafter: ^/usr/lib/systemd/system/osqueryd.service
-    line: RestartSec=5
+    insertafter: ^Restart=on-failure
+    regexp: '^RestartSec=.*'
+    line: RestartSec=10
     backup: yes
   notify:
     - reload systemd
