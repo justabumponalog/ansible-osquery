@@ -8,24 +8,10 @@
 
 # if issue, check /var/log/audit/audit.log
 - name: Review osquery systemd options - RestartSec, Seccomp...
-  blockinfile:
-    path: /etc/systemd/system/osqueryd.service.d/override.conf
-    block: |
-      [Service]
-      # Add delay at restart for rocksdb backend
-      RestartSec=10
-      # Hardened options for osquery systemd
-      NoNewPrivileges=yes
-      PrivateTmp=true
-      ProtectHome=read-only
-      ProtectSystem=full
-      ProtectKernelTunables=true
-      RestrictRealtime=true
-      RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
-      SystemCallFilter=futex mprotect read write open openat close stat fstat lstat lseek mmap munmap brk rt_sigaction rt_sigprocmask rt_sigreturn access alarm socket connect sendto clone execve unlink chmod getrlimit setpriority arch_prctl set_tid_address ioprio_set set_robust_list getcwd readlink fcntl wait4 getdents tgkill mkdir pread64 uname fdatasync madvise symlink fadvise64 readahead ioctl fallocate rename fsync socketpair sysinfo getsockname ftruncate inotify_init setsockopt flock inotify_add_watch poll bind shutdown statfs newfstatat _sysctl getuid getgid getpid geteuid getegid getppid prctl gettid nanosleep
-      SystemCallFilter=~@debug @mount @cpu-emulation @obsolete @privileged
-    create: true
-    backup: true
+  template:
+    src: systemd-override.conf.j2
+    dest: /etc/systemd/system/osqueryd.service.d/override.conf
+    mode: '0644'
   notify:
     - reload systemd
     - restart osquery
