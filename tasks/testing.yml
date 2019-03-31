@@ -14,6 +14,10 @@
     - meta: flush_handlers
   when: osquery_testing_fimfiles or osquery_testing_fim_load
 
+- name: pause a bit
+  pause:
+    seconds: 10
+
 - block:
     - name: systemd | check service status
       command: "systemctl status osqueryd -l"
