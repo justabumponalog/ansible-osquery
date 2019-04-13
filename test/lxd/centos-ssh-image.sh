@@ -1,7 +1,7 @@
 #!/bin/sh
 # add ssh to default lxd image
 
-image=centos-7
+image="$1"
 guest=default-$image
 template="$image"-nossh
 publishalias="$image"

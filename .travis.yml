@@ -6,8 +6,9 @@ rvm:
 
 env:
 ## those images need pre-configuration before being usable (openssh...)
-#  - distribution: centos
-#    version: 6
+  - distribution: centos
+    version: 6
+    suite: default
   - distribution: centos
     version: 7
     suite: default
@@ -86,7 +87,7 @@ before_install:
   - ls ~/.ssh
   - ssh-keygen -t rsa -b 2048 -f ~/.ssh/id_rsa -P ""
 ## sudo/su get us a non-usual PATH ...
-  - '[ "X${distribution}" == "Xcentos" ] && sudo -E su $USER -c "sh -x ./test/lxd/centos-ssh-image.sh" || true'
+  - '[ "X${distribution}" == "Xcentos" ] && sudo -E su $USER -c "sh -x ./test/lxd/centos-ssh-image.sh ${distribution}-${version//./}" || true'
   - sudo -E su $USER -c "env"
 ## The command "sudo -E su $USER -c "which kitchen"" failed and exited with 1 during .
 #  - sudo -E su $USER -c "which kitchen"

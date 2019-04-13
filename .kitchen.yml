@@ -27,7 +27,7 @@ platforms:
 #  - name: ubuntu-14.04
 #  - name: ubuntu-12.04
   - name: centos-7
-#  - name: centos-6
+  - name: centos-6
 #  - name: alpine-3.7
 
 suites:
