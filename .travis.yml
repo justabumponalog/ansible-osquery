@@ -76,7 +76,7 @@ before_install:
   - sudo service lxd restart
 
   - sudo pip install ansible
-  - echo "gem: --no-document" >> ~/.gemrc
+  - 'echo "gem: --no-document" >> ~/.gemrc'
   - gem install kitchen
   - gem install kitchen-ansible
   - gem install kitchen-sync
