@@ -45,7 +45,7 @@
                 )
 
     - include: systemd.yml
-      when: osquery_systemd_restriction_enable|true
+      when: osquery_systemd_restriction_enable|bool
 
     - include: configure.yml
       tags:
