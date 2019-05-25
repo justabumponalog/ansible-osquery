@@ -45,11 +45,11 @@ describe file('/var/log/osquery/osqueryd.results.log') do
   let(:sudo_options) { '-u root -H' }
 end
 
-describe command('systemctl status osqueryd'), :if => (os[:family] == 'ubuntu' && os[:release] == '14.04') and (host_inventory['virtualization'][:system] != 'docker') do
+describe command('systemctl status osqueryd'), :if => (os[:family] == 'ubuntu' && os[:release] == '14.04') && (host_inventory['virtualization'][:system] != 'docker') do
   its(:stdout) { should match /osqueryd is already running/ }
   its(:exit_status) { should eq 0 }
 end
-describe command('systemctl status osqueryd'), :if => os[:family] == 'ubuntu' && (os[:release] == '16.04' || os[:release] == '18.04') and (host_inventory['virtualization'][:system] != 'docker') do
+describe command('systemctl status osqueryd'), :if => os[:family] == 'ubuntu' && (os[:release] == '16.04' || os[:release] == '18.04') && (host_inventory['virtualization'][:system] != 'docker') do
   its(:stdout) { should match /active \(running\)/ }
   its(:exit_status) { should eq 0 }
 end
