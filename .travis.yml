@@ -47,9 +47,9 @@ env:
   - distribution: ubuntu
     version: 18.04
     suite: default-auditd
-  - distribution: ubuntu
-    version: 18.04
-    suite: default-fleetmanager
+#  - distribution: ubuntu
+#    version: 18.04
+#    suite: default-fleetmanager
 
 before_install:
   - env
