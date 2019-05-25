@@ -33,7 +33,7 @@
       changed_when: false
       register: service
     - debug: var=service.stdout_lines
-  when: ansible_service_mgr != "systemd"
+  when: ansible_service_mgr == "service"
 
 - block:
     - name: ensure directory exists
