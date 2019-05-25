@@ -3,12 +3,12 @@ require 'serverspec'
 # Required by serverspec
 set :backend, :exec
 
-describe service('auditd') do
+describe service('auditd'), :if => host_inventory['virtualization'][:system] != 'docker' do
   it { should_not be_enabled }
   it { should_not be_running }
 end
 
-describe command('auditctl -s') do
+describe command('auditctl -s'), :if => host_inventory['virtualization'][:system] != 'docker' do
   its(:stdout) { should_not match /enable 0/ }
   its(:stderr) { should match /^$/ }
   its(:exit_status) { should eq 0 }

@@ -3,7 +3,7 @@ require 'serverspec'
 # Required by serverspec
 set :backend, :exec
 
-describe file('/var/log/osquery_syslog-prog.log'), :if => host_inventory['virtualization'][:system] != 'docker') do
+describe file('/var/log/osquery_syslog-prog.log'), :if => host_inventory['virtualization'][:system] != 'docker' do
   it { should be_file }
 #  its(:content) { should match /osqueryd: osqueryd started \[version=/ }
   its(:content) { should_not match /Rocksdb open failed \(5:0\) IO error:/ }
