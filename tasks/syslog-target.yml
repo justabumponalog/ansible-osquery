@@ -17,3 +17,4 @@
     validate: 'rsyslogd -d -N 1 -f %s'
   notify:
     - restart rsyslog
+    - restart rsyslog - docker

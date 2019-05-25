@@ -11,6 +11,11 @@
 
 - name: restart rsyslog
   service: name=rsyslog state=restarted
+  when: not (ansible_virtualization_type is defined and ansible_virtualization_type == "docker")
+
+- name: restart rsyslog - docker
+  service: name=rsyslog state=restarted use=service
+  when: (ansible_virtualization_type is defined and ansible_virtualization_type == "docker")
 
 - name: reload osqueryd apparmor profile
   shell: cat /etc/apparmor.d/usr.bin.osqueryd | sudo apparmor_parser -r

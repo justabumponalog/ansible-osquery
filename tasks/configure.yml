@@ -124,6 +124,7 @@
         backup: yes
       notify:
         - restart rsyslog
+        - restart rsyslog - docker
   when: osquery_rsyslog
 
 - include: syslog-target.yml
