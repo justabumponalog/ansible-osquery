@@ -3,7 +3,7 @@ require 'serverspec'
 # Required by serverspec
 set :backend, :exec
 
-describe file('/var/log/osquery/osqueryd.results.log') do
+describe file('/var/log/osquery/osqueryd.results.log'), :if => host_inventory['virtualization'][:system] != 'docker' do
   it { should contain '"system_info",' }
   it { should contain '"physical_memory":' }
 # for some reason, this one requires two slashes (root fim rule)

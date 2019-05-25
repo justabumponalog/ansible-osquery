@@ -101,6 +101,7 @@
 - block:
     - name: ensure auditd service is disabled and masked
       service: name=auditd masked=yes
+      when: not (ansible_virtualization_type is defined and ansible_virtualization_type == "docker")
     - name: ensure auditd is present
       package: name="{{ _osquery_auditd_pkg }}" state=present
       register: pkg_result

@@ -17,7 +17,7 @@ end
 describe process("rsyslogd"), :if => os[:family] == 'ubuntu' do
   its(:user) { should eq "syslog" }
 end
-describe process("rsyslogd"), :if => os[:family] == 'redhat' do
+describe process("rsyslogd"), :if => os[:family] == 'redhat' && host_inventory['virtualization'][:system] != 'docker' do
   its(:user) { should eq "root" }
 end
 
