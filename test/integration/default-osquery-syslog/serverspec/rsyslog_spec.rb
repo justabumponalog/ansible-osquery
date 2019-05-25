@@ -6,7 +6,7 @@ set :backend, :exec
 describe service('rsyslog'), :if => (os[:family] == 'ubuntu' && os[:release] != '16.04') || (os[:family] == 'redhat' && os[:release] != '7') do
   it { should be_enabled }
 end
-describe service('rsyslog') do
+describe service('rsyslog'), :if => (host_inventory['virtualization'][:system] != 'docker') do
   it { should be_running }
 end
 

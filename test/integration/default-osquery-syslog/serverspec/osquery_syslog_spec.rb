@@ -3,14 +3,14 @@ require 'serverspec'
 # Required by serverspec
 set :backend, :exec
 
-describe file('/var/log/osquery_syslog-prog.log') do
+describe file('/var/log/osquery_syslog-prog.log'), :if => (host_inventory['virtualization'][:system] != 'docker') do
   it { should be_file }
 #  its(:content) { should match /osqueryd: osqueryd started \[version=/ }
   its(:content) { should match /Executing scheduled query system_info:/ }
   its(:content) { should_not match /Rocksdb open failed \(5:0\) IO error:/ }
   its(:content) { should_not match /osqueryd initialize failed: Could not initialize database/ }
 end
-describe file('/var/log/osquery_syslog-results.log') do
+describe file('/var/log/osquery_syslog-results.log'), :if => (host_inventory['virtualization'][:system] != 'docker') do
   it { should be_file }
   its(:content) { should match /hostIdentifier/ }
 #  its(:content) { should match /pack/ }
@@ -19,7 +19,7 @@ describe file('/var/log/osquery_syslog-results.log') do
   let(:sudo_options) { '-u root -H' }
 end
 
-describe command('journalctl -l') do
+describe command('journalctl -l'), :if => (host_inventory['virtualization'][:system] != 'docker') do
   its(:stdout) { should match /osqueryd/ }
   its(:stdout) { should match /Executing scheduled query system_info:/ }
   its(:stdout) { should match /hostIdentifier/ }
