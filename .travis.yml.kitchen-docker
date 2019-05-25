@@ -3,7 +3,7 @@
 dist: trusty
 sudo: required
 rvm:
-  - 2.4
+  - 2.6
 
 env:
 #  - distribution: centos
@@ -12,36 +12,44 @@ env:
     version: 7
     suite: default
   - distribution: ubuntu
-    version: 16.04
+    version: 18.04
     suite: default
   - distribution: ubuntu
-    version: 14.04
+    version: 16.04
     suite: default
+#  - distribution: ubuntu
+#    version: 14.04
 #  - distribution: ubuntu
 #    version: 12.04
 #  - distribution: alpine
 #    version: 3.4
   - distribution: debian
-    version: 8
+    version: 9
     suite: default
   - distribution: centos
     version: 7
     suite: default-osquery-syslog
   - distribution: ubuntu
-    version: 16.04
-    suite: default-osquery-syslog
-  - distribution: ubuntu
-    version: 14.04
+    version: 18.04
     suite: default-osquery-syslog
   - distribution: centos
     version: 7
     suite: default-osquery-syslog-fs
   - distribution: ubuntu
-    version: 16.04
+    version: 18.04
     suite: default-osquery-syslog-fs
   - distribution: ubuntu
-    version: 14.04
-    suite: default-osquery-syslog-fs
+    version: 18.04
+    suite: default-profiling
+  - distribution: ubuntu
+    version: 18.04
+    suite: default-fimfiles
+  - distribution: ubuntu
+    version: 18.04
+    suite: default-auditd
+  - distribution: ubuntu
+    version: 18.04
+    suite: default-fleetmanager
 
 before_install:
   - env
@@ -50,6 +58,7 @@ before_install:
 ## use appropriate role path and not github name
   - "[ -f get-dependencies.sh ] && sh -x get-dependencies.sh"
   - sudo pip install ansible
+  - 'echo "gem: --no-document" >> ~/.gemrc'
 ## need to use chef gem for some reason? BAD PATH https://github.com/chef/chef-dk/issues/15
 #  - chef gem install kitchen
   - gem install kitchen
@@ -60,11 +69,48 @@ before_install:
   - which kitchen
   - KITCHEN_YAML=.kitchen.docker.yml kitchen diagnose --all
 
+  - sudo sysctl -w fs.inotify.max_user_watches=524288
+  - sudo sysctl -w fs.inotify.max_user_instances=256
+  - sudo sysctl -w fs.inotify.max_queued_events=32768
+
 script:
 ## avoid locale issue under xenial docker, https://github.com/pypa/pip/issues/3575
   - export LC_ALL=C.UTF-8
   - export LANG=C.UTF-8
   - KITCHEN_YAML=.kitchen.docker.yml kitchen verify ${suite}-${distribution}-${version//./}
+
+after_failure:
+  # Check what happened on systemd systems.
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'osqueryi --line \"SELECT version, build, platform FROM os_version;\"'"
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'osqueryi --line \"SELECT version from osquery_info;\"'"
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'ps ax | grep osquery'"
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'cat /etc/osquery/osquery.conf'"
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'apt-get install -qy grep'"
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'egrep \"fim.*CREATED.*fim-testing\" /var/log/osquery/osqueryd.results.log'"
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'grep fim-testing /var/log/osquery/osqueryd.results.log'"
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'egrep \"fim.*CREATED.*fim-[a-z]*\" /var/log/osquery/osqueryd.results.log | wc -l'"
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'egrep \"fim.*CREATED.*fim-[a-z]*\" /var/log/osquery/osqueryd.results.log'"
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'grep fim-testing /var/log/osquery/osqueryd.results.log'"
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'grep too_many_events /var/log/osquery/osqueryd.results.log'"
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'grep excluded /var/log/osquery/osqueryd.results.log'"
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'ulimit -a'"
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'ls -l /var/osquery/osquery.db/ | wc -l'"
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'lsof | grep osqueryd'"
+  - /sbin/sysctl fs.inotify
+  - /sbin/sysctl fs.file-max
+  - ulimit -a
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'wc /var/log/osquery/osqueryd.results.log'"
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'tail -100 /var/log/osquery/osqueryd.results.log'"
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'grep SECCOMP /var/log/audit/audit.log'"
+  - sudo grep SECCOMP /var/log/audit/audit.log
+
+after_script:
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'systemctl -l --no-pager status osqueryd'"
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'journalctl -xe --no-pager'"
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'ls -lA /tmp/'"
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'grep -i error /var/log/osquery/osqueryd.results.log'"
+  # Clean up
+  - sudo -E su $USER -c "env PATH=$PATH kitchen destroy ${suite}-${distribution}-${version//./}"
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/

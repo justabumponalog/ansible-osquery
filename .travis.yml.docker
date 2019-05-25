@@ -13,32 +13,22 @@ env:
     init: /usr/lib/systemd/systemd
     run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
     suite: default
-    ansible_version: 2.5.5
+    ansible_version: 2.8.0
     ansible_extra_vars: ""
-#  - distribution: ubuntu
-#    version: 18.04
-#    init: /lib/systemd/systemd
-#    run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
-#    suite: default
-#    ansible_version: 2.5.5
-#    ansible_extra_vars: ""
+  - distribution: ubuntu
+    version: 18.04
+    init: /lib/systemd/systemd
+    run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
+    suite: default
+    ansible_version: 2.8.0
+    ansible_extra_vars: ""
   - distribution: ubuntu
     version: 16.04
     init: /lib/systemd/systemd
     run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
     suite: default
-    ansible_version: 2.5.5
+    ansible_version: 2.8.0
     ansible_extra_vars: ""
-#  - distribution: ubuntu
-#    version: 14.04
-#    init: /sbin/init
-#    run_opts: ""
-#    suite: default
-#  - distribution: ubuntu
-#    version: 12.04
-#    init: /sbin/init
-#    run_opts: ""
-#    suite: default
 #  - distribution: alpine
 #    version: 3.4
 #    init: /sbin/init
@@ -50,59 +40,59 @@ env:
     init: /lib/systemd/systemd
     run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
     suite: default
-    ansible_version: 2.5.5
+    ansible_version: 2.8.0
     ansible_extra_vars: ""
   - distribution: centos
     version: 7
     init: /usr/lib/systemd/systemd
     run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
     suite: default-osquery-syslog
-    ansible_version: 2.5.5
+    ansible_version: 2.8.0
     ansible_extra_vars: ""
   - distribution: ubuntu
     version: 16.04
     init: /lib/systemd/systemd
     run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
     suite: default-osquery-syslog
-    ansible_version: 2.5.5
+    ansible_version: 2.8.0
     ansible_extra_vars: ""
   - distribution: centos
     version: 7
     init: /usr/lib/systemd/systemd
     run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
     suite: default-osquery-syslog-fs
-    ansible_version: 2.5.5
+    ansible_version: 2.8.0
     ansible_extra_vars: ""
   - distribution: ubuntu
-    version: 16.04
+    version: 18.04
     init: /lib/systemd/systemd
     run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
     suite: default-osquery-syslog-fs
-    ansible_version: 2.5.5
+    ansible_version: 2.8.0
     ansible_extra_vars: ""
   - distribution: ubuntu
-    version: 16.04
+    version: 18.04
     init: /lib/systemd/systemd
     run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
     suite: default-profiling
-    ansible_version: 2.5.5
+    ansible_version: 2.8.0
     ansible_extra_vars: ""
 # past ansible version
   - distribution: ubuntu
-    version: 16.04
+    version: 18.04
     init: /lib/systemd/systemd
     run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
     suite: default
-    ansible_version: 2.4.5
+    ansible_version: 2.7.11
     ansible_extra_vars: ""
 # upcoming ansible version
-  - distribution: ubuntu
-    version: 16.04
-    init: /lib/systemd/systemd
-    run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
-    suite: default
-    ansible_version: 2.6.0rc3
-    ansible_extra_vars: ""
+#  - distribution: ubuntu
+#    version: 16.04
+#    init: /lib/systemd/systemd
+#    run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
+#    suite: default
+#    ansible_version: 2.6.0rc3
+#    ansible_extra_vars: ""
 
 services:
   - docker
@@ -149,10 +139,34 @@ script:
 
 after_failure:
   # Check what happened on systemd systems.
-  - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm systemctl -l --no-pager status osqueryd.service'
-  - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm journalctl -xe --no-pager'
+  - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm osqueryi --line \"SELECT version, build, platform FROM os_version;\"'
+  - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm osqueryi --line \"SELECT version from osquery_info;\"'
+  - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm ps ax | grep osquery'
+  - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm cat /etc/osquery/osquery.conf'
+  - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm apt-get install -qy grep'
+  - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm egrep \"fim.*CREATED.*fim-testing\" /var/log/osquery/osqueryd.results.log'
+  - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm grep fim-testing /var/log/osquery/osqueryd.results.log'
+  - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm egrep \"fim.*CREATED.*fim-[a-z]*\" /var/log/osquery/osqueryd.results.log | wc -l'
+  - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm egrep \"fim.*CREATED.*fim-[a-z]*\" /var/log/osquery/osqueryd.results.log'
+  - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm grep fim-testing /var/log/osquery/osqueryd.results.log'
+  - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm grep too_many_events /var/log/osquery/osqueryd.results.log'
+  - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm grep excluded /var/log/osquery/osqueryd.results.log'
+  - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm ulimit -a'
+  - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm ls -l /var/osquery/osquery.db/ | wc -l'
+  - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm lsof | grep osqueryd'
+  - /sbin/sysctl fs.inotify
+  - /sbin/sysctl fs.file-max
+  - ulimit -a
+  - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm wc /var/log/osquery/osqueryd.results.log'
+  - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm tail -100 /var/log/osquery/osqueryd.results.log'
+  - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm grep SECCOMP /var/log/audit/audit.log'
+  - sudo grep SECCOMP /var/log/audit/audit.log
 
 after_script:
+  - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm systemctl -l --no-pager status osqueryd.service'
+  - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm journalctl -xe --no-pager'
+  - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm ls -lA /tmp/'
+  - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm grep -i error /var/log/osquery/osqueryd.results.log'
   # Clean up
   - 'sudo docker stop "$(cat ${container_id})"'
 
