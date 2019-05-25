@@ -32,7 +32,7 @@
         name: "{{ item }}"
         state: present
       with_items: "{{ osquery_debug_packages }}"
-      when: osquery_debug_packages_install
+      when: osquery_debug_packages_install|bool
       tags:
         - osquery
       register: pkg_result
@@ -45,7 +45,7 @@
                 )
 
     - include: systemd.yml
-      when: osquery_systemd_restriction_enable
+      when: osquery_systemd_restriction_enable|true
 
     - include: configure.yml
       tags:
@@ -53,13 +53,13 @@
         - config
 
     - name: Enable service
-      service: name=osqueryd enabled={{ osquery_service_enable }}
+      service: name=osqueryd enabled={{ osquery_service_enable|bool }}
       tags:
         - osquery
         - service
     - name: Start service
       service: name=osqueryd state=started
-      when: osquery_service_enable
+      when: osquery_service_enable|bool
       tags:
         - osquery
         - service
@@ -69,14 +69,14 @@
     - meta: flush_handlers
 
     - include: testing.yml
-      when: osquery_testing
+      when: osquery_testing|bool
 
     - include: profiling.yml
-      when: osquery_profiling
+      when: osquery_profiling|bool
 
     - name: pause a bit to have few queries results
       pause:
         seconds: 80
-      when: osquery_testing_pause or osquery_testing
+      when: osquery_testing_pause or osquery_testing|bool
 
   when: ansible_os_family == "RedHat" or ansible_distribution == "Ubuntu" or ansible_distribution == "Debian"

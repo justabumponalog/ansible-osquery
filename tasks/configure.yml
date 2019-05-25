@@ -75,7 +75,7 @@
             mode: '0644'
             backup: yes
             validate: 'logrotate -dv %s'
-      when: osquery_logrotate
+      when: osquery_logrotate|bool
     - name: ensure service is enabled and started
       service: name=osqueryd state=started enabled=yes
     - name: Set fact for monit
@@ -106,7 +106,7 @@
       package: name="{{ _osquery_auditd_pkg }}" state=present
       register: pkg_result
       until: pkg_result is success
-  when: osquery_process_auditing
+  when: osquery_process_auditing|bool
 
 - name: get rsyslog version
   command: >
@@ -126,7 +126,7 @@
       notify:
         - restart rsyslog
         - restart rsyslog - docker
-  when: osquery_rsyslog
+  when: osquery_rsyslog|bool
 
 - include: syslog-target.yml
   when: osquery_syslog_target is defined and osquery_syslog_target

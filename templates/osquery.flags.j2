@@ -3,14 +3,14 @@
 {% for flag in osquery_flags %}
 {{ flag }}
 {% endfor %}
-{% if osquery_process_auditing %}
+{% if osquery_process_auditing|bool %}
 --disable_audit=false
 --audit_allow_config=true
 --audit_persist=true
 --audit_allow_process_events=true
 --audit_allow_sockets=true
 {% endif %}
-{% if osquery_rsyslog %}
+{% if osquery_rsyslog|bool %}
 --enable_syslog
 {% endif %}
 {% if osquery_syslog_target != '' and osquery_syslog_target_facility_osqueryconf != '' %}
