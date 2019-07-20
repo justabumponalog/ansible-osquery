@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.0] - 2019-07-20
+
 - fix ansible syntax, mostly CONDITIONAL_BARE_VARS
 - travis: switch to kitchen-docker following issue with kitchen-lxd_cli
 - travis: multiple minor changes, toolset update
