@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- RHEL/Centos8 support
+
 ## [1.0.0] - 2019-07-20
 
 - fix ansible syntax, mostly CONDITIONAL_BARE_VARS
