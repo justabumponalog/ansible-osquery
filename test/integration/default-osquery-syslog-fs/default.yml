@@ -1,7 +1,6 @@
 ---
 
 - hosts: all
-#- hosts: test-kitchen
   vars:
     - osquery_flags:
         - '--logger_plugin=filesystem,syslog'
