@@ -120,7 +120,7 @@
       "snapshot": true
     },
     "process_binding_to_ports": {
-      "query" : "select DISTINCT process.name, listening.port, process.pid FROM processes as process JOIN listening_ports AS listening ON process.pid=listening.pid;",
+      "query" : "select DISTINCT process.name, listening.port, listening.protocol, process.pid FROM processes as process JOIN listening_ports AS listening ON process.pid=listening.pid;",
       "description" : "Retrieves the list of processes bound to listening ports.",
       "interval" : "{{ osquery_snapshot_interval }}",
       "snapshot": true
@@ -155,6 +155,15 @@
       "interval" : "{{ osquery_snapshot_interval }}",
       "snapshot": true
     },
+    "rpm_packages": {
+      "query" : "select * from rpm_packages;",
+      "platform" : "redhat,centos",
+      "version" : "1.4.5",
+      "description" : "Retrieves all the installed RPM packages in the target Linux system.",
+      "value" : "General security posture.",
+      "interval" : "{{ osquery_snapshot_interval2 }}",
+      "snapshot": true
+    },
     "sudoers": {
       "query" : "select * from sudoers;",
       "description" : "Retrieves all the information for sudoers.",
@@ -182,13 +191,10 @@
       "interval" : "{{ osquery_snapshot_interval }}",
       "snapshot": true
     },
-    "rpm_packages": {
-      "query" : "select * from rpm_packages;",
-      "platform" : "redhat,centos",
-      "version" : "1.4.5",
-      "description" : "Retrieves all the installed RPM packages in the target Linux system.",
-      "value" : "General security posture.",
-      "interval" : "{{ osquery_snapshot_interval2 }}",
+    "uptime": {
+      "query" : "select * from uptime;",
+      "description" : "Retrieves uptime of the system.",
+      "interval" : "{{ osquery_snapshot_interval }}",
       "snapshot": true
     },
     "user_ssh_keys": {

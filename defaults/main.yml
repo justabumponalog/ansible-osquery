@@ -19,6 +19,7 @@ osquery_debug_packages_install: true
 osquery_template: 'osquery.conf.j2'
 #osquery_upload_packs: []
 osquery_upload_packs:
+  - osquery-custom-pack
   - osquery-snapshots-pack
   - osquery-monitoring2-pack
 osquery_packs:
@@ -29,6 +30,7 @@ osquery_packs:
   - "ossec-rootkit"
   - "vuln-management"
   - "hardware-monitoring"
+  - osquery-custom-pack
   - "osquery-snapshots-pack"
   - osquery-monitoring2-pack
 osquery_config_plugin: 'filesystem'

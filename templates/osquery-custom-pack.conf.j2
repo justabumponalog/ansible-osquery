@@ -1,0 +1,103 @@
+{{ ansible_managed | comment('c') }}
+// partly from https://elibing.com/projects/osquery/
+//      https://www.alienvault.com/documentation/resources/downloads/osquery.conf
+{
+  "queries": {
+    "arp_anomalies": {
+      "query" : "SELECT address, mac, COUNT(mac) AS mac_count FROM arp_cache GROUP BY mac HAVING count(mac) > 1;",
+      "description" : "Retrieves interface details.",
+      "interval" : "300"
+    },
+    "authorized_keys": {
+      "query" : "select authorized_keys.* from users join authorized_keys using (uid);",
+      "description" : "Info on authorized keys",
+      "interval" : "300"
+    },
+    "crontab": {
+      "query" : "select * from crontab;",
+      "version" : "1.4.5",
+      "description" : "Retrieves all the jobs scheduled in crontab in the target system.",
+      "value" : "Identify malware that uses this persistence mechanism to launch at a given interval",
+      "interval" : "300",
+    },
+    "dns_resolvers": {
+      "query" : "select * from dns_resolvers;",
+      "description" : "check DNS resolvers",
+      "interval" : "300"
+    },
+    "known_hosts": {
+      "query" : "select known_hosts.* from users join known_hosts using (uid);",
+        "interval" : "300",
+        "description" : "line-delimited known_hosts table"
+    },
+    "etc_hosts": {
+      "query" : "select * from etc_hosts;",
+      "version" : "1.4.5",
+      "description" : "Retrieves all the entries in the target system /etc/hosts file.",
+      "value" : "Identify network communications that are being redirected. Example: identify if security logging has been disabled",
+      "interval" : "300",
+    },
+    "groups": {
+      "query" : "select * from groups;",
+      "description" : "Retrieves groups info.",
+      "interval" : "300"
+    },
+    "interface_details": {
+      "query" : "select * from interface_details;",
+      "description" : "Retrieves interface details.",
+      "interval" : "43200"
+    },
+    "fileless_process": {
+      "query" : "SELECT name, path, pid FROM processes WHERE on_disk = 0;",
+      "description" : "Retrieves interface details.",
+      "interval" : "300"
+    },
+    "processes": {
+      "query": "SELECT pid, name, path, cmdline from processes;",
+      "description": "Retrieve list of processes",
+      "interval": "300"
+    },
+    "process_binding_to_ports": {
+      "query" : "select DISTINCT process.name, listening.port, listening.protocol, process.pid FROM processes as process JOIN listening_ports AS listening ON process.pid=listening.pid;",
+      "description" : "Retrieves the list of processes bound to listening ports.",
+      "interval" : "300"
+    },
+    // FIXME! performance impacting! = higher interval
+    "outbound_connections": {
+      "query": "select user.username, proc.name, hash.md5, socket.pid, proc.path, proc.cmdline, socket.local_port, socket.remote_port, socket.remote_address from process_open_sockets as socket, processes as proc, users as user, hash as hash where socket.local_port not in (select port from listening_ports) and socket.local_port != 0 and socket.pid = proc.pid and user.uid = proc.uid and hash.path = proc.path;",
+      "interval": "3600",
+      "description": ""
+    },
+    "sudoers": {
+      "query" : "select * from sudoers;",
+      "description" : "Retrieves all the information for sudoers.",
+      "interval" : "300"
+    },
+    "suid_bin": {
+      "query": "select * from suid_bin;",
+      "interval": "300",
+      "platform": "all",
+      "description": "Retrieves s/guid executables"
+    },
+    "users": {
+      "query" : "select * from users;",
+      "interval" : "300",
+      "description" : "Retrieves users info."
+    },
+    "user_ssh_keys": {
+      "query" : "select user_ssh_keys.* from users join user_ssh_keys using (uid);",
+      "description" : "info on user ssh keys",
+      "interval" : "300"
+    }{% if ansible_os_family == "Darwin" %},{% endif %}
+
+{% if ansible_os_family == "Darwin" %}
+    "launchd_keep_alive_children": {
+      "query" : "SELECT name, program || program_arguments AS executable FROM launchd WHERE (run_at_load = 'true' AND keep_alive = 'true') AND (program != '' OR program_arguments != '');",
+      "interval" : "300",
+      "description" : "Find every OS X LaunchDaemon that launches an executable and keeps it running"
+    }
+
+{% endif %}
+  }
+}
+
