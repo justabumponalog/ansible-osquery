@@ -9,11 +9,10 @@
   register: pkg_result
   until: pkg_result is success
 
-- name: Download osquery APT key
+- name: Setup osquery APT key
   become: yes
   apt_key:
-    keyserver: "{{ _apt_keyserver }}"
-    id: "{{ _osquery_repositorykey }}"
+    data: "{{ lookup('file', 'pgp-0x1484120AC4E9F8A1A577AEEE97A80C63C9D8B80B.asc') }}"
     state: present
   tags:
     - osquery
