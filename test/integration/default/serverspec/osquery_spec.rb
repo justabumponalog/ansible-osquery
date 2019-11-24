@@ -44,6 +44,10 @@ describe file('/var/log/osquery/osqueryd.results.log') do
 #  its(:content) { should match /hostIdentifier/ }
   let(:sudo_options) { '-u root -H' }
 end
+describe file('/var/log/syslog') do
+  its(:content) { should_not match /terminating with uncaught exception of type/ }
+  its(:content) { should_not match /Resource deadlock avoided/ }
+end
 
 describe command('systemctl status osqueryd'), :if => (os[:family] == 'ubuntu' && os[:release] == '14.04') && (host_inventory['virtualization'][:system] != 'docker') do
   its(:stdout) { should match /osqueryd is already running/ }
