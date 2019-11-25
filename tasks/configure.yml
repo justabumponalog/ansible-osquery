@@ -103,19 +103,22 @@
       service: name=auditd masked=yes
       when: not (ansible_virtualization_type is defined and ansible_virtualization_type == "docker")
     - name: ensure auditd is present
-      package: name="{{ _osquery_auditd_pkg }}" state=present
+      package:
+        name: "{{ _osquery_auditd_pkg }}"
+        state: present
       register: pkg_result
       until: pkg_result is success
   when: osquery_process_auditing|bool
 
 - name: get rsyslog version
-  command: >
+  shell: >
     rsyslogd -v | awk -F'[ ,]' '/rsyslogd/ { print $2 }'
   environment:
     PATH: '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
   changed_when: false
   register: rsyslog_v
 
+# https://osquery.readthedocs.io/en/stable/deployment/syslog/
 - block:
     - name: setup rsyslog pipe for osquery communication
       template:
