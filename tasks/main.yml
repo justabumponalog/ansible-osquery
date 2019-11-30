@@ -71,8 +71,11 @@
 
     - include: symlink-loop.yml
 
-    - meta: flush_handlers
+  when: ansible_os_family == "RedHat" or ansible_distribution == "Ubuntu" or ansible_distribution == "Debian"
 
+- meta: flush_handlers
+
+- block:
     - include: testing.yml
       when: osquery_testing|bool
 
