@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - RHEL/Centos8 support
+- ansible syntax update
+- tests coverage
 
 ## [1.0.0] - 2019-07-20
 
