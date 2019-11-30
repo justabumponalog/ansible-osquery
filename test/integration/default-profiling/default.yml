@@ -3,6 +3,7 @@
 - hosts: all
   vars:
     - osquery_testing: true
+    - osquery_testing_cleanup: false
     - osquery_profiling: true
     - osquery_testing_fim_load: true
     - osquery_fim_filepaths:

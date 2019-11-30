@@ -161,6 +161,7 @@ osquery_systemd_restriction_enable: true
 ## making schedule query faster to have logs faster...
 osquery_testing: false
 osquery_testing_pause: false
+osquery_testing_cleanup: true
 osquery_testing_fim_load: false
 osquery_testing_fim_load_bigger: 100M
 # per file, bytes size
