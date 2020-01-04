@@ -13,7 +13,7 @@
     src: rsyslog-osquery-target.conf.j2
     dest: /etc/rsyslog.d/30-osquery-target.conf
     mode: '0644'
-    backup: yes
+    backup: "{{ osquery_backup | default(false) }}"
     validate: 'rsyslogd -d -N 1 -f %s'
   notify:
     - restart rsyslog

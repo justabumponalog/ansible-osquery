@@ -15,7 +15,7 @@
       template:
         src: "{{ item }}.conf.j2"
         dest: "/usr/share/osquery/packs/{{ item | basename }}.conf"
-        backup: yes
+        backup: "{{ osquery_backup | default(false) }}"
       with_items: "{{ osquery_upload_packs }}"
       notify:
         - restart osquery
@@ -26,7 +26,7 @@
         src: "{{ osquery_template }}"
         dest: /etc/osquery/osquery.conf
         mode: '0644'
-        backup: yes
+        backup: "{{ osquery_backup | default(false) }}"
         validate: 'osqueryi --config_path %s --config_check --verbose'
 #        validate: 'egrep -v '^\s*//' %s | tee /tmp/a | python -mjson.tool'
       notify:
@@ -52,7 +52,7 @@
         src: "osquery.flags.j2"
         dest: /etc/osquery/osquery.flags
         mode: '0644'
-        backup: yes
+        backup: "{{ osquery_backup | default(false) }}"
       notify:
         - restart osquery
         - restart osquery - docker
@@ -73,7 +73,7 @@
             src: logrotate-osquery.j2
             dest: /etc/logrotate.d/osquery
             mode: '0644'
-            backup: yes
+            backup: "{{ osquery_backup | default(false) }}"
             validate: 'logrotate -dv %s'
       when: osquery_logrotate|bool
     - name: ensure service is enabled and started
@@ -85,10 +85,16 @@
 
 - block:
     - name: review inotify sysctl settings for osquery
-      sysctl: name="{{ item.n }}" value="{{ item.v }}" sysctl_set=yes state=present reload=yes
+      sysctl:
+        name: "{{ item.n }}"
+        value: "{{ item.v }}"
+        sysctl_set: yes
+        state: present
+        reload: yes
+        sysctl_file: "{{ item.f | default(omit) }}"
       with_items:
         - { n: 'fs.inotify.max_user_watches', v: '524288' }
-        - { n: 'fs.inotify.max_user_instances', v: '256' }
+        - { n: 'fs.inotify.max_user_instances', v: '1048576', f: '/etc/sysctl.d/10-lxd-inotify.conf' }
         - { n: 'fs.inotify.max_queued_events', v: '32768' }
   when: >
     osquery_fim and
@@ -125,7 +131,7 @@
         src: osquery-rsyslog.conf.j2
         dest: /etc/rsyslog.d/90-osquery.conf
         mode: '0644'
-        backup: yes
+        backup: "{{ osquery_backup | default(false) }}"
       notify:
         - restart rsyslog
         - restart rsyslog - docker

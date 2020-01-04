@@ -12,13 +12,14 @@
   register: pkg_result
   until: pkg_result is success
 
+# FIXME! idempotence issue?
 - name: Ensure apparmor profile is set
   template:
     src: apparmor-usr.bin.osqueryd.j2
     dest: /etc/apparmor.d/usr.bin.osqueryd
     mode: '0600'
     owner: root
-    backup: yes
+    backup: "{{ osquery_backup | default(false) }}"
   notify:
     - reload osqueryd apparmor profile
 

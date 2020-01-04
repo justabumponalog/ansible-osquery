@@ -13,7 +13,7 @@
     url: "{{ _osquery_repository }}"
     dest: "/etc/yum.repos.d/{{ _osquery_repository | basename }}"
     mode: '0644'
-    backup: yes
+    backup: "{{ osquery_backup | default(false) }}"
 
 - include: selinux.yml
   when: >

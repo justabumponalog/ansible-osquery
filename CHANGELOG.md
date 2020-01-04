@@ -6,10 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- osquery_backup option (default false) for ansible module copy/template
+
 ### Changed
 - RHEL/Centos8 support
 - ansible syntax update
 - tests coverage
+- logrotate: align settings/options with juju4.syslogclient
+- fs.inotify.max_user_instances: align with juju4.lxd
 
 ## [1.0.0] - 2019-07-20
 

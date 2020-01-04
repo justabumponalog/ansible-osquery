@@ -15,7 +15,7 @@
       CPUQuota={{ osquery_cgroups_cpuquota | default('10%') }}
       MemoryLimit={{ osquery_cgroups_memorylimit | default('1G') }}
     create: true
-    backup: true
+    backup: "{{ osquery_backup | default(false) }}"
   notify:
     - reload systemd
     - restart osquery
