@@ -1,14 +1,12 @@
 ---
-## note: can't fully test osquery inside docker as will not be able have kernel /dev/osquery
-dist: trusty
+dist: xenial
 sudo: required
 rvm:
   - 2.6
 
 env:
-#  - distribution: centos
-#    version: 8
-#    suite: default
+  - distribution: centos
+    version: 8
   - distribution: centos
     version: 7
     suite: default
@@ -58,67 +56,100 @@ before_install:
   - find -ls
 ## use appropriate role path and not github name
   - "[ -f get-dependencies.sh ] && sh -x get-dependencies.sh"
+  - echo "deb http://archive.ubuntu.com/ubuntu xenial-backports main restricted universe multiverse" | sudo tee /etc/apt/sources.list.d/xenial-backports.list
+  - sudo apt-get update -qq
+  - sudo apt -t xenial-backports -y install lxd acl dnsmasq-base zfsutils-linux rng-tools -q
+## change of group implies logout+login to apply... can't do with travis = run as root (sic)    = use 'newgrp lxd' ? = travis stalling all ...
+## https://github.com/travis-ci/travis-ci/issues/1839   or chain: sudo -E su $USER -c "..."
+  - sudo usermod -G lxd travis
+  # Pull container
+  - sudo -E su $USER -c "lxc remote list"
+  - sudo -E su $USER -c "lxc image list"
+## pre-download base images
+  - 'sudo -E su $USER -c "[ ${distribution} == ubuntu ] || lxc image copy images:${distribution}/${version}/amd64 local: --alias=${distribution}-${version}-nossh"'
+  - 'sudo -E su $USER -c "[ ${distribution} == ubuntu ] && lxc image copy ubuntu:${version} local: --alias=${distribution}-${version}" || true'
+  - sudo -E su $USER -c "lxc image list"
+## configure network
+  - ifconfig -a
+  - sudo lxc info
+  - sudo lxc network list
+  - sudo lxc network create lxdbr0
+  - sudo lxc network show lxdbr0
+  - sudo lxc network attach-profile lxdbr0 default ens4
+  - sudo lxc profile device get default ens4 nictype || true
+  - sudo service lxd restart
+  - ps ax | grep dnsmasq
+  - systemctl status -l --no-pager lxd || true
+  - cat /etc/network/interfaces.d/50-cloud-init.cfg
+  - sudo lxc network list
+# configure storage pool
+  - sudo lxc storage list
+  - sudo lxc storage create pool1 zfs
+  - sudo lxc storage list
+  - sudo zpool list
+  - sudo lxc profile device add default root disk path=/ pool=pool1
+  - sudo lxc profile show default
+
   - sudo pip install ansible
   - 'echo "gem: --no-document" >> ~/.gemrc'
-## need to use chef gem for some reason? BAD PATH https://github.com/chef/chef-dk/issues/15
-#  - chef gem install kitchen
   - gem install kitchen
   - gem install kitchen-ansible
   - gem install kitchen-sync
-  - gem install kitchen-docker
+  - gem install kitchen-lxd_cli
   - gem list
   - which kitchen
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen diagnose --all
+## ssh key for lxd_cli ?
+  - ls ~/.ssh
+  - ssh-keygen -t rsa -b 2048 -f ~/.ssh/id_rsa -P ""
+## sudo/su get us a non-usual PATH ...
+  - '[ "X${distribution}" == "Xcentos" ] && sudo -E su $USER -c "sh -x ./test/lxd/centos-ssh-image.sh ${version}" || true'
+  - sudo -E su $USER -c "env"
+## The command "sudo -E su $USER -c "which kitchen"" failed and exited with 1 during .
+#  - sudo -E su $USER -c "which kitchen"
+  - sudo -E su $USER -c "env PATH=$PATH kitchen diagnose --all"
+#  - sudo -E su $USER -c "kitchen diagnose --all"
+#  - sudo -E -u $USER kitchen diagnose --all
 
   - sudo sysctl -w fs.inotify.max_user_watches=524288
   - sudo sysctl -w fs.inotify.max_user_instances=256
   - sudo sysctl -w fs.inotify.max_queued_events=32768
 
 script:
-## avoid locale issue under xenial docker, https://github.com/pypa/pip/issues/3575
-  - export LC_ALL=C.UTF-8
-  - export LANG=C.UTF-8
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen verify ${suite}-${distribution}-${version//./}
+#  - KITCHEN_LOCAL_YAML=.kitchen.local.yml bundle exec kitchen verify ${INSTANCE}
+  - sudo -E su $USER -c "env PATH=$PATH kitchen verify ${suite}-${distribution}-${version//./} -l debug || (cat $HOME/.kitchen/logs/${suite}-${distribution}-${version//./}.log; find /tmp/kitchen)"
 
 after_failure:
   # Check what happened on systemd systems.
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'sudo osqueryi --line \"SELECT version, build, platform FROM os_version;\"'
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'sudo osqueryi --line \"SELECT version from osquery_info;\"'
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'find /usr/share/osquery/packs/ -iname "*.conf" -exec python -mjson.tool {} \;'
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'ps ax | grep osquery'
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'cat /etc/osquery/osquery.conf'
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'sudo apt-get install -qy grep'
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'sudo egrep \"fim.*CREATED.*fim-testing\" /var/log/osquery/osqueryd.results.log'
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'sudo grep fim-testing /var/log/osquery/osqueryd.results.log'
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'sudo egrep \"fim.*CREATED.*fim-[a-z]*\" /var/log/osquery/osqueryd.results.log | wc -l'
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'sudo egrep \"fim.*CREATED.*fim-[a-z]*\" /var/log/osquery/osqueryd.results.log'
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'sudo grep fim-testing /var/log/osquery/osqueryd.results.log'
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'sudo grep too_many_events /var/log/osquery/osqueryd.results.log'
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'sudo grep excluded /var/log/osquery/osqueryd.results.log'
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'sudo egrep \"fim.*CREATED.*/etc/testing-[a-z]*\" /var/log/osquery/osqueryd.results.log | wc -l'
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'sudo egrep \"fim.*CREATED.*/etc/testing-[a-z]*\" /var/log/osquery/osqueryd.results.log'
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'sudo find /etc/ -name "testing-*"'
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'sudo grep "/var/" /var/log/osquery/osqueryd.results.log'
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'ulimit -a'
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'sudo ls -l /var/osquery/osquery.db/ | wc -l'
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'lsof | grep osqueryd'
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'osqueryi --line \"SELECT version, build, platform FROM os_version;\"'"
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'osqueryi --line \"SELECT version from osquery_info;\"'"
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'ps ax | grep osquery'"
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'cat /etc/osquery/osquery.conf'"
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'apt-get install -qy grep'"
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'egrep \"fim.*CREATED.*fim-testing\" /var/log/osquery/osqueryd.results.log'"
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'grep fim-testing /var/log/osquery/osqueryd.results.log'"
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'egrep \"fim.*CREATED.*fim-[a-z]*\" /var/log/osquery/osqueryd.results.log | wc -l'"
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'egrep \"fim.*CREATED.*fim-[a-z]*\" /var/log/osquery/osqueryd.results.log'"
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'grep fim-testing /var/log/osquery/osqueryd.results.log'"
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'grep too_many_events /var/log/osquery/osqueryd.results.log'"
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'grep excluded /var/log/osquery/osqueryd.results.log'"
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'ulimit -a'"
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'ls -l /var/osquery/osquery.db/ | wc -l'"
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'lsof | grep osqueryd'"
   - /sbin/sysctl fs.inotify
   - /sbin/sysctl fs.file-max
   - ulimit -a
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'sudo wc /var/log/osquery/osqueryd.results.log'
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'sudo tail -100 /var/log/osquery/osqueryd.results.log'
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'grep SECCOMP /var/log/audit/audit.log'
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'wc /var/log/osquery/osqueryd.results.log'"
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'tail -100 /var/log/osquery/osqueryd.results.log'"
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'grep SECCOMP /var/log/audit/audit.log'"
   - sudo grep SECCOMP /var/log/audit/audit.log
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'sudo ansible -i localhost, --connection=local -m setup localhost'
 
 after_script:
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'systemctl -l --no-pager status osqueryd'
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'journalctl -xe --no-pager'
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'ls -lA /tmp/'
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'sudo grep -i error /var/log/osquery/osqueryd.results.log'
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'sudo grep -i osqueryd /var/log/syslog'
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'systemctl -l --no-pager status osqueryd'"
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'journalctl -xe --no-pager'"
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'ls -lA /tmp/'"
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'grep -i error /var/log/osquery/osqueryd.results.log'"
   # Clean up
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen destroy ${suite}-${distribution}-${version//./}
+  - sudo -E su $USER -c "env PATH=$PATH kitchen destroy ${suite}-${distribution}-${version//./}"
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
