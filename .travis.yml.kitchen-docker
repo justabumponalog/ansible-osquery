@@ -7,7 +7,8 @@ rvm:
 
 env:
 #  - distribution: centos
-#    version: 6
+#    version: 8
+#    suite: default
   - distribution: centos
     version: 7
     suite: default
@@ -81,35 +82,41 @@ script:
 
 after_failure:
   # Check what happened on systemd systems.
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'osqueryi --line \"SELECT version, build, platform FROM os_version;\"'
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'osqueryi --line \"SELECT version from osquery_info;\"'
+  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'sudo osqueryi --line \"SELECT version, build, platform FROM os_version;\"'
+  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'sudo osqueryi --line \"SELECT version from osquery_info;\"'
+  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'find /usr/share/osquery/packs/ -iname "*.conf" -exec python -mjson.tool {} \;'
   - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'ps ax | grep osquery'
   - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'cat /etc/osquery/osquery.conf'
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'apt-get install -qy grep'
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'egrep \"fim.*CREATED.*fim-testing\" /var/log/osquery/osqueryd.results.log'
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'grep fim-testing /var/log/osquery/osqueryd.results.log'
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'egrep \"fim.*CREATED.*fim-[a-z]*\" /var/log/osquery/osqueryd.results.log | wc -l'
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'egrep \"fim.*CREATED.*fim-[a-z]*\" /var/log/osquery/osqueryd.results.log'
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'grep fim-testing /var/log/osquery/osqueryd.results.log'
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'grep too_many_events /var/log/osquery/osqueryd.results.log'
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'grep excluded /var/log/osquery/osqueryd.results.log'
+  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'sudo apt-get install -qy grep'
+  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'sudo egrep \"fim.*CREATED.*fim-testing\" /var/log/osquery/osqueryd.results.log'
+  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'sudo grep fim-testing /var/log/osquery/osqueryd.results.log'
+  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'sudo egrep \"fim.*CREATED.*fim-[a-z]*\" /var/log/osquery/osqueryd.results.log | wc -l'
+  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'sudo egrep \"fim.*CREATED.*fim-[a-z]*\" /var/log/osquery/osqueryd.results.log'
+  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'sudo grep fim-testing /var/log/osquery/osqueryd.results.log'
+  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'sudo grep too_many_events /var/log/osquery/osqueryd.results.log'
+  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'sudo grep excluded /var/log/osquery/osqueryd.results.log'
+  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'sudo egrep \"fim.*CREATED.*/etc/testing-[a-z]*\" /var/log/osquery/osqueryd.results.log | wc -l'
+  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'sudo egrep \"fim.*CREATED.*/etc/testing-[a-z]*\" /var/log/osquery/osqueryd.results.log'
+  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'sudo find /etc/ -name "testing-*"'
+  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'sudo grep "/var/" /var/log/osquery/osqueryd.results.log'
   - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'ulimit -a'
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'ls -l /var/osquery/osquery.db/ | wc -l'
+  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'sudo ls -l /var/osquery/osquery.db/ | wc -l'
   - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'lsof | grep osqueryd'
   - /sbin/sysctl fs.inotify
   - /sbin/sysctl fs.file-max
   - ulimit -a
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'wc /var/log/osquery/osqueryd.results.log'
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'tail -100 /var/log/osquery/osqueryd.results.log'
+  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'sudo wc /var/log/osquery/osqueryd.results.log'
+  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'sudo tail -100 /var/log/osquery/osqueryd.results.log'
   - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'grep SECCOMP /var/log/audit/audit.log'
   - sudo grep SECCOMP /var/log/audit/audit.log
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'ansible -i localhost, --connection=local -m setup localhost'
+  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'sudo ansible -i localhost, --connection=local -m setup localhost'
 
 after_script:
   - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'systemctl -l --no-pager status osqueryd'
   - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'journalctl -xe --no-pager'
   - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'ls -lA /tmp/'
-  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'grep -i error /var/log/osquery/osqueryd.results.log'
+  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'sudo grep -i error /var/log/osquery/osqueryd.results.log'
+  - KITCHEN_YAML=.kitchen.docker.yml kitchen exec ${suite}-${distribution}-${version//./} -c 'sudo grep -i osqueryd /var/log/syslog'
   # Clean up
   - KITCHEN_YAML=.kitchen.docker.yml kitchen destroy ${suite}-${distribution}-${version//./}
 
