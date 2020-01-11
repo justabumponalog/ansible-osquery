@@ -47,3 +47,9 @@ describe command('curl -vk -X POST https://localhost:8080/api/v1/osquery/enroll'
 #  its(:stderr) { should match /HTTP\/1.1 500 / }
 #  its(:exit_status) { should_not eq 0 }
 end
+describe command('curl -vk -X GET https://localhost:8080/api/v1/hosts') do
+  its(:stdout) { should match /localhost/ }
+  its(:stdout) { should match /Unknown Error/ }
+#  its(:stderr) { should match /HTTP\/1.1 500 / }
+#  its(:exit_status) { should_not eq 0 }
+end
