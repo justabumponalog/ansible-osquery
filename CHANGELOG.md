@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - tests coverage
 - logrotate: align settings/options with juju4.syslogclient
 - fs.inotify.max_user_instances: align with juju4.lxd
+- Debian/Ubuntu: don't install debug packages by default (missing in latest osquery release)
 
 ## [1.0.0] - 2019-07-20
 
