@@ -57,7 +57,7 @@
         - restart osquery
         - restart osquery - docker
     - name: re-validate whole osquery config
-      command: 'osqueryi --config_path /etc/osquery/osquery.conf --config_check --verbose'
+      shell: 'echo .quit | osqueryi --config_path /etc/osquery/osquery.conf --config_check --verbose'
       changed_when: false
       register: confcheck
       failed_when: "'error' in confcheck.stdout or 'fail' in confcheck.stdout"
