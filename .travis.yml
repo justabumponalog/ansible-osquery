@@ -14,9 +14,11 @@ env:
   - distribution: ubuntu
     version: 20.04
     suite: default
+    ANSIBLE_EXTRA_FLAGS: "'-e ansible_python_interpreter=/usr/bin/python3'"
   - distribution: ubuntu
     version: 18.04
     suite: default
+    ANSIBLE_EXTRA_FLAGS: "'-e ansible_python_interpreter=/usr/bin/python3'"
   - distribution: ubuntu
     version: 16.04
     suite: default
@@ -31,24 +33,30 @@ env:
   - distribution: ubuntu
     version: 18.04
     suite: default-osquery-syslog
+    ANSIBLE_EXTRA_FLAGS: "'-e ansible_python_interpreter=/usr/bin/python3'"
   - distribution: centos
     version: 7
     suite: default-osquery-syslog-fs
   - distribution: ubuntu
     version: 18.04
     suite: default-osquery-syslog-fs
+    ANSIBLE_EXTRA_FLAGS: "'-e ansible_python_interpreter=/usr/bin/python3'"
   - distribution: ubuntu
     version: 18.04
     suite: default-profiling
+    ANSIBLE_EXTRA_FLAGS: "'-e ansible_python_interpreter=/usr/bin/python3'"
   - distribution: ubuntu
     version: 18.04
     suite: default-fimfiles
+    ANSIBLE_EXTRA_FLAGS: "'-e ansible_python_interpreter=/usr/bin/python3'"
   - distribution: ubuntu
     version: 18.04
     suite: default-auditd
+    ANSIBLE_EXTRA_FLAGS: "'-e ansible_python_interpreter=/usr/bin/python3'"
   - distribution: ubuntu
     version: 18.04
     suite: default-fleetmanager
+    ANSIBLE_EXTRA_FLAGS: "'-e ansible_python_interpreter=/usr/bin/python3'"
 
 before_install:
   - env
