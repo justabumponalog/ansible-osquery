@@ -4,6 +4,8 @@
   vars:
     - mysql_root_password: 'Toor=2017.'
     - kolide_mysql_root_pass: "{{ mysql_root_password }}"
+    - kolide_enrollment_secret: 'secret'
+    - osquery_enroll_secret: "{{ kolide_enrollment_secret }}"
     - mysql_databases:
         - name: "{{ kolide_mysql_db }}"
     - mysql_users:
@@ -16,7 +18,7 @@
     - osquery_flags:
       - '--enroll_secret_path=/etc/osquery/osquery_enroll_secret'
       - "--tls_server_certs={{ ssl_dir }}/{{ ansible_fqdn }}.crt"
-      - '--tls_hostname=acme.kolide.co:8080'
+      - '--tls_hostname=kolide:8080'
       - '--host_identifier=hostname'
       - '--enroll_tls_endpoint=/api/v1/osquery/enroll'
       - '--config_plugin=tls'
@@ -33,7 +35,7 @@
     - name: map acme.kolide.co to localhost
       lineinfile:
         dest: /etc/hosts
-        line: 127.0.0.1 acme.kolide.co
+        line: 127.0.0.1 kolide
       ignore_errors: true
   roles:
     - { role: geerlingguy.mysql, when: ansible_os_family == 'Debian' }
