@@ -47,6 +47,9 @@
         create: true
       when:
         - osquery_enroll_secret is defined
+      notify:
+        - restart osquery
+        - restart osquery - docker
     - name: configure osquery flags
       template:
         src: "osquery.flags.j2"
