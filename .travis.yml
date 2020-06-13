@@ -1,6 +1,5 @@
 ---
-## note: can't fully test osquery inside docker as will not be able have kernel /dev/osquery
-dist: trusty
+dist: xenial
 sudo: required
 rvm:
   - 2.6
