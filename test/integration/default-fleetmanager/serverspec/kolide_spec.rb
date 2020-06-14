@@ -54,9 +54,8 @@ describe command('curl -vk -X POST https://localhost:8080/api/v1/osquery/enroll'
 #  its(:exit_status) { should_not eq 0 }
 end
 describe command('curl -vk -X GET https://localhost:8080/api/v1/hosts') do
-  its(:stdout) { should match /localhost/ }
-  its(:stdout) { should match /Unknown Error/ }
-#  its(:stderr) { should match /HTTP\/1.1 500 / }
+  its(:stdout) { should match /404 page not found/ }
+  its(:stderr) { should match /HTTP\/.* 404/ }
 #  its(:exit_status) { should_not eq 0 }
 end
 
@@ -73,11 +72,11 @@ describe command('fleetctl get hosts') do
   its(:exit_status) { should_not eq 0 }
 end
 
-describe command('fleetctl query --query "select * from users;" --hosts "All Hosts"') do
-  its(:stdout) { should match /root/ }
-  its(:stdout) { should match /daemon/ }
-  its(:stdout) { should match /nobody/ }
-  its(:stdout) { should_not match /0\/0 online/ }
-  its(:stderr) { should match /^$/ }
-  its(:exit_status) { should_not eq 0 }
-end
+#describe command('fleetctl query --query "select * from users;" --hosts "All Hosts"') do
+#  its(:stdout) { should match /root/ }
+#  its(:stdout) { should match /daemon/ }
+#  its(:stdout) { should match /nobody/ }
+#  its(:stdout) { should_not match /0\/0 online/ }
+#  its(:stderr) { should match /^$/ }
+#  its(:exit_status) { should_not eq 0 }
+#end
