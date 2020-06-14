@@ -144,6 +144,7 @@ after_failure:
   - ulimit -a
   - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'wc /var/log/osquery/osqueryd.results.log'"
   - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'tail -100 /var/log/osquery/osqueryd.results.log'"
+  - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'strace fallocate -l 100M'"
   - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'grep SECCOMP /var/log/audit/audit.log'"
   - sudo grep SECCOMP /var/log/audit/audit.log
   - sudo -E su $USER -c "env PATH=$PATH kitchen exec ${suite}-${distribution}-${version//./} -c 'sudo ansible -i localhost, --connection=local -m setup localhost'"
