@@ -41,7 +41,7 @@ env:
   - distribution: ubuntu
     version: 18.04
     suite: default-profiling
-    ANSIBLE_EXTRA_FLAGS: "'-e ansible_python_interpreter=/usr/bin/python3'"
+    ANSIBLE_EXTRA_FLAGS: "'-e ansible_python_interpreter=/usr/bin/python3 -e osquery_fallocate_args=\"-x\" '"
   - distribution: ubuntu
     version: 18.04
     suite: default-fimfiles

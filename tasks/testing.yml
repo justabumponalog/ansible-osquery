@@ -101,7 +101,7 @@
 
 - block:
     - name: fallocate big file
-      command: "fallocate -l {{ osquery_testing_fim_load_bigger }} /etc/testing-big-file"
+      command: "fallocate {{ osquery_fallocate_args | default('') }} -l {{ osquery_testing_fim_load_bigger }} /etc/testing-big-file"
       args:
         creates: /etc/testing-big-file
     - name: creation of many small files in excluded directory
