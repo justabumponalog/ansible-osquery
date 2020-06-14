@@ -69,7 +69,7 @@ describe command('fleetctl get hosts') do
   its(:stdout) { should match /ubuntu.*online/ }
   its(:stdout) { should_not match /no hosts found/ }
   its(:stderr) { should match /^$/ }
-  its(:exit_status) { should_not eq 0 }
+  its(:exit_status) { should eq 0 }
 end
 
 #describe command('fleetctl query --query "select * from users;" --hosts "All Hosts"') do
