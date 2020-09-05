@@ -65,7 +65,7 @@ osquery_flags: []
 #    - '--logger_tls_period=10'
 
 osquery_fim: true
-osquery_fim_interval: 300
+osquery_fim_interval: 5
 osquery_fim_filepaths:
   - name: homes_sshdir
     list:
@@ -123,8 +123,8 @@ osquery_rsyslog: false
 ## conflict with auditd. choose one.
 ## https://osquery.readthedocs.io/en/stable/deployment/process-auditing/
 osquery_process_auditing: false
-osquery_process_interval: 300
-osquery_socket_interval: 300
+osquery_process_interval: 5
+osquery_socket_interval: 5
 
 ## queries snapshots: 1/week (or 1/month? nok)
 ## Max interval 1/w: https://github.com/theopolis/osquery/commit/b76dee8a1fddccb500bc4a058daa1b39083b9dbb
