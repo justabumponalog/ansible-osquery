@@ -4,6 +4,10 @@
 /usr/bin/osqueryd {
   #include <abstractions/base>
 
+  # https://gitlab.com/apparmor/apparmor/-/wikis/TechnicalDoc_Proc_and_ptrace
+  ptrace (trace) peer=/usr/bin/osqueryd,
+  deny ptrace (read, readby, tracedby),
+
   /etc/host.conf r,
   /etc/hosts r,
   /etc/nsswitch.conf r,
