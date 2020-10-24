@@ -58,17 +58,19 @@ suites:
     run_list:
     attributes:
     includes:
+      - centos-8
+      - ubuntu-20.04
       - ubuntu-18.04
   - name: default-auditd
     run_list:
     attributes:
     includes:
-      - ubuntu-18.04
+      - ubuntu-20.04
   - name: default-fleetmanager
     run_list:
     attributes:
     includes:
-      - ubuntu-18.04
+      - ubuntu-20.04
     driver_config:
       network:
         - ["forwarded_port", {guest: 8080, host: 9080}]
