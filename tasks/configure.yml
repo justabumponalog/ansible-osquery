@@ -1,5 +1,8 @@
 ---
 
+- include: kolide-enroll.yml
+  when: kolide_local_enroll
+
 - name: check if osquery is present
   stat: path=/etc/osquery
   register: hasOsquery
