@@ -40,13 +40,13 @@ suites:
     attributes:
     includes:
       - ubuntu-18.04
-      - centos-7
+      - centos-8
   - name: default-osquery-syslog-fs
     run_list:
     attributes:
     includes:
       - ubuntu-18.04
-      - centos-7
+      - centos-8
   - name: default-profiling
     run_list:
     attributes:
