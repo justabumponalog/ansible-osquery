@@ -5,9 +5,9 @@ rvm:
   - 2.6
 
 env:
-#  - distribution: centos
-#    version: 8
-#    suite: default
+  - distribution: centos
+    version: 8
+    suite: default
   - distribution: centos
     version: 7
     suite: default
@@ -25,14 +25,14 @@ env:
 #  - distribution: alpine
 #    version: 3.4
   - distribution: centos
-    version: 7
+    version: 8
     suite: default-osquery-syslog
   - distribution: ubuntu
     version: 18.04
     suite: default-osquery-syslog
     ANSIBLE_EXTRA_FLAGS: "'-e ansible_python_interpreter=/usr/bin/python3'"
   - distribution: centos
-    version: 7
+    version: 8
     suite: default-osquery-syslog-fs
   - distribution: ubuntu
     version: 18.04
