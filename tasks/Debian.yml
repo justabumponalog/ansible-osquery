@@ -44,3 +44,8 @@
     not (ansible_virtualization_type is defined and
           (ansible_virtualization_type == "lxc" or ansible_virtualization_type == "docker")
         )
+
+- name: Install osquery
+  package:
+    name: osquery=4.4.0
+    state: present
