@@ -8,7 +8,7 @@
 
 - name: Set fact enroll_secret
   set_fact:
-    osquery_enroll_secret: "{{ fleetsecret.spec.secrets[0].secret }}"
+    osquery_enroll_secret: "{{ fleetsecret.stdout | regex_findall('^    secret: (.*)$') }}"
   no_log: "{{ osquery_nolog | default(true) }}"
 
 - debug: var=osquery_enroll_secret verbose=2
