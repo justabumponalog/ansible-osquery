@@ -46,6 +46,7 @@
       - '--distributed_tls_read_endpoint=/api/v1/osquery/distributed/read'
       - '--distributed_tls_write_endpoint=/api/v1/osquery/distributed/write'
       - '--logger_plugin=tls'
+    osquery_nolog: false
   pre_tasks:
     - name: Ubuntu | set python3-mysqldb instead of default python-mysqldb
       set_fact:
