@@ -47,5 +47,5 @@
 
 - name: Install osquery
   package:
-    name: osquery=4.4.0
+    name: osquery=4.4.0-1.linux
     state: present
