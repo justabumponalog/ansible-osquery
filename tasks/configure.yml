@@ -152,3 +152,6 @@
           (ansible_virtualization_type == "lxc" or ansible_virtualization_type == "docker")
         ) and
     ansible_os_family == "RedHat"
+
+- include: reporting.yml
+  when: osquery_reporting

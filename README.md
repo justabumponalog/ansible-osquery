@@ -91,7 +91,16 @@ $ vagrant ssh
 
 ## FAQ
 
-TBD
+* how to review quickly log locally?
+use jq. for example
+```
+jq '.name' /var/log/osquery/osqueryd.results.log | sort | uniq -c | sort -nr
+jq 'select(.name == "fim") | .columns.target_path + " " + .columns.action' /var/log/osquery/osqueryd.results.log | sort | uniq -c | sort -nr
+jq 'select(.name == "pack_incident-response_process_memory") | .columns.path + " " + .columns.permissions' /var/log/osquery/osqueryd.results.log  | sort | uniq -c | sort -nr
+jq 'select(.name == "pack_incident-response_listening_ports") | .columns.path + " " + .columns.port + " " +.columns.protocol' /var/log/osquery/osqueryd.results.log
+jq 'select(.name == "pack_incident-response_last") | .columns.username + " " + .columns.host + " " + .columns.tty + " " + .columns.type' /var/log/osquery/osqueryd.results.log
+```
+See also templates/osquery_report.sh.j2
 
 ## Troubleshooting & Known issues
 

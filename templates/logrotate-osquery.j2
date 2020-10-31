@@ -13,6 +13,11 @@
     delaycompress
     create 640 {{ syslog_user | default('root') }} adm
     sharedscripts
+{% if osquery_reporting %}
+    prerotate
+        test ! -x /usr/local/scripts/{{ osquery_reporting_template | basename }} || /usr/local/scripts/{{ osquery_reporting_template | basename }} > {{ osquery_reporting_dest }}/osquery-report-`date +%Y%m%d`"
+    endscript
+{% endif %}
 }
 /var/log/osquery/osqueryd.snapshots.log {
     rotate {{ osquery_logrotate_days|int }}

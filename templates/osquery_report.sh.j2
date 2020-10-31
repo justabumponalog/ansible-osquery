@@ -1,0 +1,37 @@
+#!/bin/sh
+
+date=`date +%Y%m%d`
+f=/var/log/osquery/osqueryd.results.log
+echo
+echo
+echo "      OSQUERY DAILY REPORT $date for $f"
+echo
+echo
+
+
+echo "** Queries name"
+jq -r '.name' $f | sort | uniq -c | sort -nr
+echo
+echo
+
+echo "** Process"
+jq -r 'select(.name == "pack_osquery-custom-pack_processes") | .columns.name + " " + .columns.path + " " + .columns.cmdline' $f  | sort | uniq -c | sort -nr
+echo "** Process Memory"
+jq -r 'select(.name == "pack_incident-response_process_memory") | .columns.path + " " + .columns.permissions' $f | sort | uniq -c | sort -nr
+echo "** Listening Ports"
+jq -r 'select(.name == "pack_incident-response_listening_ports") | .columns.path + " " + .columns.port + " " +.columns.protocol' $f | sort | uniq -c | sort -nr
+echo "** Last"
+jq -r 'select(.name == "pack_incident-response_last") | .columns.username + " " + .columns.host + " " + .columns.tty + " " + .columns.type' $f | sort | uniq -c | sort -nr
+echo
+echo
+
+echo "** FIM Categories"
+jq -r 'select(.name == "fim") | .columns.category' $f | sort | uniq -c | sort -nr
+echo "** FIM Uid"
+jq -r 'select(.name == "fim") | .columns.uid' $f | sort | uniq -c | sort -nr
+echo "** FIM Action"
+jq -r 'select(.name == "fim") | .columns.action' $f | sort | uniq -c | sort -nr
+echo "** FIM Target path and action"
+jq -r 'select(.name == "fim") | .columns.target_path + " " + .columns.action' $f | sort | uniq -c | sort -nr
+echo
+echo
