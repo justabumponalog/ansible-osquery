@@ -52,6 +52,9 @@
     // Add a query: "select * from osquery_schedule" to record the performances.
     //"enable_monitor": "{{ osquery_enable_monitor | default(true) }}",
 
+{% if osquery_fim %}
+    "disable_events": "false",
+{% endif %}
     "logger_snapshot_event_type": "{{ osquery_logger_snapshot_event_type | default(true) }}"
   },
 
