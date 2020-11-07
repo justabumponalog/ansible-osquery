@@ -7,8 +7,8 @@
         state: directory
         mode: '0755'
       with_items:
-        - /var/tmp/a
-        - /var/tmp/b
+        - /var/tmp/fim-testing-a
+        - /var/tmp/fim-testing-b
       notify:
         - restart osquery
     - meta: flush_handlers
@@ -51,12 +51,12 @@
         - /tmp/too_many_events3/a
         - /tmp/too_many_events3/a/b
         - /tmp/excluded6-testing
-        - /var/tmp/a
-        - /var/tmp/a/.b
-        - /var/tmp/b
-        - /var/tmp/b/.c
-        - /var/tmp/b/.c/d
-        - /a/b/c
+        - /var/tmp/fim-testing-a
+        - /var/tmp/fim-testing-a/.b
+        - /var/tmp/fim-testing-b
+        - /var/tmp/fim-testing-b/.c
+        - /var/tmp/fim-testing-b/.c/d
+        - /fim-testing-a/fim-testing-b/fim-testing-c
         - /fim-testing-dir
   when: osquery_testing_fimfiles or osquery_testing_fim_load
 
@@ -83,15 +83,15 @@
 #        - /tmp/excluded5-exact-match
 #        - /tmp/excluded6-abcdef
 #        - /tmp/excluded6-testing/excluded-abcdef
-        - /var/tmp/a/fim-testing1
-        - /var/tmp/a/.fim-testing2
-        - /var/tmp/a/.b/fim-testing3
-        - /var/tmp/b/.fim-testing4
-        - /var/tmp/b/.c/fim-testing5
-        - /var/tmp/b/.c/d/fim-testing6
+        - /var/tmp/fim-testing-a/fim-testing1
+        - /var/tmp/fim-testing-a/.fim-testing2
+        - /var/tmp/fim-testing-a/.b/fim-testing3
+        - /var/tmp/fim-testing-b/.fim-testing4
+        - /var/tmp/fim-testing-b/.c/fim-testing5
+        - /var/tmp/fim-testing-b/.c/d/fim-testing6
         - /fim-testing0
-        - /a/b/fim-testing10
-        - /a/b/c/fim-testing11
+        - /fim-testing-a/fim-testing-b/fim-testing10
+        - /fim-testing-a/fim-testing-b/fim-testing-c/fim-testing11
     - name: test files
       file:
         name: "{{ item }}"

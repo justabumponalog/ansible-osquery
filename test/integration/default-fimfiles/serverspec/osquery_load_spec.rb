@@ -32,15 +32,15 @@ describe file('/var/log/osquery/osqueryd.results.log'), :if => host_inventory['v
   it { should_not contain '"target_path":"\/tmp\/excluded5-exact-match' }
   it { should_not contain '"target_path":"\/tmp\/excluded6-abcdef' }
   it { should_not contain '"target_path":"\/tmp\/excluded6-testing\/excluded-abcdef' }
-  it { should_not contain '"target_path":"\/var\/tmp\/a\/fim-testing1' }
-#  it { should contain '"target_path":"\/var\/tmp\/a\/.fim-testing2' }
-  it { should_not contain '"target_path":"\/var\/tmp\/a\/.b/fim-testing3' }
-#  it { should contain '"target_path":"\/var\/tmp\/b\/.fim-testing4' }
-#  it { should contain '"target_path":"\/var\/tmp\/b\/.c/fim-testing5' }
-#  it { should contain '"target_path":"\/var\/tmp\/b\/.c/d/fim-testing6' }
-  it { should contain '"target_path":"\/\/a' }
+  it { should_not contain '"target_path":"\/var\/tmp\/fim-testing-a\/fim-testing1' }
+#  it { should contain '"target_path":"\/var\/tmp\/fim-testing-a\/.fim-testing2' }
+  it { should_not contain '"target_path":"\/var\/tmp\/fim-testing-a\/.b/fim-testing3' }
+#  it { should contain '"target_path":"\/var\/tmp\/fim-testing-b\/.fim-testing4' }
+#  it { should contain '"target_path":"\/var\/tmp\/fim-testing-b\/.c/fim-testing5' }
+#  it { should contain '"target_path":"\/var\/tmp\/fim-testing-b\/.c/d/fim-testing6' }
+  it { should contain '"target_path":"\/\/fim-testing-a' }
   it { should contain '"target_path":"\/\/fim-testing-dir' }
   it { should contain '"target_path":"\/\/fim-testing0' }
-  it { should_not contain '"target_path":"\/a\/b\/fim-testing10' }
-  it { should_not contain '"target_path":"\/a\/b\/c\/fim-testing11' }
+  it { should_not contain '"target_path":"\/fim-testing-a\/fim-testing-b\/fim-testing10' }
+  it { should_not contain '"target_path":"\/fim-testing-a\/fim-testing-b\/fim-testing-c\/fim-testing11' }
 end
