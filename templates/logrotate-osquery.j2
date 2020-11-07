@@ -15,7 +15,7 @@
     sharedscripts
 {% if osquery_reporting %}
     prerotate
-        test ! -x /usr/local/scripts/{{ osquery_reporting_template | basename }} || /usr/local/scripts/{{ osquery_reporting_template | basename }} > {{ osquery_reporting_dest }}/osquery-report-`date +%Y%m%d`"
+        test ! -x /usr/local/scripts/{{ osquery_reporting_template | basename }} || /usr/local/scripts/{{ osquery_reporting_template | basename }} > {{ osquery_reporting_dest }}/osquery-report-`date +%Y%m%d`
     endscript
 {% endif %}
 }
