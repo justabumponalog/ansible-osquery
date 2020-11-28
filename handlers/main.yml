@@ -2,7 +2,7 @@
 # handlers file for osquery
 
 - name: restart osquery
-  shell: "systemctl stop osqueryd; sleep 5; systemctl start osqueryd"
+  shell: "systemctl stop osqueryd; sleep 5; systemctl start osqueryd"  # noqa 303
   when: not (ansible_virtualization_type is defined and ansible_virtualization_type == "docker")
 
 - name: restart osquery - docker

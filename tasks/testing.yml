@@ -23,6 +23,8 @@
       command: "systemctl status osqueryd -l"
       changed_when: false
       register: systemctl
+      args:
+        warn: false
     - debug: var=systemctl.stdout_lines
   when: ansible_service_mgr == "systemd"
 - block:
@@ -65,6 +67,7 @@
       file:
         name: "{{ item }}"
         state: touch
+        mode: '0644'
       with_items:
         - /tmp/too_many_events2/test/testing-aa
         - /tmp/too_many_events/fim-testing1
@@ -96,6 +99,7 @@
       file:
         name: "{{ item }}"
         state: touch
+        mode: '0644'
       with_items: "{{ osquery_testing_fim_files }}"
   when: osquery_testing_fimfiles
 

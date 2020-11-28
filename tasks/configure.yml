@@ -18,6 +18,7 @@
       template:
         src: "{{ item }}.conf.j2"
         dest: "/usr/share/osquery/packs/{{ item | basename }}.conf"
+        mode: '0644'
         backup: "{{ osquery_backup | default(false) }}"
       with_items: "{{ osquery_upload_packs }}"
       notify:
@@ -39,6 +40,7 @@
       file:
         state: "directory"
         path: "/var/osquery"
+        mode: '0755'
     - name: "express the osquery secret to disk"
       lineinfile:
         path: "/etc/osquery/osquery_enroll_secret"
@@ -122,13 +124,15 @@
       until: pkg_result is success
   when: osquery_process_auditing|bool
 
+- name: Gather package facts
+  package_facts:
+    manager: auto
+
 - name: get rsyslog version
-  shell: >
-    rsyslogd -v | awk -F'[ ,]' '/rsyslogd/ { print $2 }'
-  environment:
-    PATH: '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
-  changed_when: false
-  register: rsyslog_v
+  set_fact:
+    rsyslog_v: "{{ ansible_facts.packages['rsyslog'][0]['version'] }}"
+
+- debug: var=rsyslog_v verbosity=1
 
 # https://osquery.readthedocs.io/en/stable/deployment/syslog/
 - block:
