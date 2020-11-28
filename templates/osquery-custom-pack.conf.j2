@@ -53,7 +53,7 @@
       "interval" : "300"
     },
     "processes": {
-      "query": "SELECT pid, name, path, cmdline from processes;",
+      "query": "SELECT p1.pid, p1.name, p1.path, p1.cmdline, p1.parent, p2.cmdline as pcmdline from processes as p1, processes as p2 where p1.parent == p2.pid;",
       "description": "Retrieve list of processes",
       "interval": "300"
     },
