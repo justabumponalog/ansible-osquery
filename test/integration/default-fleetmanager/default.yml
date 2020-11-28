@@ -31,21 +31,21 @@
         - RENAME
         - DEBUG
     - osquery_flags:
-      - '--enroll_secret_path=/etc/osquery/osquery_enroll_secret'
-      - "--tls_server_certs={{ ssl_dir }}/{{ ansible_fqdn }}.crt"
-      - '--tls_hostname=kolide:8080'
-      - '--host_identifier=hostname'
-      - '--enroll_tls_endpoint=/api/v1/osquery/enroll'
-      - '--config_plugin=tls'
-      - '--config_tls_endpoint=/api/v1/osquery/config'
-      - '--config_tls_refresh=10'
-      - '--disable_distributed=false'
-      - '--distributed_plugin=tls'
-      - '--distributed_interval=10'
-      - '--distributed_tls_max_attempts=3'
-      - '--distributed_tls_read_endpoint=/api/v1/osquery/distributed/read'
-      - '--distributed_tls_write_endpoint=/api/v1/osquery/distributed/write'
-      - '--logger_plugin=tls'
+        - '--enroll_secret_path=/etc/osquery/osquery_enroll_secret'
+        - "--tls_server_certs={{ ssl_dir }}/{{ ansible_fqdn }}.crt"
+        - '--tls_hostname=kolide:8080'
+        - '--host_identifier=hostname'
+        - '--enroll_tls_endpoint=/api/v1/osquery/enroll'
+        - '--config_plugin=tls'
+        - '--config_tls_endpoint=/api/v1/osquery/config'
+        - '--config_tls_refresh=10'
+        - '--disable_distributed=false'
+        - '--distributed_plugin=tls'
+        - '--distributed_interval=10'
+        - '--distributed_tls_max_attempts=3'
+        - '--distributed_tls_read_endpoint=/api/v1/osquery/distributed/read'
+        - '--distributed_tls_write_endpoint=/api/v1/osquery/distributed/write'
+        - '--logger_plugin=tls'
     - osquery_nolog: false
   pre_tasks:
     - name: Ubuntu | set python3-mysqldb instead of default python-mysqldb

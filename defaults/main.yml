@@ -150,7 +150,7 @@ osquery_syslog_target: ''
 #osquery_syslog_target2: ''
 osquery_syslog_target2: '/var/log/osquery/osqueryd.log'
 osquery_syslog_dirs:
-    - /var/log/osquery
+  - /var/log/osquery
 
 osquery_cgroups_restriction_enable: false
 #osquery_cgroups_cpuquota: '10%'
