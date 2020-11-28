@@ -86,6 +86,10 @@
       when: osquery_logrotate|bool
     - name: ensure service is enabled and started
       service: name=osqueryd state=started enabled=yes
+      when: >
+        not (ansible_virtualization_type is defined and
+          (ansible_virtualization_type == "docker" or ansible_virtualization_type == "VirtualPC")
+        )
     - name: Set fact for monit
       set_fact:
         monit_osqueryd: true

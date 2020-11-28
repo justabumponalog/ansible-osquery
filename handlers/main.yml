@@ -1,28 +1,40 @@
 ---
 # handlers file for osquery
 
-- name: restart osquery
-  shell: "systemctl stop osqueryd; sleep 5; systemctl start osqueryd"  # noqa 303
-  when: not (ansible_virtualization_type is defined and ansible_virtualization_type == "docker")
-
-- name: restart osquery - docker
-  service: name=osqueryd state=restarted sleep=5 use=service
-  when: (ansible_virtualization_type is defined and ansible_virtualization_type == "docker")
-
-- name: restart rsyslog
-  service: name=rsyslog state=restarted
-  when: not (ansible_virtualization_type is defined and ansible_virtualization_type == "docker")
-
-- name: restart rsyslog - docker
-  service: name=rsyslog state=restarted use=service
-  when:
-    - (ansible_virtualization_type is defined and ansible_virtualization_type == "docker")
-    - not (ansible_os_family == "RedHat" and ansible_distribution_major_version|int >= 7)
-
 - name: reload osqueryd apparmor profile
   shell: cat /etc/apparmor.d/usr.bin.osqueryd | sudo apparmor_parser -r
 
 - name: reload systemd
   systemd:
     daemon_reload: yes
-  when: not (ansible_virtualization_type is defined and ansible_virtualization_type == "docker")
+  when: >
+    not (ansible_virtualization_type is defined and
+          (ansible_virtualization_type == "docker" or ansible_virtualization_type == "VirtualPC")
+        )
+
+- name: restart osquery
+  shell: "systemctl stop osqueryd; sleep 5; systemctl start osqueryd"  # noqa 303
+  when: >
+    not (ansible_virtualization_type is defined and
+          (ansible_virtualization_type == "docker" or ansible_virtualization_type == "VirtualPC")
+        )
+
+- name: restart osquery - docker
+  service: name=osqueryd state=restarted sleep=5 use=service
+  when: >
+    (ansible_virtualization_type is defined and
+          (ansible_virtualization_type == "docker" or ansible_virtualization_type == "VirtualPC")
+    )
+
+- name: restart rsyslog
+  service: name=rsyslog state=restarted
+  when: >
+    not (ansible_virtualization_type is defined and
+          (ansible_virtualization_type == "docker" or ansible_virtualization_type == "VirtualPC")
+        )
+
+- name: restart rsyslog - docker
+  service: name=rsyslog state=restarted use=service
+  when:
+    - (ansible_virtualization_type is defined and (ansible_virtualization_type == "docker" or ansible_virtualization_type == "VirtualPC"))
+    - not (ansible_os_family == "RedHat" and ansible_distribution_major_version|int >= 7)
