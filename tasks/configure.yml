@@ -31,7 +31,7 @@
         mode: '0644'
         backup: "{{ osquery_backup | default(false) }}"
         validate: 'echo .quit | osqueryi --config_path %s --config_check --verbose'
-#        validate: 'egrep -v '^\s*//' %s | tee /tmp/a | python -mjson.tool'
+        # validate: 'egrep -v '^\s*//' %s | tee /tmp/a | python -mjson.tool'
       notify:
         - restart osquery
         - restart osquery - docker

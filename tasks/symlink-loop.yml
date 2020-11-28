@@ -3,12 +3,11 @@
 # Care! that does not check if it is symlink.
 # osquery alerts on symlink loop at each start
 #   filesystem.cpp:293] Symlink loop detected possibly involving: /usr/bin/X11/X11
+# default: first one is for historical compatibility reason, second ?
 - name: Remove some potential symlink loops - Validate carefully
   file:
     dest: "{{ item }}"
     state: absent
     force: false
     recurse: false
-# first one is for historical compatibility reason
-# second: ?
   with_items: "{{ osquery_symlink_remove | default(['/usr/bin/X11/X11', '/etc/dkms/template-dkms-mkdsc']) }}"

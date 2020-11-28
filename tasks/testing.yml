@@ -76,13 +76,13 @@
         - /tmp/too_many_events3/fim-testing1
         - /tmp/too_many_events3/a/fim-testing2
         - /tmp/too_many_events3/a/b/fim-testing3
-#        - /tmp/excluded1-abcdef
-#        - /tmp/abcdef-excluded2
-#        - /tmp/excluded3-abcdef-testing
-#        - /tmp/excluded4-abcdef-testing-ghijkl-testing-mnopqr
-#        - /tmp/excluded5-exact-match
-#        - /tmp/excluded6-abcdef
-#        - /tmp/excluded6-testing/excluded-abcdef
+        # - /tmp/excluded1-abcdef
+        # - /tmp/abcdef-excluded2
+        # - /tmp/excluded3-abcdef-testing
+        # - /tmp/excluded4-abcdef-testing-ghijkl-testing-mnopqr
+        # - /tmp/excluded5-exact-match
+        # - /tmp/excluded6-abcdef
+        # - /tmp/excluded6-testing/excluded-abcdef
         - /var/tmp/fim-testing-a/fim-testing1
         - /var/tmp/fim-testing-a/.fim-testing2
         - /var/tmp/fim-testing-a/.b/fim-testing3
@@ -122,7 +122,7 @@
       shell: find /etc/ -name 'testing-*' -exec rm {} \;
       ignore_errors: true
       when: osquery_testing_cleanup
-# more diverse load? openssl speed, stress...
+    # more diverse load? openssl speed, stress...
     - name: retrieve log results
       command: "{{ item }}"
       with_items:
