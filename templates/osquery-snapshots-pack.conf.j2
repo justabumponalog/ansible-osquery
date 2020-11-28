@@ -78,13 +78,6 @@
       "interval" : "{{ osquery_snapshot_interval }}",
       "snapshot": true
     },
-    "kernel_integrity": {
-      "query" : "select * from kernel_integrity;",
-      "platform" : "linux",
-      "description" : "Various Linux kernel integrity checked attributes.",
-      "interval" : "{{ osquery_snapshot_interval }}",
-      "snapshot": true
-    },
     "kernel_modules": {
       "query" : "select * from kernel_modules;",
       "platform" : "linux",
@@ -126,13 +119,13 @@
       "snapshot": true
     },
     "process_namespaces": {
-      "query" : "select * FROM process_namespaces;",
+      "query" : "select name,cmdline,p2.* from process_namespaces p2 join processes using (pid);",
       "description": "Linux namespaces for processes running on the host system.",
       "interval" : "{{ osquery_snapshot_interval }}",
       "snapshot": true
     },
     "process_open_sockets": {
-      "query" : "select * FROM process_open_sockets;",
+      "query" : "select name,cmdline,pos.* FROM process_open_sockets pos join processes using (pid);",
       "description": "Processes which have open network sockets on the system.",
       "interval" : "{{ osquery_snapshot_interval }}",
       "snapshot": true
