@@ -71,6 +71,8 @@
 
     - include: symlink-loop.yml
 
+    - include: reporting.yml
+      when: osquery_reporting
   when: ansible_os_family == "RedHat" or ansible_distribution == "Ubuntu" or ansible_distribution == "Debian"
 
 - meta: flush_handlers
