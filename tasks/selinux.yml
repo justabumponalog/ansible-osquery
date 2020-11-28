@@ -4,12 +4,7 @@
   package:
     name: "{{ item }}"
     state: present
-  with_items:
-    - selinux-policy
-    - selinux-policy-devel
-    - setools-console
-    - libselinux-python
-    - policycoreutils-python
+  with_items: "{{ osquery_selinux_pkgs }}"
   register: pkg_result
   until: pkg_result is success
 
