@@ -68,6 +68,20 @@
       tags:
         - osquery
         - service
+      when: >
+            not (ansible_virtualization_type is defined and
+                  (ansible_virtualization_type == "VirtualPC" or ansible_virtualization_type == "docker")
+                )
+    - name: Docker | Start service
+      command: /usr/bin/osqueryd --flagfile /etc/osquery/osquery.flags --config_path /etc/osquery/osquery.conf
+      when: osquery_service_enable|bool
+      tags:
+        - osquery
+        - service
+      when: >
+            (ansible_virtualization_type is defined and
+                  (ansible_virtualization_type == "VirtualPC" or ansible_virtualization_type == "docker")
+                )
 
     - include: symlink-loop.yml
 
