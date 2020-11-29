@@ -15,11 +15,11 @@ _osquery_repositorykey: "{{ osquery_repositorykey | default('https://pkg.osquery
 _osquery_auditd_pkg: "audit"
 
 osquery_selinux_pkgs:
-    - selinux-policy
-    - selinux-policy-devel
-    - setools-console
-    - libselinux-python
-    - policycoreutils-python
+  - selinux-policy
+  - selinux-policy-devel
+  - setools-console
+  - libselinux-python
+  - policycoreutils-python
 
 varlog_group: root
 varlog_mode: '0755'
