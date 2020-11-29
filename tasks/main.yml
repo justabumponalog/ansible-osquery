@@ -64,21 +64,21 @@
         - service
     - name: Start service
       service: name=osqueryd state=started
-      when: osquery_service_enable|bool
       tags:
         - osquery
         - service
       when: >
+            osquery_service_enable|bool and
             not (ansible_virtualization_type is defined and
                   (ansible_virtualization_type == "VirtualPC" or ansible_virtualization_type == "docker")
                 )
     - name: Docker | Start service
       command: /usr/bin/osqueryd --flagfile /etc/osquery/osquery.flags --config_path /etc/osquery/osquery.conf
-      when: osquery_service_enable|bool
       tags:
         - osquery
         - service
       when: >
+            osquery_service_enable|bool and
             (ansible_virtualization_type is defined and
                   (ansible_virtualization_type == "VirtualPC" or ansible_virtualization_type == "docker")
                 )
