@@ -73,7 +73,7 @@
                   (ansible_virtualization_type == "VirtualPC" or ansible_virtualization_type == "docker")
                 )
     - name: Docker | Start service
-      command: /usr/bin/osqueryd --flagfile /etc/osquery/osquery.flags --config_path /etc/osquery/osquery.conf
+      shell: nohup /usr/bin/osqueryd --flagfile /etc/osquery/osquery.flags --config_path /etc/osquery/osquery.conf &
       tags:
         - osquery
         - service
