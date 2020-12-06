@@ -20,3 +20,8 @@ SystemCallFilter=futex mprotect read write open openat close stat fstat lstat ls
 SystemCallFilter=~@debug @mount @cpu-emulation @obsolete @privileged
 {% endif %}
 {% endif %}
+{% if osquery_cgroups_restriction_enable|bool %}
+CPUShares={{ osquery_cgroups_cpushares | default('100') }}
+CPUQuota={{ osquery_cgroups_cpuquota | default('10%') }}
+MemoryLimit={{ osquery_cgroups_memorylimit | default('1G') }}
+{% endif %}
