@@ -1,10 +1,22 @@
 ---
 
-- name: RedHat | Ensure selinux context is correctly set
-  command: "/sbin/restorecon -F -R -v {{ item }}"  # noqa 301
-  with_items:
-    - /usr/bin/osqueryd
-    - /usr/lib/systemd/system/osqueryd.service
-    - /var/log/osquery
-    - /etc/osquery
-    - /usr/share/osquery/packs
+- name: Check if restorecon marker
+  stat:
+    path: /root/.ansible_osquery_restorecon
+  register: marker1
+
+- block:
+    - name: RedHat | Ensure selinux context is correctly set
+      command: "/sbin/restorecon -F -R -v {{ item }}"  # noqa 301
+      with_items:
+        - /usr/bin/osqueryd
+        - /usr/lib/systemd/system/osqueryd.service
+        - /var/log/osquery
+        - /etc/osquery
+        - /usr/share/osquery/packs
+    - name: RedHat | Create restorecon marker
+      file:
+        path: /root/.ansible_osquery_restorecon
+        mode: '0600'
+        state: touch
+  when: not marker1.stat.exists
