@@ -72,11 +72,18 @@
             not (ansible_virtualization_type is defined and
                   (ansible_virtualization_type == "VirtualPC" or ansible_virtualization_type == "docker")
                 )
-    - name: Docker | Start service
-      shell: nohup /usr/bin/osqueryd --flagfile /etc/osquery/osquery.flags --config_path /etc/osquery/osquery.conf &
-      tags:
-        - osquery
-        - service
+    - block:
+        - name: Docker | Check if osqueryd process
+          command: pgrep -u root osqueryd
+          changed_when: false
+          ignore_errors: true
+          register: pgrep
+        - name: Docker | Start service
+          shell: nohup /usr/bin/osqueryd --flagfile /etc/osquery/osquery.flags --config_path /etc/osquery/osquery.conf &
+          tags:
+            - osquery
+            - service
+          when: pgrep.rc != 0
       when: >
             osquery_service_enable|bool and
             (ansible_virtualization_type is defined and
