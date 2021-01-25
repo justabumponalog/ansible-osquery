@@ -7,7 +7,7 @@
     - osquery
 - name: Include version-specific variables for RedHat
   include_vars: "RedHat-py3.yml"
-  when: (ansible_os_family == "RedHat" and ansible_distribution_major_version == '8') or (ansible_distribution == "Fedora" and ansible_distribution_major_version >= 32)
+  when: (ansible_os_family == "RedHat" and ansible_distribution_major_version == '8') or (ansible_distribution == "Fedora" and ansible_distribution_major_version >= '32')
   tags:
     - osquery
 
